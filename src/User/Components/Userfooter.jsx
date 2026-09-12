@@ -7,11 +7,11 @@ const featureBadges = [
   {
     icon: (
       <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" />
+        <path d="M12 2a9 9 0 00-9 9c0 5 9 13 9 13s9-8 9-13a9 9 0 00-9-9z"/><circle cx="12" cy="11" r="3"/>
       </svg>
     ),
-    title: 'Best Prices & Offers',
-    sub: 'Orders ₹500 or more',
+    title: 'Farm Fresh Daily',
+    sub: 'Straight from local farms',
   },
   {
     icon: (
@@ -19,35 +19,35 @@ const featureBadges = [
         <rect x="1" y="3" width="15" height="13" rx="1" /><path d="M16 8h4l3 5v4h-7V8z" /><circle cx="5.5" cy="18.5" r="2.5" /><circle cx="18.5" cy="18.5" r="2.5" />
       </svg>
     ),
-    title: 'Free Delivery',
-    sub: '24/7 amazing services',
+    title: 'EV Cart Delivery',
+    sub: 'Eco-friendly to your door',
   },
   {
     icon: (
       <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+        <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>
       </svg>
     ),
-    title: 'Great Daily Deal',
-    sub: 'When you sign up',
+    title: 'Best Prices',
+    sub: 'No middlemen, honest rates',
   },
   {
     icon: (
       <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" /><line x1="3" y1="6" x2="21" y2="6" /><path d="M16 10a4 4 0 01-8 0" />
+        <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/>
       </svg>
     ),
-    title: 'Wide Assortment',
-    sub: 'Mega Discounts',
+    title: 'Safe Payments',
+    sub: 'UPI, Card & COD accepted',
   },
   {
     icon: (
       <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <polyline points="1 4 1 10 7 10" /><path d="M3.51 15a9 9 0 102.13-9.36L1 10" />
+        <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8a19.79 19.79 0 01-3.07-8.68A2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/>
       </svg>
     ),
-    title: 'Easy Returns',
-    sub: '7 day return policy',
+    title: '24/7 Support',
+    sub: 'Always here to help',
   },
 ];
 
@@ -261,8 +261,7 @@ const UserFooter = () => {
             </div>
 
             <p style={{ color: '#9ca3af', fontSize: 13, lineHeight: 1.75, margin: '0 0 20px', maxWidth: 340 }}>
-              Your trusted online shop for fresh groceries, perfumes, and daily essentials.
-              We deliver quality products at the best prices—right to your doorstep.
+             The Orchard Engine is an eco friendly shopping cart and delivery service that brings Farm fresh fruits and vegetables straight to customer doorstep with an Live EV Cart.
             </p>
 
             <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: 12 }}>
@@ -272,7 +271,7 @@ const UserFooter = () => {
               </li>
               <li style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 13, color: '#9ca3af' }}>
                 <Phone size={15} color="#22c55e" style={{ flexShrink: 0 }} />
-                +91 94636 86829
+                +91 94636 85829
               </li>
               <li style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 13, color: '#9ca3af' }}>
                 <Mail size={15} color="#22c55e" style={{ flexShrink: 0 }} />
@@ -280,7 +279,7 @@ const UserFooter = () => {
               </li>
               <li style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 13, color: '#9ca3af' }}>
                 <Clock size={15} color="#22c55e" style={{ flexShrink: 0 }} />
-                Hours 9:00 – 20:00, Mon – Sat
+                Hours 9:00 – 20:00, Mon – San
               </li>
             </ul>
           </div>
@@ -372,8 +371,8 @@ const UserFooter = () => {
           {/* Phone Numbers */}
           <div className="uf-bottom-phones">
             {[
-              { label: 'Working 9:00 – 20:00', num: '+91 94636 86829' },
-              { label: '24/7 Support Center', num: '+91 94636 86829' },
+              { label: 'Working 8:00 – 22:00', num: '+91 94636 85829' },
+              { label: '24/7 Support Center', num: '+91 94636 85829' },
             ].map((p) => (
               <div key={p.num + p.label} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 <Phone size={15} color="#22c55e" />
@@ -413,7 +412,7 @@ const UserFooter = () => {
             </a>
 
             {/* WhatsApp */}
-            <a href="https://wa.me/919463686829" target="_blank" rel="noopener noreferrer" className="uf-social-btn" style={{ background: '#25d366', width: 32, height: 32 }}>
+            <a href="https://wa.me/919463685829" target="_blank" rel="noopener noreferrer" className="uf-social-btn" style={{ background: '#25d366', width: 32, height: 32 }}>
               <svg viewBox="0 0 24 24" fill="white" width="15" height="15">
                 <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
                 <path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.558 4.122 1.532 5.855L.057 23.535a.75.75 0 00.916.918l5.803-1.46A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.907 0-3.7-.498-5.253-1.37l-.376-.214-3.898.981.998-3.792-.234-.389A9.96 9.96 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z" />

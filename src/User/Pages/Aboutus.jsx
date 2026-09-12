@@ -187,7 +187,7 @@ export default function AboutUs() {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
           {/* Phone */}
           <a
-            href="tel:+919463686829"
+            href="tel:+919463685829"
             className="flex items-center gap-4 p-5 rounded-xl border border-gray-100 hover:border-green-200 hover:shadow-md transition-all duration-300 bg-white group"
           >
             <div className="w-11 h-11 rounded-full bg-green-100 flex items-center justify-center text-xl group-hover:bg-green-200 transition-colors">
@@ -195,7 +195,7 @@ export default function AboutUs() {
             </div>
             <div>
               <p className="text-xs text-gray-400 font-medium mb-0.5">WhatsApp / Call</p>
-              <p className="font-bold text-gray-800">+91 94636 86829</p>
+              <p className="font-bold text-gray-800">+91 94636 85829</p>
             </div>
           </a>
 

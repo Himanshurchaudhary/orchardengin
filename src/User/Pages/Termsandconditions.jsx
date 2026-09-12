@@ -84,7 +84,7 @@ If any provision of these terms is found to be unenforceable, the remaining prov
     content: `If you have any questions, concerns, or feedback regarding these Terms & Conditions, please reach out to us:
 
 Email: Theorchardengine@gmail.com
-WhatsApp / Phone: +91 94636 86829
+WhatsApp / Phone: +91 94636 85829
 Facebook / Instagram: @theorchardengine
 Address: 2752-C-1, Street No 4, Nai Basti, Bathinda, Punjab — 151001
 Support Hours: Monday – Saturday, 9:00 AM – 6:00 PM IST`,
@@ -218,8 +218,8 @@ export default function TermsAndConditions() {
           {/* Quick contact in sidebar */}
           <div className="mt-4 rounded-2xl border border-green-100 bg-green-50 p-4">
             <p className="text-xs font-bold text-green-700 uppercase tracking-widest mb-3">Quick Contact</p>
-            <a href="tel:+919463686829" className="flex items-center gap-2 text-xs text-gray-700 hover:text-green-700 mb-2">
-              <span>📞</span> +91 94636 86829
+            <a href="tel:+919463685829" className="flex items-center gap-2 text-xs text-gray-700 hover:text-green-700 mb-2">
+              <span>📞</span> +91 9463685829
             </a>
             <a href="mailto:Theorchardengine@gmail.com" className="flex items-center gap-2 text-xs text-gray-700 hover:text-green-700 mb-2">
               <span>✉️</span> Theorchardengine@gmail.com
@@ -303,11 +303,11 @@ export default function TermsAndConditions() {
                   ✉️ Theorchardengine@gmail.com
                 </a>
                 <a
-                  href="tel:+919463686829"
+                  href="tel:+919463685829"
                   className="border text-white font-semibold text-sm px-5 py-2.5 rounded-xl gk-font"
                   style={{ borderColor: "rgba(255,255,255,0.3)", background: "rgba(255,255,255,0.15)", backdropFilter: "blur(4px)" }}
                 >
-                  📞 +91 94636 86829
+                  📞 +91 9463685829
                 </a>
                 <a
                   href="https://instagram.com/theorchardengine"

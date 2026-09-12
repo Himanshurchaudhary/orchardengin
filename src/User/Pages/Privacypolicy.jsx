@@ -351,11 +351,11 @@ export default function PrivacyPolicy() {
                   ✉️ Theorchardengine@gmail.com
                 </a>
                 <a
-                  href="tel:+919463686829"
+                  href="tel:+919463685829"
                   className="text-xs text-green-800 font-semibold block mb-1"
                   style={{ fontFamily: "'DM Sans', sans-serif" }}
                 >
-                  📞 +91 94636 86829
+                  📞 +91 94636 85829
                 </a>
                 <p className="text-xs text-gray-500" style={{ fontFamily: "'DM Sans', sans-serif" }}>
                   🕐 Mon–Sat, 9AM–6PM IST
@@ -486,12 +486,12 @@ export default function PrivacyPolicy() {
                     ✉️ Theorchardengine@gmail.com
                   </a>
                   <a
-                    href="tel:+919463686829"
+                    href="tel:+919463685829"
                     className="border border-white/30 text-white px-5 py-2.5 rounded-xl font-semibold text-sm transition-colors"
                     style={{ fontFamily: "'DM Sans', sans-serif", background: "rgba(255,255,255,0.15)", backdropFilter: "blur(4px)" }}
                     onClick={(e) => e.stopPropagation()}
                   >
-                    📞 +91 94636 86829
+                    📞 +91 94636 85829
                   </a>
                   <a
                     href="https://instagram.com/theorchardengine"
