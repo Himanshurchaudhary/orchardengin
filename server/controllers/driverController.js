@@ -58,21 +58,21 @@ exports.createDriver = async (req, res) => {
                 // SMS: Welcome + Login Credentials
                 if (phone && password) {
                     const smsMessage =
-                        `Welcome to GraminKart, ${fullName}!\n\n` +
+                        `Welcome to OrchardEngine, ${fullName}!\n\n` +
                         `Your driver account is ready.\n\n` +
                         `Login Credentials:\n` +
                         `  Mobile  : ${phone}\n` +
                         `  Password: ${password}\n\n` +
                         `Keep your credentials safe.\n` +
-                        `– GraminKart Team`;
+                        `– theorchardengine Team`;
                     await sendSms(phone, smsMessage);
                 }
 
                 // Email notification
                 if (email) {
                     const message =
-                        `Welcome to GraminKart, ${fullName}!\n\n` +
-                        `Login Credentials:\n  Mobile: ${phone}\n  Password: ${password}\n\n– GraminKart Team`;
+                        `Welcome to OrchardEngine, ${fullName}!\n\n` +
+                        `Login Credentials:\n  Mobile: ${phone}\n  Password: ${password}\n\n– theorchardengine Team`;
                     const { subject, html } = driverWelcomeEmail(fullName, phone, password);
                     await sendNotification({ phone, email, subject, message, html });
                 }
@@ -176,10 +176,10 @@ exports.updateDriver = async (req, res) => {
                 (async () => {
                     const message =
                         `Hello ${driver.fullName}!\n\n` +
-                        `Your GraminKart driver account has been updated.\n` +
+                        `Your OrchardEngine driver account has been updated.\n` +
                         `New Password: ${password}\n\n` +
                         `If you did not request this change, contact support immediately.\n` +
-                        `– GraminKart Team`;
+                        `– OrchardEngine Team`;
                     await sendSms(driver.phone, message);
                 })(),
                 'update-driver-sms'
@@ -345,7 +345,7 @@ exports.markDelivered = async (req, res) => {
                 const message =
                     `Hello ${customerName || 'Customer'}!\n\n` +
                     `Your order #${order.id} has been delivered successfully.\n\n` +
-                    `Thank you for shopping with GraminKart!\n– GraminKart Team`;
+                    `Thank you for shopping with OrchardEngine!\n– theorchardengine Team`;
                 await sendNotification({ phone: customerPhone, email: customerEmail, subject, message, html });
                 if (customerPhone) await sendSms(customerPhone, message);
             })(),
@@ -407,7 +407,7 @@ exports.confirmPickup = async (req, res) => {
                     `Driver : ${driver?.fullName || 'Our Driver'}\n` +
                     `Phone  : ${driver?.phone || ''}\n\n` +
                     `Your order is on its way!\n` +
-                    `– GraminKart Team`;
+                    `– theorchardengine Team`;
                 await sendNotification({ phone: customerPhone, email: customerEmail, subject, message, html });
 
                 // SMS
@@ -481,7 +481,7 @@ exports.updateDriverOrderStatus = async (req, res) => {
                 const message =
                     `Hello ${customerName || 'Customer'}!\n\n` +
                     (statusMessages[status] || `Your order #${order.id} status: ${status}`) +
-                    `\n\n– GraminKart Team`;
+                    `\n\n– theorchardengine Team`;
 
                 // Email + push notification
                 const { subject, html } = orderStatusEmail(customerName || 'Customer', order.id, status);
@@ -561,7 +561,7 @@ exports.confirmPayment = async (req, res) => {
                 const message =
                     `Hello ${customerName || 'Customer'}!\n\n` +
                     `Payment of ₹${order.total} for order #${order.id} received via ${paymentMode}.\n` +
-                    `Thank you for shopping with GraminKart!\n– GraminKart Team`;
+                    `Thank you for shopping with OrchardEngine!\n– theorchardengine Team`;
                 await sendNotification({ phone: customerPhone, email: customerEmail, subject: 'Payment Received', message, html: message });
                 if (customerPhone) await sendSms(customerPhone, message);
             })(),

@@ -137,7 +137,24 @@ const shape = (row, items = [], statusHistory = []) => {
         delete row.user_phone;
     }
 
+    // ✅ Naya — Date object aur string dono handle karta hai
+    const dateFields = [
+        'estimatedDeliveryAt', 'deliveredAt', 'cancelledAt',
+        'pickedUpAt', 'createdAt', 'updatedAt'
+    ];
+    dateFields.forEach(field => {
+        if (!row[field]) return;
+        if (row[field] instanceof Date) {
+            // MySQL2 Date object — already correct UTC
+            row[field] = row[field].toISOString();
+        } else if (typeof row[field] === 'string' && !row[field].endsWith('Z')) {
+            // String hai — Z append karo UTC force ke liye
+            row[field] = row[field].replace(' ', 'T') + 'Z';
+        }
+    });
+
     row.items = items;
+
     row.statusHistory = statusHistory;
     return row;
 };
@@ -390,5 +407,5 @@ module.exports = Order;
 
 
 
-// ALTER TABLE orders 
+// ALTER TABLE orders
 // ADD COLUMN IF NOT EXISTS estimatedDeliveryAt DATETIME DEFAULT NULL;

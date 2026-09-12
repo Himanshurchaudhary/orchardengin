@@ -4,35 +4,35 @@ const sections = [
   {
     id: "acceptance",
     title: "Acceptance of Terms",
-    content: `By accessing or using Gramin Cart's website, mobile application, or any of our services, you confirm that you have read, understood, and agree to be bound by these Terms & Conditions. If you do not agree, please discontinue use of our platform immediately.
+    content: `By accessing or using The Orchard Engine website, mobile application, or any of our services, you confirm that you have read, understood, and agree to be bound by these Terms & Conditions. If you do not agree, please discontinue use of our platform immediately.
 
-These terms apply to all visitors, users, and customers of Gramin Cart. We reserve the right to update these terms at any time, and continued use of the platform constitutes acceptance of any revised terms.`,
+These terms apply to all visitors, users, and customers of The Orchard Engine. We reserve the right to update these terms at any time, and continued use of the platform constitutes acceptance of any revised terms.`,
   },
   {
     id: "about",
-    title: "About Gramin Cart",
-    content: `Gramin Cart is an online grocery platform founded in 2026, dedicated to bridging the gap between rural producers and urban consumers across India. We connect local farmers, artisans, and vendors with customers seeking fresh, authentic, and affordable produce.
+    title: "About The Orchard Engine",
+    content: `The Orchard Engine is an online platform founded in 2026, dedicated to bridging the gap between rural producers and urban consumers across India. We connect local farmers, artisans, and vendors with customers seeking fresh, authentic, and affordable produce.
 
-Our mission is to empower the rural economy while delivering quality groceries directly to your doorstep. Gramin Cart operates as an e-commerce marketplace facilitating transactions between buyers and registered sellers.`,
+Our mission is to empower the rural economy while delivering quality groceries directly to your doorstep. The Orchard Engine operates as an e-commerce marketplace facilitating transactions between buyers and registered sellers.`,
   },
   {
     id: "eligibility",
     title: "Eligibility & Account",
-    content: `To use Gramin Cart, you must be at least 18 years of age or have parental/guardian consent. By creating an account, you represent that all information provided is accurate, current, and complete.
+    content: `To use The Orchard Engine, you must be at least 18 years of age or have parental/guardian consent. By creating an account, you represent that all information provided is accurate, current, and complete.
 
-You are responsible for maintaining the confidentiality of your account credentials. You agree to notify us immediately of any unauthorized use of your account. Gramin Cart shall not be liable for any losses arising from unauthorized account access due to your failure to safeguard login information.`,
+You are responsible for maintaining the confidentiality of your account credentials. You agree to notify us immediately of any unauthorized use of your account. The Orchard Engine shall not be liable for any losses arising from unauthorized account access due to your failure to safeguard login information.`,
   },
   {
     id: "orders",
     title: "Orders & Payments",
-    content: `All orders placed on Gramin Cart are subject to availability and confirmation. We reserve the right to cancel or refuse any order at our discretion, including cases of suspected fraud, inaccurate product information, or pricing errors.
+    content: `All orders placed on The Orchard Engine are subject to availability and confirmation. We reserve the right to cancel or refuse any order at our discretion, including cases of suspected fraud, inaccurate product information, or pricing errors.
 
 Payments must be made through our supported payment methods including UPI, credit/debit cards, net banking, and cash on delivery (where available). Prices are listed in Indian Rupees (INR) and are inclusive of applicable taxes unless stated otherwise.`,
   },
   {
     id: "delivery",
     title: "Delivery Policy",
-    content: `Gramin Cart strives to deliver your orders within the estimated timeframe shown at checkout. Delivery timelines may vary based on your location, product availability, and external factors such as weather or public holidays.
+    content: `The Orchard Engine strives to deliver your orders within the estimated timeframe shown at checkout. Delivery timelines may vary based on your location, product availability, and external factors such as weather or public holidays.
 
 We currently serve select pin codes across India. Delivery charges, if applicable, will be clearly displayed before order confirmation. Risk of loss and title for products pass to you upon delivery.`,
   },
@@ -46,28 +46,28 @@ Perishable items (fresh produce, dairy, etc.) are not eligible for return unless
   {
     id: "prohibited",
     title: "Prohibited Activities",
-    content: `Users must not engage in any activity that disrupts, damages, or impairs the platform. This includes but is not limited to: placing fraudulent orders, scraping or harvesting data without authorization, impersonating other users or Gramin Cart staff, uploading malicious content, or attempting to gain unauthorized access to our systems.
+    content: `Users must not engage in any activity that disrupts, damages, or impairs the platform. This includes but is not limited to: placing fraudulent orders, scraping or harvesting data without authorization, impersonating other users or The Orchard Engine staff, uploading malicious content, or attempting to gain unauthorized access to our systems.
 
 Violation of these prohibitions may result in immediate account suspension and legal action where applicable.`,
   },
   {
     id: "ip",
     title: "Intellectual Property",
-    content: `All content on the Gramin Cart platform — including logos, text, images, graphics, and software — is the exclusive property of Gramin Cart or its licensors and is protected under applicable intellectual property laws.
+    content: `All content on the The Orchard Engine platform — including logos, text, images, graphics, and software — is the exclusive property of The Orchard Engine or its licensors and is protected under applicable intellectual property laws.
 
-You may not reproduce, distribute, modify, or create derivative works from any content on our platform without prior written permission from Gramin Cart.`,
+You may not reproduce, distribute, modify, or create derivative works from any content on our platform without prior written permission from The Orchard Engine.`,
   },
   {
     id: "privacy",
     title: "Privacy & Data",
-    content: `Your privacy matters to us. Gramin Cart collects and processes personal data in accordance with our Privacy Policy. By using our platform, you consent to the collection and use of your data as described therein.
+    content: `Your privacy matters to us. The Orchard Engine collects and processes personal data in accordance with our Privacy Policy. By using our platform, you consent to the collection and use of your data as described therein.
 
 We implement industry-standard security measures to protect your data. However, no method of transmission over the internet is 100% secure, and we cannot guarantee absolute security.`,
   },
   {
     id: "liability",
     title: "Limitation of Liability",
-    content: `To the maximum extent permitted by law, Gramin Cart shall not be liable for any indirect, incidental, special, or consequential damages arising out of your use of or inability to use our platform or services.
+    content: `To the maximum extent permitted by law, The Orchard Engine shall not be liable for any indirect, incidental, special, or consequential damages arising out of your use of or inability to use our platform or services.
 
 Our total liability for any claim arising in connection with these terms shall not exceed the amount paid by you for the specific order giving rise to the claim.`,
   },
@@ -83,7 +83,7 @@ If any provision of these terms is found to be unenforceable, the remaining prov
     title: "Contact Us",
     content: `If you have any questions, concerns, or feedback regarding these Terms & Conditions, please reach out to us:
 
-Email: graminkartdc@gmail.com
+Email: theorchardengine@gmail.com
 Phone:  80830 42829
 Address: Floor No.: GROUND FLOOR Building No./Flat No.: C/O USHA DEVI Name Of Premises/Building: NA Road/Street: BAIKUNTHPUR Nearby Landmark: Usribazar Branch Post Office Locality/Sub Locality: BAIKUNTHPUR City/Town/Village: Usri District: Gopalganj State: Bihar PIN Code: 841409
 Support Hours: Monday – Saturday, 9:00 AM – 6:00 PM IST`,
@@ -164,7 +164,7 @@ export default function TermsAndConditions() {
         <div className="relative z-10 inline-flex items-center gap-2 rounded-full px-4 py-1.5 mb-6 gk-pill">
           <span className="text-sm">🌿</span>
           <span className="text-xs font-semibold tracking-widest uppercase text-white">
-            Gramin Cart · Est. 2026
+            The Orchard Engine · Est. 2026
           </span>
         </div>
 
@@ -227,8 +227,8 @@ export default function TermsAndConditions() {
           <div className="rounded-2xl p-4 mb-8 flex gap-3" style={{ backgroundColor: "#fffbeb", border: "1px solid #fcd34d" }}>
             <span className="text-xl shrink-0 mt-0.5">⚠️</span>
             <p className="text-sm leading-relaxed" style={{ color: "#92400e" }}>
-              These Terms &amp; Conditions govern your use of Gramin Cart's platform. By placing an order or creating an account, you legally agree to these terms. Questions? Email{" "}
-              <strong>graminkartdc@gmail.com</strong>
+              These Terms &amp; Conditions govern your use of The Orchard Engine's platform. By placing an order or creating an account, you legally agree to these terms. Questions? Email{" "}
+              <strong>theorchardengine@gmail.com</strong>
             </p>
           </div>
 
@@ -277,7 +277,7 @@ export default function TermsAndConditions() {
               <div className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 mb-4 gk-pill">
                 <span className="text-sm">🌾</span>
                 <span className="text-xs font-semibold tracking-widest uppercase text-white">
-                  Gramin Cart Promise
+                  The Orchard Engine Promise
                 </span>
               </div>
 
@@ -286,15 +286,15 @@ export default function TermsAndConditions() {
                 <span style={{ color: "#facc15" }}>good hands</span>
               </h3>
               <p className="text-sm max-w-md mx-auto leading-relaxed mb-6 gk-font" style={{ color: "rgba(255,255,255,0.85)" }}>
-                By using Gramin Cart, you trust us with your grocery needs. We promise to uphold quality, transparency, and fairness in everything we do.
+                By using The Orchard Engine, you trust us with your grocery needs. We promise to uphold quality, transparency, and fairness in everything we do.
               </p>
               <div className="flex flex-wrap justify-center gap-3">
                 <a
-                  href="mailto:graminkartdc@gmail.com"
+                  href="mailto:theorchardengine@gmail.com"
                   className="bg-white font-semibold text-sm px-5 py-2.5 rounded-xl transition-colors hover:bg-yellow-50 gk-font"
                   style={{ color: "#15803d" }}
                 >
-                  📧 graminkartdc@gmail.com
+                  📧 theorchardengine@gmail.com
                 </a>
                 <a
                   href="tel:+911800000000"

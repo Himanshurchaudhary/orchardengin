@@ -351,6 +351,167 @@ const HeroSection = () => {
   );
 };
 
+// ─── Mobile Flash Sale Banner ─────────────────────────────────────────────────
+// Sirf mobile pe dikhe, FeatureCategories ke upar
+const MobileFlashSaleBanner = ({ onFlashSaleClick }) => {
+  const [sales, setSales] = useState([]);
+  const [current, setCurrent] = useState(0);
+
+  useEffect(() => {
+    fetch(`${API_BASEA}/api/flash/all?target=mobile`)
+      .then(r => r.json())
+      .then(data => {
+        const all = data.sales || [];
+        setSales(all.filter(s => s.isActive));
+      })
+      .catch(() => { });
+  }, []);
+
+  // Auto-slide agar multiple sales hain
+  useEffect(() => {
+    if (sales.length <= 1) return;
+    const t = setInterval(() => setCurrent(c => (c + 1) % sales.length), 3500);
+    return () => clearInterval(t);
+  }, [sales.length]);
+
+  if (sales.length === 0) return null;
+
+  const sale = sales[current];
+
+  return (
+    <div style={{ marginBottom: 20 }}>
+      <style>{`
+        @keyframes mfs-pulse { 0%,100%{opacity:1} 50%{opacity:0.6} }
+        @keyframes mfs-shimmer {
+          0%   { transform: translateX(-100%); }
+          100% { transform: translateX(200%); }
+        }
+      `}</style>
+
+      {/* Section label */}
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+          <span style={{ fontSize: 16 }}>⚡</span>
+          <span style={{ fontSize: 14, fontWeight: 800, color: "#1a1a1a" }}>Flash Sales</span>
+        </div>
+        <span style={{ fontSize: 12, color: "#2d9e2d", fontWeight: 600, cursor: "pointer" }}
+          onClick={() => onFlashSaleClick(sale.id)}>
+          View All →
+        </span>
+      </div>
+
+      {/* Banner card */}
+      <div
+        onClick={() => onFlashSaleClick(sale.id)}
+        style={{
+          position: "relative",
+          borderRadius: 16,
+          overflow: "hidden",
+          height: 140,
+          background: "#0d4d0d",
+          boxShadow: "0 4px 20px rgba(0,0,0,0.18)",
+          cursor: "pointer",
+        }}
+      >
+        {/* Background image */}
+        {sale.thumbnail && (
+          <img
+            src={sale.thumbnail}
+            alt={sale.name}
+            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
+          />
+        )}
+
+        {/* Dark overlay */}
+        <div style={{
+          position: "absolute", inset: 0,
+          background: "linear-gradient(90deg, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.28) 60%, transparent 100%)"
+        }} />
+
+        {/* Shimmer effect */}
+        <div style={{
+          position: "absolute", inset: 0, overflow: "hidden", pointerEvents: "none"
+        }}>
+          <div style={{
+            position: "absolute", top: 0, left: 0, width: "40%", height: "100%",
+            background: "linear-gradient(105deg, transparent 30%, rgba(255,255,255,0.08) 50%, transparent 70%)",
+            animation: "mfs-shimmer 2.5s ease-in-out infinite",
+          }} />
+        </div>
+
+        {/* Content */}
+        <div style={{
+          position: "absolute", inset: 0, padding: "14px 16px",
+          display: "flex", flexDirection: "column", justifyContent: "space-between", zIndex: 2
+        }}>
+          {/* Top row */}
+          <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between" }}>
+            {/* Discount badge */}
+            {sale.minDiscount && (
+              <div style={{
+                background: "#ffe600", color: "#111",
+                fontWeight: 900, fontSize: 11,
+                padding: "3px 10px", borderRadius: 99,
+                letterSpacing: 0.3,
+              }}>
+                🏷 {sale.minDiscount}% OFF
+              </div>
+            )}
+            {/* TAP badge */}
+            <div style={{
+              background: "rgba(255,255,255,0.15)",
+              border: "1px solid rgba(255,255,255,0.3)",
+              borderRadius: 6, padding: "3px 8px",
+              fontSize: 9, fontWeight: 700, color: "#fff", letterSpacing: 0.5
+            }}>TAP →</div>
+          </div>
+
+          {/* Bottom: name + ends */}
+          <div>
+            <div style={{
+              fontSize: 20, fontWeight: 900, color: "#fff",
+              lineHeight: 1.15, marginBottom: 4,
+              textShadow: "0 2px 8px rgba(0,0,0,0.5)"
+            }}>
+              ⚡ {sale.name}
+            </div>
+            {sale.endDate && (
+              <div style={{ fontSize: 10, color: "rgba(255,255,255,0.7)" }}>
+                Ends: {new Date(sale.endDate).toLocaleDateString()}
+                {sale.endTime ? ` at ${sale.endTime}` : ""}
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Dot indicators — multiple sales ke liye */}
+      {sales.length > 1 && (
+        <div style={{ display: "flex", justifyContent: "center", gap: 5, marginTop: 8 }}>
+          {sales.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setCurrent(i)}
+              style={{
+                width: i === current ? 20 : 7,
+                height: 7,
+                borderRadius: 99,
+                border: "none",
+                padding: 0,
+                cursor: "pointer",
+                background: i === current
+                  ? "linear-gradient(90deg,#2d9e2d,#52cc52)"
+                  : "#ddd",
+                transition: "width 0.3s, background 0.3s",
+              }}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
 // ─── Section Header ───────────────────────────────────────────────────────────
 const SectionHeader = ({ title, onPrev, onNext }) => {
   const { isMobile } = useResponsive();
@@ -396,7 +557,7 @@ const FeatureCategories = ({ categories, loading, products }) => {
   // Smaller card sizes
   const CARD_W = isMobile ? 120 : isTablet ? 160 : 190;
   const CARD_H = isMobile ? 110 : isTablet ? 150 : 170;
-  const GAP    = isMobile ? 10 : 16;
+  const GAP = isMobile ? 10 : 16;
 
   return (
     <section
@@ -719,7 +880,7 @@ const ProductCard = ({ product }) => {
     fetchWishlist().then(data => {
       const ids = (data.products || []).map(p => p.id || p);
       setWished(ids.includes(product.id));
-    }).catch(() => {});
+    }).catch(() => { });
   }, [product.id]);
 
   const handleAddToCart = async (e) => {
@@ -1022,7 +1183,7 @@ const ProductCard = ({ product }) => {
 
           {/* Stars */}
           <div className="pc-stars">
-            {[1,2,3,4,5].map(s => (
+            {[1, 2, 3, 4, 5].map(s => (
               <span key={s} className="pc-star">
                 {s <= Math.round(product.rating || 4) ? "★" : "☆"}
               </span>
@@ -1054,8 +1215,8 @@ const ProductCard = ({ product }) => {
               background: isOutOfStock
                 ? "#e8e8e8"
                 : added
-                ? "linear-gradient(135deg, #1a7a1a, #28a428)"
-                : "linear-gradient(135deg, #2d9e2d, #3eb83e)",
+                  ? "linear-gradient(135deg, #1a7a1a, #28a428)"
+                  : "linear-gradient(135deg, #2d9e2d, #3eb83e)",
               color: isOutOfStock ? "#aaa" : "#fff",
               marginTop: 8,
             }}
@@ -1077,8 +1238,8 @@ const ProductCard = ({ product }) => {
             ) : (
               <>
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.3" strokeLinecap="round" strokeLinejoin="round">
-                  <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
-                  <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+                  <circle cx="9" cy="21" r="1" /><circle cx="20" cy="21" r="1" />
+                  <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
                 </svg>
                 Add to Cart
               </>
@@ -1106,14 +1267,15 @@ const PopularProducts = ({ products, loading, onFlashSaleClick }) => {
   }, []);
 
   useEffect(() => {
-    fetch(`${API_BASEA}/api/flash/all`)
+    if (isMobile) return; // ✅ ye line add ki
+    fetch(`${API_BASEA}/api/flash/all?target=web`)
       .then(r => r.json())
       .then(data => {
         const sales = data.sales || data.flashSales || data.data || [];
         const active = sales.find(s => s.isActive) || sales[0];
         if (active) setFlashSale(active);
       }).catch(() => { });
-  }, []);
+  }, [isMobile]);
 
   const tabLabels = ["All", ...categories.map(c => c.name)];
 
@@ -1161,38 +1323,40 @@ const PopularProducts = ({ products, loading, onFlashSaleClick }) => {
       ) : (
         <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : isTablet ? "1fr" : "290px 1fr", gap: 14, alignItems: "stretch" }}>
           {/* Flash Sale Card */}
-          <div
-            onClick={() => onFlashSaleClick(flashSale?.id || null)}
-            style={{ borderRadius: 14, overflow: "hidden", position: "relative", background: "#1a5c1a", boxShadow: "0 4px 18px rgba(0,0,0,0.18)", cursor: "pointer", minHeight: isMobile ? 200 : isTablet ? 240 : 420, transition: "transform 0.2s, box-shadow 0.2s" }}
-            onMouseEnter={e => { e.currentTarget.style.transform = "scale(1.015)"; e.currentTarget.style.boxShadow = "0 8px 28px rgba(0,0,0,0.28)"; }}
-            onMouseLeave={e => { e.currentTarget.style.transform = "scale(1)"; e.currentTarget.style.boxShadow = "0 4px 18px rgba(0,0,0,0.18)"; }}
-          >
-            {(flashSale?.thumbnail || flashSale?.image) ? (
-              <img src={flashSale.thumbnail || flashSale.image} alt={flashSale.name || "Flash Sale"} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 20%" }} />
-            ) : (
-              <div style={{ position: "absolute", inset: 0, background: "linear-gradient(160deg, #1a7a1a 0%, #0d4d0d 100%)" }} />
-            )}
-            <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(0,0,0,0.05) 30%, rgba(0,0,0,0.70) 100%)" }} />
-            {discountBadge && (
-              <div style={{ position: "absolute", top: 16, left: 16, zIndex: 2, width: 66, height: 66, borderRadius: "50%", background: "#2d9e2d", border: "2.5px solid rgba(255,255,255,0.7)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
-                <span style={{ fontSize: 18, fontWeight: 900, color: "#fff", lineHeight: 1 }}>{discountBadge}%</span>
-                <span style={{ fontSize: 9, fontWeight: 700, color: "rgba(255,255,255,0.9)", lineHeight: 1.2 }}>OFF</span>
+          {!isMobile && (
+            <div
+              onClick={() => onFlashSaleClick(flashSale?.id || null)}
+              style={{ borderRadius: 14, overflow: "hidden", position: "relative", background: "#1a5c1a", boxShadow: "0 4px 18px rgba(0,0,0,0.18)", cursor: "pointer", minHeight: isTablet ? 240 : 420, transition: "transform 0.2s, box-shadow 0.2s" }}
+              onMouseEnter={e => { e.currentTarget.style.transform = "scale(1.015)"; e.currentTarget.style.boxShadow = "0 8px 28px rgba(0,0,0,0.28)"; }}
+              onMouseLeave={e => { e.currentTarget.style.transform = "scale(1)"; e.currentTarget.style.boxShadow = "0 4px 18px rgba(0,0,0,0.18)"; }}
+            >
+              {(flashSale?.thumbnail || flashSale?.image) ? (
+                <img src={flashSale.thumbnail || flashSale.image} alt={flashSale.name || "Flash Sale"} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 20%" }} />
+              ) : (
+                <div style={{ position: "absolute", inset: 0, background: "linear-gradient(160deg, #1a7a1a 0%, #0d4d0d 100%)" }} />
+              )}
+              <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(0,0,0,0.05) 30%, rgba(0,0,0,0.70) 100%)" }} />
+              {discountBadge && (
+                <div style={{ position: "absolute", top: 16, left: 16, zIndex: 2, width: 66, height: 66, borderRadius: "50%", background: "#2d9e2d", border: "2.5px solid rgba(255,255,255,0.7)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
+                  <span style={{ fontSize: 18, fontWeight: 900, color: "#fff", lineHeight: 1 }}>{discountBadge}%</span>
+                  <span style={{ fontSize: 9, fontWeight: 700, color: "rgba(255,255,255,0.9)", lineHeight: 1.2 }}>OFF</span>
+                </div>
+              )}
+              <div style={{ position: "absolute", top: 14, right: 14, zIndex: 2, background: "rgba(255,230,0,0.18)", border: "1px solid rgba(255,230,0,0.4)", borderRadius: 6, padding: "4px 10px", fontSize: 10, fontWeight: 700, color: "#ffe600", letterSpacing: 0.5 }}>TAP TO EXPLORE →</div>
+              <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "28px 20px 22px", zIndex: 2 }}>
+                <div style={{ fontSize: 28, fontWeight: 900, color: "#fff", lineHeight: 1.15, marginBottom: 6, letterSpacing: -0.5, textShadow: "0 2px 8px rgba(0,0,0,0.5)" }}>
+                  <span style={{ color: "#ffe600" }}>⚡</span> {flashSale?.name || "Flash Sale"}
+                </div>
+                {flashSale?.endDate && <div style={{ fontSize: 12, color: "rgba(255,255,255,0.8)", marginBottom: 14 }}>Ends: {new Date(flashSale.endDate).toLocaleDateString()}{flashSale.endTime ? ` at ${flashSale.endTime}` : ""}</div>}
+                <button onClick={e => { e.stopPropagation(); onFlashSaleClick(flashSale?.id || null); }}
+                  style={{ width: "100%", padding: "12px 0", background: "#ffe600", color: "#111", border: "none", borderRadius: 8, fontWeight: 900, fontSize: 14, cursor: "pointer", letterSpacing: 0.5, transition: "opacity 0.2s", display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }}
+                  onMouseEnter={e => e.currentTarget.style.opacity = "0.85"}
+                  onMouseLeave={e => e.currentTarget.style.opacity = "1"}
+                >ORDER NOW ⚡</button>
+                <div style={{ textAlign: "center", fontSize: 10, color: "rgba(255,255,255,0.45)", marginTop: 10 }}>www.theorchardengine.com</div>
               </div>
-            )}
-            <div style={{ position: "absolute", top: 14, right: 14, zIndex: 2, background: "rgba(255,230,0,0.18)", border: "1px solid rgba(255,230,0,0.4)", borderRadius: 6, padding: "4px 10px", fontSize: 10, fontWeight: 700, color: "#ffe600", letterSpacing: 0.5 }}>TAP TO EXPLORE →</div>
-            <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: isMobile ? "16px 14px 14px" : "28px 20px 22px", zIndex: 2 }}>
-              <div style={{ fontSize: isMobile ? 20 : 28, fontWeight: 900, color: "#fff", lineHeight: 1.15, marginBottom: 6, letterSpacing: -0.5, textShadow: "0 2px 8px rgba(0,0,0,0.5)" }}>
-                <span style={{ color: "#ffe600" }}>⚡</span> {flashSale?.name || "Flash Sale"}
-              </div>
-              {flashSale?.endDate && <div style={{ fontSize: 12, color: "rgba(255,255,255,0.8)", marginBottom: 14 }}>Ends: {new Date(flashSale.endDate).toLocaleDateString()}{flashSale.endTime ? ` at ${flashSale.endTime}` : ""}</div>}
-              <button onClick={e => { e.stopPropagation(); onFlashSaleClick(flashSale?.id || null); }}
-                style={{ width: "100%", padding: "12px 0", background: "#ffe600", color: "#111", border: "none", borderRadius: 8, fontWeight: 900, fontSize: 14, cursor: "pointer", letterSpacing: 0.5, transition: "opacity 0.2s", display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }}
-                onMouseEnter={e => e.currentTarget.style.opacity = "0.85"}
-                onMouseLeave={e => e.currentTarget.style.opacity = "1"}
-              >ORDER NOW ⚡</button>
-              <div style={{ textAlign: "center", fontSize: 10, color: "rgba(255,255,255,0.45)", marginTop: 10 }}>www.graminkcart.in</div>
             </div>
-          </div>
+          )}
           {/* Product Grid */}
           <div style={{ display: "grid", gridTemplateColumns: productCols, gridAutoRows: "1fr", gap: 10 }}>
             {displayedProducts.length > 0
@@ -1329,6 +1493,9 @@ export default function HomePage() {
 
           {/* ✅ New combined HeroSection replaces HeroBanner + PromoBanners + StatsBar */}
           <HeroSection />
+          {isMobile && (
+            <MobileFlashSaleBanner onFlashSaleClick={handleFlashSaleClick} />
+          )}
 
           <FeatureCategories categories={categories} loading={catLoading} products={products} />
           <PopularProducts products={products} loading={prodLoading} onFlashSaleClick={handleFlashSaleClick} />

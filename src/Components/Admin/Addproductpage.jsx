@@ -823,7 +823,7 @@ export default function AddProductPage({ existingProduct = null, onSaved, onCanc
                                     <Label>Product Permalink/Slug</Label>
                                     <div className="flex">
                                         <span className="flex items-center px-3 text-xs text-gray-500 bg-gray-50 border border-r-0 border-gray-200 rounded-l-lg whitespace-nowrap">
-                                            https://graminkcart.com/products/
+                                            https://theorchardengine.com/products/
                                         </span>
                                         <input
                                             value={slug}

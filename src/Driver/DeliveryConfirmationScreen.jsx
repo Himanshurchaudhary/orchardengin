@@ -142,7 +142,7 @@ function OnlinePaymentOption({ order, token, onSuccess, onError }) {
             amount:   rzpData.amount,
             currency: "INR",
             order_id: rzpData.order_id,
-            name:     "GraminKart",
+            name:     "The Orchard Engine",
             description: `COD Collection — Order #${order.orderNumber}`,
             handler: async (response) => {
                 try {

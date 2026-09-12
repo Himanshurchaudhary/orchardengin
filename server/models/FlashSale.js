@@ -57,19 +57,27 @@ const hydrateMany = (rows) => Promise.all(rows.map(hydrateOne));
 
 const FlashSale = {
 
-    create: async ({ name, minDiscount, startDate, startTime, endDate, endTime, description, thumbnail }) => {
+    create: async ({ name, minDiscount, startDate, startTime, endDate, endTime, description, thumbnail, displayTarget = 'web' }) => {
         const [result] = await pool.query(`
-            INSERT INTO flash_sales
-                (name, minDiscount, startDate, startTime, endDate, endTime, description, thumbnail)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-        `, [name, minDiscount, startDate, startTime, endDate, endTime, description, thumbnail]);
+        INSERT INTO flash_sales
+            (name, minDiscount, startDate, startTime, endDate, endTime, description, thumbnail, displayTarget)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `, [name, minDiscount, startDate, startTime, endDate, endTime, description, thumbnail, displayTarget]);
 
         const [rows] = await pool.query(`SELECT * FROM flash_sales WHERE id = ?`, [result.insertId]);
         return hydrateOne(rows[0]);
     },
 
-    find: async () => {
-        const [rows] = await pool.query(`SELECT * FROM flash_sales ORDER BY startDate ASC`);
+    find: async (displayTarget = null) => {
+        let query = `SELECT * FROM flash_sales ORDER BY startDate ASC`;
+        const params = [];
+
+        if (displayTarget) {
+            query = `SELECT * FROM flash_sales WHERE displayTarget = ? ORDER BY startDate ASC`;
+            params.push(displayTarget);
+        }
+
+        const [rows] = await pool.query(query, params);
         return hydrateMany(rows);
     },
 
@@ -83,7 +91,7 @@ const FlashSale = {
         if (fields.length === 0) return await FlashSale.findById(id);
 
         const setClause = fields.map(f => `${f} = ?`).join(', ');
-        const values    = fields.map(f => data[f]);
+        const values = fields.map(f => data[f]);
 
         await pool.query(
             `UPDATE flash_sales SET ${setClause} WHERE id = ?`,

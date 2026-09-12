@@ -10,7 +10,7 @@ const sendNotification = async ({ phone, email, subject, message, html }) => {
     const results = await Promise.allSettled(tasks);
     results.forEach((r, i) => {
         if (r.status === 'rejected') {
-            console.error(`❌ Notification task [${i}] failed:`, r.reason);
+            // console.error(`❌ Notification task [${i}] failed:`, r.reason);
         }
     });
 };

@@ -265,6 +265,7 @@ export default function OrderDetailModal({ order: initialOrder, onClose, onStatu
         const data = await res.json();
         if (data.success && data.order) {
           console.log("ITEMS:", JSON.stringify(data.order.items, null, 2)); // ← ADD KARO
+          console.log("EST DELIVERY:", data.order.estimatedDeliveryAt); // ← ADD
           setOrder(data.order);
           setNewStatus(data.order.status);
           setPayStatus(data.order.paymentStatus);
@@ -378,11 +379,17 @@ export default function OrderDetailModal({ order: initialOrder, onClose, onStatu
 
   // ── Delivery Estimate Helper ───────────────────────────────────────────────
   const getDeliveryEstimate = (estimatedDeliveryAt) => {
-  if (!estimatedDeliveryAt) return null;
-  // DB se UTC string aata hai, IST offset minus karo
-  const target = new Date(estimatedDeliveryAt);
-  const now = new Date();
-  const diffMs = target - now;
+    if (!estimatedDeliveryAt) return null;
+
+    // ✅ UTC force karo
+    let raw = estimatedDeliveryAt;
+    if (typeof raw === 'string' && !raw.endsWith('Z') && !raw.includes('+')) {
+      raw = raw.replace(' ', 'T') + 'Z';
+    }
+
+    const target = new Date(raw);
+    const now = new Date();
+    const diffMs = target - now;
 
     const dateStr = target.toLocaleString("en-IN", {
       day: "2-digit", month: "short", year: "numeric",
@@ -402,48 +409,58 @@ export default function OrderDetailModal({ order: initialOrder, onClose, onStatu
     if (remHours > 0) timeLeft += `${remHours}h `;
     if (diffDays === 0 && remMins > 0) timeLeft += `${remMins}m`;
 
-    return { label: timeLeft.trim() + " remaining", dateStr, urgent: diffDays === 0, overdue: false };
+    return {
+      label: timeLeft.trim() + " remaining",
+      dateStr,
+      urgent: diffDays === 0,
+      overdue: false,
+    };
   };
 
   // ── Save Estimate Handler ──────────────────────────────────────────────────
   const handleSetEstimate = async () => {
-  const days = Number(estDays) || 0;
-  const hours = Number(estHours) || 0;
-  const mins = Number(estMins) || 0;
+    const days = Number(estDays) || 0;
+    const hours = Number(estHours) || 0;
+    const mins = Number(estMins) || 0;
 
-  if (days === 0 && hours === 0 && mins === 0) {
-    setEstMsg("error:Please enter at least 1 minute.");
-    return;
-  }
-
-  const target = new Date();
-  target.setDate(target.getDate() + days);
-  target.setHours(target.getHours() + hours);
-  target.setMinutes(target.getMinutes() + mins);
-
-  setEstSaving(true);
-  setEstMsg("");
-
-  try {
-    const res = await fetch(`${API_URL}/api/orders/admin/${order.id}/delivery-estimate`, {
-      method: "PATCH",
-      headers: authHdr(),
-      body: JSON.stringify({ estimatedDeliveryAt: target.toISOString() }), // ✅ target, not targetIST
-    });
-    const data = await res.json();
-    if (data.success) {
-      setOrder(prev => ({ ...prev, estimatedDeliveryAt: target.toISOString() })); // ✅ target
-      setEstMsg("success");
-      setEstDays(""); setEstHours(""); setEstMins("");
-    } else {
-      setEstMsg("error:" + (data.message || "Failed"));
+    if (days === 0 && hours === 0 && mins === 0) {
+      setEstMsg("error:Please enter at least 1 minute.");
+      return;
     }
-  } catch {
-    setEstMsg("error:Network error");
-  } finally {
-    setEstSaving(false);
-  }
-};
+
+    // ✅ Milliseconds mein calculate — chaining bug nahi hoga
+    const totalMs = (days * 24 * 60 * 60 * 1000) +
+      (hours * 60 * 60 * 1000) +
+      (mins * 60 * 1000);
+
+    const target = new Date(Date.now() + totalMs);
+
+    setEstSaving(true);
+    setEstMsg("");
+
+    try {
+      console.log("Sending estimate:", target.toISOString());
+      console.log("Current time:", new Date().toISOString());
+      console.log("Diff minutes:", Math.round((target - new Date()) / 60000));
+      const res = await fetch(`${API_URL}/api/orders/admin/${order.id}/delivery-estimate`, {
+        method: "PATCH",
+        headers: authHdr(),
+        body: JSON.stringify({ estimatedDeliveryAt: target.toISOString() }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setOrder(prev => ({ ...prev, estimatedDeliveryAt: target.toISOString() }));
+        setEstMsg("success");
+        setEstDays(""); setEstHours(""); setEstMins("");
+      } else {
+        setEstMsg("error:" + (data.message || "Failed"));
+      }
+    } catch {
+      setEstMsg("error:Network error");
+    } finally {
+      setEstSaving(false);
+    }
+  };
 
   const showRider =
     ["Processing", "Shipped"].includes(newStatus) ||

@@ -4,15 +4,20 @@ const Product   = require('../models/product_Management/Product');
 // @desc Create New Flash Sale
 exports.addFlashSale = async (req, res) => {
     try {
-        const { name, minDiscount, startDate, startTime, endDate, endTime, description } = req.body;
+        const { name, minDiscount, startDate, startTime, endDate, endTime, description, displayTarget } = req.body;
         const thumbnail = req.file ? req.file.path : null;
 
         if (!thumbnail) {
             return res.status(400).json({ success: false, message: "Flash Sale Thumbnail is required" });
         }
 
+        if (!['web', 'mobile'].includes(displayTarget)) {
+            return res.status(400).json({ success: false, message: "displayTarget must be 'web' or 'mobile'" });
+        }
+
         const flashSale = await FlashSale.create({
-            name, minDiscount, startDate, startTime, endDate, endTime, description, thumbnail,
+            name, minDiscount, startDate, startTime, endDate, endTime,
+            description, thumbnail, displayTarget
         });
 
         res.status(201).json({ success: true, message: "Flash Sale Created!", flashSale });
@@ -21,10 +26,12 @@ exports.addFlashSale = async (req, res) => {
     }
 };
 
+
 // @desc Get All Flash Sales
 exports.getFlashSales = async (req, res) => {
     try {
-        const sales = await FlashSale.find();   // sorted by startDate ASC in model
+        const { target } = req.query; // ?target=web  or  ?target=mobile
+        const sales = await FlashSale.find(target || null);
         res.status(200).json({ success: true, sales });
     } catch (error) {
         res.status(500).json({ success: false, error: error.message });

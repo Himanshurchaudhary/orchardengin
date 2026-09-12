@@ -19,17 +19,17 @@ const sendEmail = async (options) => {
         });
 
         await transporter.sendMail({
-            from:    `"Gramin Cart" <${config.mailFromAddress}>`,
+            from:    `"Orchard Engine" <${config.mailFromAddress}>`,
             to:      options.email,
             subject: options.subject,
             text:    options.message,
             ...(options.html ? { html: options.html } : {}),
         });
 
-        console.log('✅ Email sent to:', options.email);
+        // console.log('✅ Email sent to:', options.email);
         return true;
     } catch (error) {
-        console.error('❌ Email Error:', error.message);
+        // console.error('❌ Email Error:', error.message);
         return false;
     }
 };

@@ -7,6 +7,8 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 const API_BASEA = import.meta.env.VITE_API_URL;
+// const API_BASEA = import.meta.env.VITE_API_URL;
+
 
 
 // ─── Debounce hook ────────────────────────────────────────────────────────────
@@ -75,7 +77,6 @@ const Highlight = ({ text = "", query = "" }) => {
     </span>
   );
 };
-const API_BASEA = import.meta.env.VITE_API_URL;
 
 // ─── Main SearchBar Component ─────────────────────────────────────────────────
 export default function SearchBar({ placeholder = "Search products or categories…" }) {

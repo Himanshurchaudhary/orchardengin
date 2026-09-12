@@ -55,7 +55,7 @@ async function sendSms(phone, message) {
         const provider = await SmsSetting.findOne({ status: true });
 
         if (!provider) {
-            console.warn('⚠️ No active SMS provider found.');
+            // console.warn('⚠️ No active SMS provider found.');
             return;
         }
 
@@ -71,7 +71,7 @@ async function sendSms(phone, message) {
                     from: provider.twilioFrom,
                     to:   formattedPhone,
                 });
-                console.log('✅ Twilio SMS sent to', formattedPhone);
+                // console.log('✅ Twilio SMS sent to', formattedPhone);
                 break;
             }
 
@@ -86,7 +86,7 @@ async function sendSms(phone, message) {
                     from: provider.nexmoFrom,
                     text: message,
                 });
-                console.log('✅ Nexmo SMS sent to', formattedPhone);
+                // console.log('✅ Nexmo SMS sent to', formattedPhone);
                 break;
             }
 
@@ -97,7 +97,7 @@ async function sendSms(phone, message) {
                     provider.telesignApiKey
                 );
                 await client.message(formattedPhone, message, 'ARN');
-                console.log('✅ Telesign SMS sent to', formattedPhone);
+                // console.log('✅ Telesign SMS sent to', formattedPhone);
                 break;
             }
 
@@ -110,7 +110,7 @@ async function sendSms(phone, message) {
                         body:        message,
                     }, (err, res) => err ? reject(err) : resolve(res));
                 });
-                console.log('✅ MessageBird SMS sent to', formattedPhone);
+                // console.log('✅ MessageBird SMS sent to', formattedPhone);
                 break;
             }
 
@@ -131,22 +131,22 @@ case 'Fast2SMS': {
                 numbers:       cleanPhone,
             }
         });
-        console.log('✅ Fast2SMS success:', response.data);
+        // console.log('✅ Fast2SMS success:', response.data);
     } catch (err) {
         // ← This will show EXACT error from Fast2SMS
-        console.log('❌ Fast2SMS error status:', err.response?.status);
-        console.log('❌ Fast2SMS error data:',   err.response?.data);
-        console.log('❌ Fast2SMS error message:', err.message);
+        // console.log('❌ Fast2SMS error status:', err.response?.status);
+        // console.log('❌ Fast2SMS error data:',   err.response?.data);
+        // console.log('❌ Fast2SMS error message:', err.message);
     }
     break;
 }
 
             default:
-                console.warn('⚠️ Unknown provider:', provider.providerName);
+                // console.warn('⚠️ Unknown provider:', provider.providerName);
         }
 
     } catch (error) {
-        console.error('❌ SMS send failed:', error.message);
+        // console.error('❌ SMS send failed:', error.message);
     }
 }
 

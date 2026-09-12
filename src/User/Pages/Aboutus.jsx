@@ -16,7 +16,7 @@ const values = [
   {
     icon: "🤝",
     title: "Community First",
-    desc: "Gramin Cart was born to empower rural farmers and give urban families access to honest, quality groceries.",
+    desc: "The Orchard Engine was born to empower rural farmers and give urban families access to honest, quality groceries.",
   },
   {
     icon: "💚",
@@ -91,7 +91,7 @@ export default function AboutUs() {
             <span className="text-yellow-300">Best to Your Doorstep</span>
           </h1>
           <p className="text-lg text-green-100 max-w-xl mx-auto leading-relaxed">
-            Gramin Cart is India's grassroots grocery platform — connecting local farmers directly with families who care about fresh, honest food.
+            The Orchard Engine is India's grassroots grocery platform — connecting local farmers directly with families who care about fresh, honest food.
           </p>
         </div>
       </section>
@@ -119,7 +119,7 @@ export default function AboutUs() {
               Started in 2026 with a <span className="text-green-600">Simple Idea</span>
             </h2>
             <p className="text-gray-600 leading-relaxed mb-4">
-              Gramin Cart was founded in early 2026 by a group of friends from Patna who were tired of watching farmers struggle to get fair prices while city families paid too much for low-quality produce.
+              The Orchard Engine was founded in early 2026 by a group of friends from Patna who were tired of watching farmers struggle to get fair prices while city families paid too much for low-quality produce.
             </p>
             <p className="text-gray-600 leading-relaxed mb-4">
               We built a simple bridge — an online grocery platform that works directly with small farmers and cooperatives across Bihar to deliver fresh vegetables, grains, dairy, and daily essentials to your home.
@@ -202,7 +202,7 @@ export default function AboutUs() {
             Shop Fresh. Support Local. 🌿
           </h2>
           <p className="text-green-200 mb-8 text-base">
-            Join thousands of families already shopping with Gramin Cart.
+            Join thousands of families already shopping with The Orchard Engine.
           </p>
           
         </div>

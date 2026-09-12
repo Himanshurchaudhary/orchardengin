@@ -8,7 +8,7 @@ const sections = [
     content: [
       {
         subtitle: "Personal Information",
-        text: "When you create an account or place an order on Gramin Cart, we collect your name, email address, phone number, and delivery address to process and fulfill your orders.",
+        text: "When you create an account or place an order on The Orchard Engine, we collect your name, email address, phone number, and delivery address to process and fulfill your orders.",
       },
       {
         subtitle: "Usage Data",
@@ -16,7 +16,7 @@ const sections = [
       },
       {
         subtitle: "Payment Information",
-        text: "Payment transactions are processed through secure, encrypted third-party gateways. Gramin Cart does not store your full card details on our servers.",
+        text: "Payment transactions are processed through secure, encrypted third-party gateways. The Orchard Engine does not store your full card details on our servers.",
       },
     ],
   },
@@ -50,11 +50,11 @@ const sections = [
       },
       {
         subtitle: "No Third-Party Selling",
-        text: "Gramin Cart does not sell, rent, or trade your personal information to any third-party marketers or advertisers.",
+        text: "The Orchard Engine does not sell, rent, or trade your personal information to any third-party marketers or advertisers.",
       },
       {
         subtitle: "Legal Obligations",
-        text: "We may disclose your information if required by law, court order, or to protect the rights and safety of Gramin Cart, our users, or the public.",
+        text: "We may disclose your information if required by law, court order, or to protect the rights and safety of The Orchard Engine, our users, or the public.",
       },
     ],
   },
@@ -69,7 +69,7 @@ const sections = [
       },
       {
         subtitle: "Access Control",
-        text: "Only authorized Gramin Cart personnel have access to your personal data, and only to the extent necessary to perform their duties.",
+        text: "Only authorized The Orchard Engine personnel have access to your personal data, and only to the extent necessary to perform their duties.",
       },
       {
         subtitle: "Breach Response",
@@ -88,7 +88,7 @@ const sections = [
       },
       {
         subtitle: "Deletion",
-        text: "You may request the deletion of your account and associated data at any time by contacting our support team at graminkartdc@gmail.com.",
+        text: "You may request the deletion of your account and associated data at any time by contacting our support team at theorchardengine@gmail.com.",
       },
       {
         subtitle: "Opt-Out",
@@ -122,7 +122,7 @@ const sections = [
     content: [
       {
         subtitle: "Age Restriction",
-        text: "Gramin Cart is not directed at children under the age of 13. We do not knowingly collect personal information from children.",
+        text: "The Orchard Engine is not directed at children under the age of 13. We do not knowingly collect personal information from children.",
       },
       {
         subtitle: "Parental Action",
@@ -279,7 +279,7 @@ export default function PrivacyPolicy() {
         </div>
         <div className="relative z-10 max-w-4xl mx-auto text-center">
           <span className="badge inline-block px-4 py-1.5 rounded-full mb-6">
-            🌿 Gramin Cart — Est. 2026
+            🌿 The Orchard Engine — Est. 2026
           </span>
           <h1
             className="mb-4"
@@ -299,7 +299,7 @@ export default function PrivacyPolicy() {
             className="max-w-xl mx-auto"
             style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "1.05rem", lineHeight: 1.7, color: "rgba(255,255,255,0.85)" }}
           >
-            At Gramin Cart, your trust is our harvest. We are transparent about how
+            At The Orchard Engine, your trust is our harvest. We are transparent about how
             we collect, use, and protect your personal information.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-4 text-sm" style={{ fontFamily: "'DM Sans', sans-serif", color: "rgba(255,255,255,0.7)" }}>
@@ -344,7 +344,7 @@ export default function PrivacyPolicy() {
               <div className="mt-8 p-4 rounded-xl bg-green-50 border border-green-100">
                 <p className="text-xs text-green-800" style={{ fontFamily: "'DM Sans', sans-serif", lineHeight: 1.6 }}>
                   Questions? Contact us at<br />
-                  <a href="mailto:graminkartdc@gmail.com" className="font-semibold underline">graminkartdc@gmail.com</a>
+                  <a href="mailto:theorchardengine@gmail.com" className="font-semibold underline">theorchardengine@gmail.com</a>
                 </p>
               </div>
             </div>
@@ -358,10 +358,10 @@ export default function PrivacyPolicy() {
                 className="text-gray-600"
                 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.97rem", lineHeight: 1.8 }}
               >
-                This Privacy Policy explains how <strong className="text-[#1a4731]">Gramin Cart</strong> ("we", "our", or "us") collects,
+                This Privacy Policy explains how <strong className="text-[#1a4731]">The Orchard Engine</strong> ("we", "our", or "us") collects,
                 uses, shares, and protects information obtained from users ("you") of our website and mobile application.
-                By using Gramin Cart, you agree to the practices described in this policy.
-                This policy applies to all services offered by Gramin Cart in India since our founding in 2026.
+                By using The Orchard Engine, you agree to the practices described in this policy.
+                This policy applies to all services offered by The Orchard Engine in India since our founding in 2026.
               </p>
             </div>
 
@@ -467,12 +467,12 @@ export default function PrivacyPolicy() {
                 </p>
                 <div className="flex flex-wrap gap-3">
                   <a
-                    href="mailto:graminkartdc@gmail.com"
+                    href="mailto:theorchardengine@gmail.com"
                     className="bg-white text-[#15803d] px-5 py-2.5 rounded-xl font-semibold text-sm hover:bg-yellow-50 transition-colors"
                     style={{ fontFamily: "'DM Sans', sans-serif" }}
                     onClick={(e) => e.stopPropagation()}
                   >
-                    📧 graminkartdc@gmail.com
+                    📧 theorchardengine@gmail.com
                   </a>
                   <a
                     href="tel:+911800000000"

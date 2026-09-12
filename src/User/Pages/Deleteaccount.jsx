@@ -4,16 +4,16 @@ const sections = [
   {
     id: "overview",
     title: "Overview",
-    content: `Gramin Cart respects your right to control your personal data. If you wish to delete your Gramin Cart account and associated data, you can request deletion at any time using the process outlined below.
+    content: `The Orchard Engine respects your right to control your personal data. If you wish to delete your The Orchard Engine account and associated data, you can request deletion at any time using the process outlined below.
 
 Once we receive your request, we will process it within 7 business days and confirm via email once your account and data have been deleted.`,
   },
   {
     id: "how-to-request",
     title: "How to Request Account Deletion",
-    content: `To request deletion of your Gramin Cart account, please follow these steps:
+    content: `To request deletion of your The Orchard Engine account, please follow these steps:
 
-1. Send an email to  graminkartdc@gmail.com from your registered email address, or mention your registered phone number in the email.
+1. Send an email to  theorchardengine@gmail.com from your registered email address, or mention your registered phone number in the email.
 2. Use the subject line: "Account Deletion Request"
 3. Include your full name and registered mobile number for verification purposes.
 4. Our support team will verify your identity and process the request within 7 business days.
@@ -46,7 +46,7 @@ Once the applicable retention period has passed, this data will be permanently a
     title: "Contact Us",
     content: `If you have any questions about the account deletion process, please reach out to us:
 
-Email: graminkartdc@gmail.com
+Email: theorchardengine@gmail.com
 Phone:  8083042829
 Address: Floor No.: GROUND FLOOR Building No./Flat No.: C/O USHA DEVI Name Of Premises/Building: NA Road/Street: BAIKUNTHPUR Nearby Landmark: Usribazar Branch Post Office Locality/Sub Locality: BAIKUNTHPUR City/Town/Village: Usri District: Gopalganj State: Bihar PIN Code: 841409
 Support Hours: Monday – Saturday, 9:00 AM – 6:00 PM IST`,
@@ -127,7 +127,7 @@ export default function DeleteAccount() {
         <div className="relative z-10 inline-flex items-center gap-2 rounded-full px-4 py-1.5 mb-6 gk-pill">
           <span className="text-sm">🌿</span>
           <span className="text-xs font-semibold tracking-widest uppercase text-white">
-            Gramin Cart · Est. 2026
+            The Orchard Engine · Est. 2026
           </span>
         </div>
 
@@ -136,7 +136,7 @@ export default function DeleteAccount() {
           <span style={{ color: "#facc15" }}>Account</span>
         </h1>
         <p className="relative z-10 text-sm md:text-base max-w-lg mx-auto leading-relaxed gk-font" style={{ color: "rgba(255,255,255,0.85)" }}>
-          We're sorry to see you go. Here's how you can request deletion of your Gramin Cart account and data.
+          We're sorry to see you go. Here's how you can request deletion of your The Orchard Engine account and data.
         </p>
 
         {/* Meta badges */}
@@ -191,7 +191,7 @@ export default function DeleteAccount() {
             <span className="text-xl shrink-0 mt-0.5">⚠️</span>
             <p className="text-sm leading-relaxed" style={{ color: "#92400e" }}>
               Account deletion is permanent and cannot be undone. Please make sure you no longer need your order history, saved addresses, or other account data before proceeding. Questions? Email{" "}
-              <strong>graminkartdc@gmail.com</strong>
+              <strong>theorchardengine@gmail.com</strong>
             </p>
           </div>
 
@@ -253,11 +253,11 @@ export default function DeleteAccount() {
               </p>
               <div className="flex flex-wrap justify-center gap-3">
                 <a
-                  href="mailto:graminkartdc@gmail.com"
+                  href="mailto:theorchardengine@gmail.com"
                   className="bg-white font-semibold text-sm px-5 py-2.5 rounded-xl transition-colors hover:bg-yellow-50 gk-font"
                   style={{ color: "#15803d" }}
                 >
-                  📧 graminkartdc@gmail.com
+                  📧 theorchardengine@gmail.com
                 </a>
                 <a
                   href="tel:+911800000000"

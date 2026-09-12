@@ -7,7 +7,7 @@ const triggerRealtimeEvent = async (channel, event, data) => {
         const config = await PusherSetting.findOne({ status: true });
 
         if (!config) {
-            console.log("⚠️ Pusher is not configured or disabled.");
+            // console.log("⚠️ Pusher is not configured or disabled.");
             return;
         }
 
@@ -22,10 +22,10 @@ const triggerRealtimeEvent = async (channel, event, data) => {
 
         // 3. Event Trigger karo
         await pusher.trigger(channel, event, data);
-        console.log(`🚀 Realtime Event '${event}' sent to channel '${channel}'`);
+        // console.log(`🚀 Realtime Event '${event}' sent to channel '${channel}'`);
 
     } catch (error) {
-        console.error("❌ Pusher Trigger Error:", error.message);
+        // console.error("❌ Pusher Trigger Error:", error.message);
     }
 };
 
