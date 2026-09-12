@@ -7,16 +7,14 @@ const sendEmail = async (options) => {
         if (!config) throw new Error('Mail configuration not found or is disabled.');
 
         const transporter = nodemailer.createTransport({
-            host:   config.mailHost,
-            port:   Number(config.mailPort),
-            secure: config.mailEncryption === 'ssl',
-            family: 4,
-            auth: {
-                user: config.mailUserName,
-                pass: config.mailPassword,
-            },
-            tls: { rejectUnauthorized: false },
-        });
+  host: 'smtp.hostinger.com',
+  port: 465,
+  secure: true, // SSL
+  auth: {
+    user: process.env.EMAIL_USER, // support@theorchardengine.co
+    pass: process.env.EMAIL_PASS, // Orchard_engin@04
+  },
+});
 
         await transporter.sendMail({
             from:    `"Orchard Engine" <${config.mailFromAddress}>`,

@@ -139,9 +139,9 @@ const getMe = async (req, res) => {
 const updateProfile = async (req, res) => {
     try {
         const { fullName, country, phone, gender, dateOfBirth } = req.body;
-    //      console.log("REQ BODY:", req.body);
-    // console.log("REQ FILE:", req.file);  // ← image aa rahi hai ya nahi
-    // console.log("REQ HEADERS:", req.headers['content-type']);
+        //      console.log("REQ BODY:", req.body);
+        // console.log("REQ FILE:", req.file);  // ← image aa rahi hai ya nahi
+        // console.log("REQ HEADERS:", req.headers['content-type']);
 
         // Only update avatar if a new file was actually uploaded
         const avatarUrl = req.file ? req.file.path : undefined;
@@ -251,12 +251,16 @@ const forgotPassword = async (req, res) => {
         const resetUrl = `${process.env.FRONTEND_URL}/reset-password?token=${resetToken}`;
 
         const transporter = nodemailer.createTransport({
-            service: 'gmail',
+            host: 'smtp.hostinger.com',
+            port: 465,
+            secure: true, // SSL
             auth: {
-                user: process.env.EMAIL_USER,
-                pass: process.env.EMAIL_PASS,
+                user: process.env.EMAIL_USER, // support@theorchardengine.co
+                pass: process.env.EMAIL_PASS, // Orchard_engin@04
             },
         });
+
+
 
         await transporter.sendMail({
             from: `"OrchardEngine" <${process.env.EMAIL_USER}>`,
@@ -326,4 +330,4 @@ const resetPassword = async (req, res) => {
     }
 };
 
-module.exports = { register, login, getMe, updateProfile, changePassword ,forgotPassword,resetPassword};
+module.exports = { register, login, getMe, updateProfile, changePassword, forgotPassword, resetPassword };
