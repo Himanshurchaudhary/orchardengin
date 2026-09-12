@@ -539,17 +539,11 @@ exports.adminSetDeliveryEstimate = async (req, res) => {
             });
         }
 
-        const utcDate = new Date(estimatedDeliveryAt);
-        const istOffsetMs = 5.5 * 60 * 60 * 1000;
-        const istAdjusted = new Date(utcDate.getTime() + istOffsetMs);
-
-        const formatted = istAdjusted
+        // ✅ Simple — ab pool UTC pe hai toh as-is store karo
+        const formatted = new Date(estimatedDeliveryAt)
             .toISOString()
             .slice(0, 19)
             .replace('T', ' ');
-
-        // console.log("Received:", estimatedDeliveryAt);
-        // console.log("Formatted for DB:", formatted);
 
         const order = await Order.findByIdAndUpdate(req.params.id, {
             estimatedDeliveryAt: formatted
@@ -563,8 +557,6 @@ exports.adminSetDeliveryEstimate = async (req, res) => {
         }
 
         const updated = await Order.findById(req.params.id);
-        // console.log("From DB after save:", updated?.estimatedDeliveryAt);
-
         res.json({ success: true, order: updated });
 
     } catch (err) {
