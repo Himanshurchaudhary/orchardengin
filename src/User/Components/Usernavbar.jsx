@@ -7,6 +7,73 @@ import { fetchCart, fetchWishlist } from "../utils/cartWishlist";
 import CartDrawer from "../Components/Cartdrawer";
 const API_BASEA = import.meta.env.VITE_API_URL;
 
+// ─── Category Dropdown List ───────────────────────────────────────────────────
+const CatDropList = ({ onClose }) => {
+  const navigate = useNavigate();
+  const [cats, setCats] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch(`${API_BASEA}/api/Category/all`)
+      .then(r => r.json())
+      .then(data => {
+        const all = Array.isArray(data) ? data : data.categories || data.data || [];
+        setCats(all.filter(c => c.isActive !== false));
+      })
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, []);
+
+  if (loading) return (
+    <div style={{ padding: '16px', textAlign: 'center', fontSize: 13, color: '#9ca3af' }}>
+      Loading…
+    </div>
+  );
+
+  if (cats.length === 0) return (
+    <div style={{ padding: '16px', textAlign: 'center', fontSize: 13, color: '#9ca3af' }}>
+      No categories found
+    </div>
+  );
+
+  return (
+    <div style={{ maxHeight: 360, overflowY: 'auto', padding: '6px 0' }}>
+      {cats.map(cat => (
+        <button
+          key={cat.id}
+          className="cat-drop-item"
+          onClick={() => {
+            navigate(`/user/product?categories=${cat.id}`);
+            onClose();
+          }}
+          style={{
+            width: '100%', textAlign: 'left',
+            padding: '9px 16px', border: 'none',
+            background: 'transparent', cursor: 'pointer',
+            display: 'flex', alignItems: 'center', gap: 10,
+            fontSize: 13, fontWeight: 500, color: '#374151',
+            fontFamily: 'inherit', transition: 'background 0.15s',
+          }}
+        >
+          <div style={{
+            width: 30, height: 30, borderRadius: 8,
+            background: '#f0faf4', flexShrink: 0,
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            overflow: 'hidden', border: '1px solid #e8f5e9',
+          }}>
+            {cat.thumbnail || cat.image
+              ? <img src={cat.thumbnail || cat.image} alt={cat.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              : <span style={{ fontSize: 14 }}>🛒</span>
+            }
+          </div>
+          {cat.name}
+        </button>
+      ))}
+    </div>
+  );
+};
+
+  // ...
 
 const NAV_LINKS = [
   { label: 'Home', to: '/' },
@@ -634,12 +701,12 @@ const UserNavbar = () => {
         {/* Row 2: [All Categories] | Nav Links | SearchIcon */}
         <div className="rg-row2 hidden md:flex items-center gap-4 px-8 py-2">
           {/* All Categories dropdown button */}
+          {/* All Categories dropdown button */}
           <div style={{ position: 'relative' }}>
             <button
               className="rg-cat-btn"
               onClick={() => setCatDropOpen(p => !p)}
             >
-              {/* Grid icon */}
               <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
                 <rect x="3" y="3" width="7" height="7" rx="1" />
                 <rect x="14" y="3" width="7" height="7" rx="1" />
@@ -647,8 +714,37 @@ const UserNavbar = () => {
                 <rect x="3" y="14" width="7" height="7" rx="1" />
               </svg>
               All Categories
-              <ChevronDown size={15} style={{ marginLeft: 'auto' }} />
+              <ChevronDown size={15} style={{ marginLeft: 'auto', transition: 'transform 0.2s', transform: catDropOpen ? 'rotate(180deg)' : 'rotate(0deg)' }} />
             </button>
+
+            {/* ✅ Dropdown */}
+            {catDropOpen && (
+              <>
+                {/* Backdrop */}
+                <div
+                  style={{ position: 'fixed', inset: 0, zIndex: 39 }}
+                  onClick={() => setCatDropOpen(false)}
+                />
+                <div style={{
+                  position: 'absolute', top: 'calc(100% + 8px)', left: 0,
+                  width: 220, background: '#fff', borderRadius: 12,
+                  boxShadow: '0 12px 40px rgba(0,0,0,0.13)',
+                  border: '1px solid #e8e8e8', zIndex: 40,
+                  overflow: 'hidden', animation: 'catDropIn 0.18s ease',
+                }}>
+                  <style>{`
+          @keyframes catDropIn {
+            from { opacity: 0; transform: translateY(-6px); }
+            to   { opacity: 1; transform: translateY(0); }
+          }
+          .cat-drop-item:hover { background: #f0faf4; color: #16a34a; }
+        `}</style>
+
+                  {/* Categories list */}
+                  {catDropOpen && <CatDropList onClose={() => setCatDropOpen(false)} />}
+                </div>
+              </>
+            )}
           </div>
 
           {/* Divider */}

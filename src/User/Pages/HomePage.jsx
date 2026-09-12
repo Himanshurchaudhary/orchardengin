@@ -848,7 +848,7 @@ const FeatureCategories = ({ categories, loading, products }) => {
 
       {/* ── View All ── */}
       <div style={{ textAlign: "center", marginTop: isMobile ? 18 : 26 }}>
-        <button className="fc-viewall" onClick={() => navigate("/user/product")}>
+        <button className="fc-viewall" onClick={() => navigate("/user/categories")}>
           View All Categories
         </button>
       </div>
