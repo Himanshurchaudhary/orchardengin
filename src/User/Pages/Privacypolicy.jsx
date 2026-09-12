@@ -88,7 +88,7 @@ const sections = [
       },
       {
         subtitle: "Deletion",
-        text: "You may request the deletion of your account and associated data at any time by contacting our support team at theorchardengine@gmail.com.",
+        text: "You may request the deletion of your account and associated data at any time by contacting our support team at Theorchardengine@gmail.com.",
       },
       {
         subtitle: "Opt-Out",
@@ -152,7 +152,6 @@ export default function PrivacyPolicy() {
 
   return (
     <div className="min-h-screen bg-[#FAFAF7] font-sans">
-      {/* Google Fonts */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap');
 
@@ -268,18 +267,17 @@ export default function PrivacyPolicy() {
       <div className="hero-bg relative px-6 py-16 md:py-24">
         <div className="leaf-pattern"></div>
         <div className="leaf-pattern2"></div>
-        {/* Watermark logo - top left like screenshot */}
         <div style={{
           position: "absolute", left: "24px", top: "50%", transform: "translateY(-50%)",
           fontFamily: "'DM Sans', sans-serif", fontWeight: 900, fontSize: "5rem",
           color: "rgba(255,255,255,0.1)", lineHeight: 1, letterSpacing: "-4px",
           userSelect: "none", pointerEvents: "none"
         }}>
-          GK
+          🌿
         </div>
         <div className="relative z-10 max-w-4xl mx-auto text-center">
           <span className="badge inline-block px-4 py-1.5 rounded-full mb-6">
-            🌿 The Orchard Engine — Est. 2026
+            🛒 The Orchard Engine — Fresh Grocery Delivery
           </span>
           <h1
             className="mb-4"
@@ -300,14 +298,14 @@ export default function PrivacyPolicy() {
             style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "1.05rem", lineHeight: 1.7, color: "rgba(255,255,255,0.85)" }}
           >
             At The Orchard Engine, your trust is our harvest. We are transparent about how
-            we collect, use, and protect your personal information.
+            we collect, use, and protect your personal information on our grocery platform.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-4 text-sm" style={{ fontFamily: "'DM Sans', sans-serif", color: "rgba(255,255,255,0.7)" }}>
             <span>📅 Effective: January 1, 2026</span>
             <span className="opacity-40">|</span>
-            <span>📅 Last Updated: June 2026</span>
+            <span>📅 Last Updated: July 2026</span>
             <span className="opacity-40">|</span>
-            <span>📍 India</span>
+            <span>📍 Bathinda, Punjab, India</span>
           </div>
         </div>
       </div>
@@ -341,10 +339,26 @@ export default function PrivacyPolicy() {
                   </a>
                 ))}
               </nav>
+
+              {/* Sidebar contact card */}
               <div className="mt-8 p-4 rounded-xl bg-green-50 border border-green-100">
-                <p className="text-xs text-green-800" style={{ fontFamily: "'DM Sans', sans-serif", lineHeight: 1.6 }}>
-                  Questions? Contact us at<br />
-                  <a href="mailto:theorchardengine@gmail.com" className="font-semibold underline">theorchardengine@gmail.com</a>
+                <p className="text-xs font-bold text-green-700 uppercase tracking-widest mb-2">Contact Us</p>
+                <a
+                  href="mailto:Theorchardengine@gmail.com"
+                  className="text-xs text-green-800 font-semibold underline block mb-1"
+                  style={{ fontFamily: "'DM Sans', sans-serif", lineHeight: 1.6 }}
+                >
+                  ✉️ Theorchardengine@gmail.com
+                </a>
+                <a
+                  href="tel:+919463686829"
+                  className="text-xs text-green-800 font-semibold block mb-1"
+                  style={{ fontFamily: "'DM Sans', sans-serif" }}
+                >
+                  📞 +91 94636 86829
+                </a>
+                <p className="text-xs text-gray-500" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+                  🕐 Mon–Sat, 9AM–6PM IST
                 </p>
               </div>
             </div>
@@ -361,7 +375,7 @@ export default function PrivacyPolicy() {
                 This Privacy Policy explains how <strong className="text-[#1a4731]">The Orchard Engine</strong> ("we", "our", or "us") collects,
                 uses, shares, and protects information obtained from users ("you") of our website and mobile application.
                 By using The Orchard Engine, you agree to the practices described in this policy.
-                This policy applies to all services offered by The Orchard Engine in India since our founding in 2026.
+                This policy applies to all grocery services offered by The Orchard Engine in India since our founding in 2026.
               </p>
             </div>
 
@@ -380,9 +394,7 @@ export default function PrivacyPolicy() {
                 {/* Header */}
                 <div className="flex items-center justify-between px-6 py-5">
                   <div className="flex items-center gap-3">
-                    <span
-                      className="w-9 h-9 rounded-xl bg-green-50 flex items-center justify-center text-lg shrink-0"
-                    >
+                    <span className="w-9 h-9 rounded-xl bg-green-50 flex items-center justify-center text-lg shrink-0">
                       {section.icon}
                     </span>
                     <h2
@@ -446,7 +458,7 @@ export default function PrivacyPolicy() {
 
             {/* Contact Box */}
             <div className="contact-box rounded-2xl p-8 text-white mt-2">
-              <div className="contact-watermark">GK</div>
+              <div className="contact-watermark">🌾</div>
               <div className="relative z-10">
                 <span className="badge inline-block px-4 py-1.5 rounded-full mb-4 text-xs" style={{ letterSpacing: "1.5px" }}>
                   📬 GET IN TOUCH
@@ -462,32 +474,43 @@ export default function PrivacyPolicy() {
                   style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.95rem", lineHeight: 1.7, color: "rgba(255,255,255,0.85)" }}
                   className="mb-5 max-w-md"
                 >
-                  Our dedicated privacy team is here to help. Reach out and we'll
-                  respond within 2 business days.
+                  Our support team is here to help with any privacy-related queries about your grocery account. We respond within 2 business days.
                 </p>
                 <div className="flex flex-wrap gap-3">
                   <a
-                    href="mailto:theorchardengine@gmail.com"
+                    href="mailto:Theorchardengine@gmail.com"
                     className="bg-white text-[#15803d] px-5 py-2.5 rounded-xl font-semibold text-sm hover:bg-yellow-50 transition-colors"
                     style={{ fontFamily: "'DM Sans', sans-serif" }}
                     onClick={(e) => e.stopPropagation()}
                   >
-                    📧 theorchardengine@gmail.com
+                    ✉️ Theorchardengine@gmail.com
                   </a>
                   <a
-                    href="tel:+911800000000"
+                    href="tel:+919463686829"
                     className="border border-white/30 text-white px-5 py-2.5 rounded-xl font-semibold text-sm transition-colors"
                     style={{ fontFamily: "'DM Sans', sans-serif", background: "rgba(255,255,255,0.15)", backdropFilter: "blur(4px)" }}
                     onClick={(e) => e.stopPropagation()}
                   >
-                    📞 80830 42829
+                    📞 +91 94636 86829
+                  </a>
+                  <a
+                    href="https://instagram.com/theorchardengine"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="border border-white/30 text-white px-5 py-2.5 rounded-xl font-semibold text-sm transition-colors"
+                    style={{ fontFamily: "'DM Sans', sans-serif", background: "rgba(255,255,255,0.15)", backdropFilter: "blur(4px)" }}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    📸 @theorchardengine
                   </a>
                 </div>
+                {/* Address */}
+                <p className="mt-5 text-xs" style={{ color: "rgba(255,255,255,0.6)", fontFamily: "'DM Sans', sans-serif" }}>
+                  📍 2752-C-1, Street No 4, Nai Basti, Bathinda, Punjab — 151001
+                </p>
               </div>
             </div>
 
-            {/* Footer Note */}
-        
           </div>
         </div>
       </div>

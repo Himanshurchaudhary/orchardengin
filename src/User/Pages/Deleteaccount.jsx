@@ -4,51 +4,53 @@ const sections = [
   {
     id: "overview",
     title: "Overview",
-    content: `The Orchard Engine respects your right to control your personal data. If you wish to delete your The Orchard Engine account and associated data, you can request deletion at any time using the process outlined below.
+    content: `At The Orchard Engine, we respect your right to control your personal data. If you wish to delete your account and all associated information, you can request deletion at any time using the process outlined below.
 
-Once we receive your request, we will process it within 7 business days and confirm via email once your account and data have been deleted.`,
+Once we receive your deletion request, our support team will process it within 7 business days and send you a confirmation email once your account and data have been permanently removed from our grocery platform.`,
   },
   {
     id: "how-to-request",
     title: "How to Request Account Deletion",
     content: `To request deletion of your The Orchard Engine account, please follow these steps:
 
-1. Send an email to  theorchardengine@gmail.com from your registered email address, or mention your registered phone number in the email.
+1. Send an email to theorchardengine@gmail.com from your registered email address, or mention your registered phone number in the email.
 2. Use the subject line: "Account Deletion Request"
-3. Include your full name and registered mobile number for verification purposes.
+3. Include your full name and registered mobile number for identity verification.
 4. Our support team will verify your identity and process the request within 7 business days.
 
-Alternatively, you can call our support line at 80830 42829 (Toll Free) during support hours to initiate the request.`,
+Alternatively, you can WhatsApp or call us at +91 94636 86829 during support hours (Monday – Saturday, 9:00 AM – 6:00 PM IST) to initiate the request directly.`,
   },
   {
     id: "data-deleted",
     title: "What Data Will Be Deleted",
-    content: `Upon successful verification of your request, the following data associated with your account will be permanently deleted:
+    content: `Upon successful verification of your request, the following data associated with your grocery account will be permanently deleted:
 
 • Your profile information (name, email address, phone number)
-• Saved delivery addresses
+• Saved delivery addresses and location preferences
 • Account credentials and login information
-• Saved preferences and app settings
-• Wishlist and cart data`,
+• Saved app settings and notification preferences
+• Wishlist items, cart data, and saved product lists
+• Loyalty points or wallet balance (non-refundable after deletion)`,
   },
   {
     id: "data-retained",
     title: "What Data May Be Retained",
     content: `In certain cases, we may be required to retain some information even after account deletion, in accordance with applicable laws and for legitimate business purposes:
 
-• Order history and transaction records may be retained for up to 90 days for accounting, tax, and legal compliance purposes, after which they will be permanently deleted.
-• Information necessary to resolve disputes, enforce our agreements, or comply with legal obligations may be retained for the period required by law.
+• Order history and transaction records (grocery purchases, payments, invoices) may be retained for up to 90 days for accounting, tax, and legal compliance purposes — after which they will be permanently deleted.
+• Information necessary to resolve open disputes, enforce our seller/buyer agreements, or comply with legal obligations may be retained for the period required by applicable law.
 
-Once the applicable retention period has passed, this data will be permanently and irreversibly deleted from our systems.`,
+Once the applicable retention period has passed, all remaining data will be permanently and irreversibly deleted from our systems.`,
   },
   {
     id: "contact",
     title: "Contact Us",
-    content: `If you have any questions about the account deletion process, please reach out to us:
+    content: `If you have any questions about the account deletion process or need help with your grocery orders before proceeding, please reach out to us:
 
-Email: theorchardengine@gmail.com
-Phone:  8083042829
-Address: Floor No.: GROUND FLOOR Building No./Flat No.: C/O USHA DEVI Name Of Premises/Building: NA Road/Street: BAIKUNTHPUR Nearby Landmark: Usribazar Branch Post Office Locality/Sub Locality: BAIKUNTHPUR City/Town/Village: Usri District: Gopalganj State: Bihar PIN Code: 841409
+Email: Theorchardengine@gmail.com
+WhatsApp / Phone: +91 94636 86829
+Facebook / Instagram: @theorchardengine
+Address: 2752-C-1, Street No 4, Nai Basti, Bathinda, Punjab — 151001
 Support Hours: Monday – Saturday, 9:00 AM – 6:00 PM IST`,
   },
 ];
@@ -119,15 +121,13 @@ export default function DeleteAccount() {
 
       {/* ── HERO ── */}
       <div className="w-full py-16 px-4 text-center hero-overlay gk-font" style={gradientStyle}>
-        {/* Watermarks */}
-        <span className="watermark" style={{ left: "24px", top: "50%", transform: "translateY(-50%)" }}>GK</span>
+        <span className="watermark" style={{ left: "24px", top: "50%", transform: "translateY(-50%)" }}>🌿</span>
         <span className="watermark" style={{ right: "24px", bottom: "-10px" }}>GC</span>
 
-        {/* Brand pill */}
         <div className="relative z-10 inline-flex items-center gap-2 rounded-full px-4 py-1.5 mb-6 gk-pill">
-          <span className="text-sm">🌿</span>
+          <span className="text-sm">🛒</span>
           <span className="text-xs font-semibold tracking-widest uppercase text-white">
-            The Orchard Engine · Est. 2026
+            The Orchard Engine · Fresh Grocery Delivery
           </span>
         </div>
 
@@ -136,10 +136,9 @@ export default function DeleteAccount() {
           <span style={{ color: "#facc15" }}>Account</span>
         </h1>
         <p className="relative z-10 text-sm md:text-base max-w-lg mx-auto leading-relaxed gk-font" style={{ color: "rgba(255,255,255,0.85)" }}>
-          We're sorry to see you go. Here's how you can request deletion of your The Orchard Engine account and data.
+          We're sorry to see you go. Your fresh grocery experience matters to us — here's how you can request deletion of your The Orchard Engine account and all associated data.
         </p>
 
-        {/* Meta badges */}
         <div className="relative z-10 flex flex-wrap justify-center gap-6 mt-8 gk-font">
           {["📅 Effective: January 1, 2026", "📅 Last Updated: July 2026", "📄 Version 1.0"].map((text) => (
             <div key={text} className="flex items-center gap-2 text-xs" style={{ color: "rgba(255,255,255,0.75)" }}>
@@ -155,7 +154,6 @@ export default function DeleteAccount() {
         {/* Sidebar */}
         <aside className="lg:w-60 shrink-0">
           <div className="lg:sticky lg:top-6 rounded-2xl overflow-hidden border border-gray-200 shadow-sm">
-            {/* Sidebar header */}
             <div
               className="px-4 py-3"
               style={{
@@ -166,7 +164,6 @@ export default function DeleteAccount() {
                 Table of Contents
               </p>
             </div>
-            {/* Sidebar links */}
             <div className="bg-white p-2">
               {sections.map((s, i) => (
                 <button
@@ -181,6 +178,20 @@ export default function DeleteAccount() {
               ))}
             </div>
           </div>
+
+          {/* Quick contact card in sidebar */}
+          <div className="mt-4 rounded-2xl border border-green-100 bg-green-50 p-4">
+            <p className="text-xs font-bold text-green-700 uppercase tracking-widest mb-3">Quick Contact</p>
+            <a href="tel:+919463686829" className="flex items-center gap-2 text-xs text-gray-700 hover:text-green-700 mb-2">
+              <span>📞</span> +91 94636 86829
+            </a>
+            <a href="mailto:Theorchardengine@gmail.com" className="flex items-center gap-2 text-xs text-gray-700 hover:text-green-700 mb-2">
+              <span>✉️</span> Theorchardengine@gmail.com
+            </a>
+            <p className="flex items-center gap-2 text-xs text-gray-500">
+              <span>🕐</span> Mon–Sat, 9AM–6PM
+            </p>
+          </div>
         </aside>
 
         {/* Main */}
@@ -190,8 +201,8 @@ export default function DeleteAccount() {
           <div className="rounded-2xl p-4 mb-8 flex gap-3" style={{ backgroundColor: "#fffbeb", border: "1px solid #fcd34d" }}>
             <span className="text-xl shrink-0 mt-0.5">⚠️</span>
             <p className="text-sm leading-relaxed" style={{ color: "#92400e" }}>
-              Account deletion is permanent and cannot be undone. Please make sure you no longer need your order history, saved addresses, or other account data before proceeding. Questions? Email{" "}
-              <strong>theorchardengine@gmail.com</strong>
+              Account deletion is <strong>permanent and cannot be undone.</strong> All your saved addresses, order preferences, and wishlist items will be lost. Please make sure you no longer need your grocery order history before proceeding. Questions? Email{" "}
+              <strong>Theorchardengine@gmail.com</strong>
             </p>
           </div>
 
@@ -202,9 +213,7 @@ export default function DeleteAccount() {
                 key={section.id}
                 id={section.id}
                 className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden scroll-mt-6"
-                style={{ transition: "box-shadow 0.2s" }}
               >
-                {/* Card header */}
                 <div className="flex items-center gap-3 px-5 py-4 border-b border-gray-100">
                   <span
                     className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shrink-0 text-white"
@@ -215,7 +224,6 @@ export default function DeleteAccount() {
                   <h2 className="font-bold text-gray-900 text-base">{section.title}</h2>
                 </div>
 
-                {/* Card body */}
                 <div className="px-5 py-4">
                   {section.content.split("\n\n").map((para, i) => (
                     <p key={i} className="text-sm text-gray-600 leading-relaxed mb-3 last:mb-0 whitespace-pre-line">
@@ -232,13 +240,11 @@ export default function DeleteAccount() {
             className="mt-10 rounded-2xl p-8 text-center hero-overlay"
             style={gradientStyle}
           >
-            {/* Watermark */}
-            <span className="watermark" style={{ right: "20px", bottom: "-10px", fontSize: "5rem" }}>GK</span>
+            <span className="watermark" style={{ right: "20px", bottom: "-10px", fontSize: "5rem" }}>🌾</span>
 
             <div className="relative z-10">
-              {/* Pill */}
               <div className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 mb-4 gk-pill">
-                <span className="text-sm">🌾</span>
+                <span className="text-sm">🥦</span>
                 <span className="text-xs font-semibold tracking-widest uppercase text-white">
                   Need Help Instead?
                 </span>
@@ -249,24 +255,38 @@ export default function DeleteAccount() {
                 <span style={{ color: "#facc15" }}>keep you</span>
               </h3>
               <p className="text-sm max-w-md mx-auto leading-relaxed mb-6 gk-font" style={{ color: "rgba(255,255,255,0.85)" }}>
-                If you're facing an issue with your account or orders, our support team is happy to help before you decide to delete your account.
+                Having trouble with your grocery orders or delivery? Our support team at The Orchard Engine is happy to help before you decide to leave.
               </p>
               <div className="flex flex-wrap justify-center gap-3">
                 <a
-                  href="mailto:theorchardengine@gmail.com"
+                  href="mailto:Theorchardengine@gmail.com"
                   className="bg-white font-semibold text-sm px-5 py-2.5 rounded-xl transition-colors hover:bg-yellow-50 gk-font"
                   style={{ color: "#15803d" }}
                 >
-                  📧 theorchardengine@gmail.com
+                  ✉️ Theorchardengine@gmail.com
                 </a>
                 <a
-                  href="tel:+911800000000"
+                  href="tel:+919463686829"
                   className="border text-white font-semibold text-sm px-5 py-2.5 rounded-xl gk-font"
                   style={{ borderColor: "rgba(255,255,255,0.3)", background: "rgba(255,255,255,0.15)", backdropFilter: "blur(4px)" }}
                 >
-                  📞 80830 42829
+                  📞 +91 94636 86829
+                </a>
+                <a
+                  href="https://instagram.com/theorchardengine"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="border text-white font-semibold text-sm px-5 py-2.5 rounded-xl gk-font"
+                  style={{ borderColor: "rgba(255,255,255,0.3)", background: "rgba(255,255,255,0.15)", backdropFilter: "blur(4px)" }}
+                >
+                  📸 @theorchardengine
                 </a>
               </div>
+
+              {/* Address */}
+              <p className="mt-6 text-xs" style={{ color: "rgba(255,255,255,0.6)" }}>
+                📍 2752-C-1, Street No 4, Nai Basti, Bathinda, Punjab — 151001
+              </p>
             </div>
           </div>
 

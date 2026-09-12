@@ -11,9 +11,9 @@ These terms apply to all visitors, users, and customers of The Orchard Engine. W
   {
     id: "about",
     title: "About The Orchard Engine",
-    content: `The Orchard Engine is an online platform founded in 2026, dedicated to bridging the gap between rural producers and urban consumers across India. We connect local farmers, artisans, and vendors with customers seeking fresh, authentic, and affordable produce.
+    content: `The Orchard Engine is an online grocery platform founded in 2026, dedicated to bridging the gap between rural producers and urban consumers across India. We connect local farmers, artisans, and vendors with customers seeking fresh, authentic, and affordable produce.
 
-Our mission is to empower the rural economy while delivering quality groceries directly to your doorstep. The Orchard Engine operates as an e-commerce marketplace facilitating transactions between buyers and registered sellers.`,
+Our mission is to empower the rural economy while delivering quality groceries directly to your doorstep. The Orchard Engine operates as an e-commerce marketplace facilitating transactions between buyers and registered sellers, headquartered in Bathinda, Punjab.`,
   },
   {
     id: "eligibility",
@@ -74,7 +74,7 @@ Our total liability for any claim arising in connection with these terms shall n
   {
     id: "governing",
     title: "Governing Law",
-    content: `These Terms & Conditions shall be governed by and construed in accordance with the laws of India. Any disputes arising out of or in connection with these terms shall be subject to the exclusive jurisdiction of the courts located in Patna, Bihar.
+    content: `These Terms & Conditions shall be governed by and construed in accordance with the laws of India. Any disputes arising out of or in connection with these terms shall be subject to the exclusive jurisdiction of the courts located in Bathinda, Punjab.
 
 If any provision of these terms is found to be unenforceable, the remaining provisions shall continue in full force and effect.`,
   },
@@ -83,9 +83,10 @@ If any provision of these terms is found to be unenforceable, the remaining prov
     title: "Contact Us",
     content: `If you have any questions, concerns, or feedback regarding these Terms & Conditions, please reach out to us:
 
-Email: theorchardengine@gmail.com
-Phone:  80830 42829
-Address: Floor No.: GROUND FLOOR Building No./Flat No.: C/O USHA DEVI Name Of Premises/Building: NA Road/Street: BAIKUNTHPUR Nearby Landmark: Usribazar Branch Post Office Locality/Sub Locality: BAIKUNTHPUR City/Town/Village: Usri District: Gopalganj State: Bihar PIN Code: 841409
+Email: Theorchardengine@gmail.com
+WhatsApp / Phone: +91 94636 86829
+Facebook / Instagram: @theorchardengine
+Address: 2752-C-1, Street No 4, Nai Basti, Bathinda, Punjab — 151001
 Support Hours: Monday – Saturday, 9:00 AM – 6:00 PM IST`,
   },
 ];
@@ -156,15 +157,13 @@ export default function TermsAndConditions() {
 
       {/* ── HERO ── */}
       <div className="w-full py-16 px-4 text-center hero-overlay gk-font" style={gradientStyle}>
-        {/* Watermarks */}
-        <span className="watermark" style={{ left: "24px", top: "50%", transform: "translateY(-50%)" }}>GK</span>
+        <span className="watermark" style={{ left: "24px", top: "50%", transform: "translateY(-50%)" }}>🌿</span>
         <span className="watermark" style={{ right: "24px", bottom: "-10px" }}>GC</span>
 
-        {/* Brand pill */}
         <div className="relative z-10 inline-flex items-center gap-2 rounded-full px-4 py-1.5 mb-6 gk-pill">
-          <span className="text-sm">🌿</span>
+          <span className="text-sm">🛒</span>
           <span className="text-xs font-semibold tracking-widest uppercase text-white">
-            The Orchard Engine · Est. 2026
+            The Orchard Engine · Fresh Grocery Delivery
           </span>
         </div>
 
@@ -173,12 +172,11 @@ export default function TermsAndConditions() {
           <span style={{ color: "#facc15" }}>Conditions</span>
         </h1>
         <p className="relative z-10 text-sm md:text-base max-w-lg mx-auto leading-relaxed gk-font" style={{ color: "rgba(255,255,255,0.85)" }}>
-          Please read these terms carefully before using our platform. By continuing, you agree to the following.
+          Please read these terms carefully before using our grocery platform. By continuing, you agree to the following.
         </p>
 
-        {/* Meta badges */}
         <div className="relative z-10 flex flex-wrap justify-center gap-6 mt-8 gk-font">
-          {["📅 Effective: January 1, 2026", "📅 Last Updated: June 2026", "📄 Version 1.0"].map((text) => (
+          {["📅 Effective: January 1, 2026", "📅 Last Updated: July 2026", "📄 Version 1.0"].map((text) => (
             <div key={text} className="flex items-center gap-2 text-xs" style={{ color: "rgba(255,255,255,0.75)" }}>
               {text}
             </div>
@@ -192,7 +190,6 @@ export default function TermsAndConditions() {
         {/* Sidebar */}
         <aside className="lg:w-60 shrink-0">
           <div className="lg:sticky lg:top-6 rounded-2xl overflow-hidden border border-gray-200 shadow-sm">
-            {/* Sidebar header */}
             <div
               className="px-4 py-3"
               style={{
@@ -203,7 +200,6 @@ export default function TermsAndConditions() {
                 Table of Contents
               </p>
             </div>
-            {/* Sidebar links */}
             <div className="bg-white p-2">
               {sections.map((s, i) => (
                 <button
@@ -218,6 +214,20 @@ export default function TermsAndConditions() {
               ))}
             </div>
           </div>
+
+          {/* Quick contact in sidebar */}
+          <div className="mt-4 rounded-2xl border border-green-100 bg-green-50 p-4">
+            <p className="text-xs font-bold text-green-700 uppercase tracking-widest mb-3">Quick Contact</p>
+            <a href="tel:+919463686829" className="flex items-center gap-2 text-xs text-gray-700 hover:text-green-700 mb-2">
+              <span>📞</span> +91 94636 86829
+            </a>
+            <a href="mailto:Theorchardengine@gmail.com" className="flex items-center gap-2 text-xs text-gray-700 hover:text-green-700 mb-2">
+              <span>✉️</span> Theorchardengine@gmail.com
+            </a>
+            <p className="flex items-center gap-2 text-xs text-gray-500">
+              <span>🕐</span> Mon–Sat, 9AM–6PM IST
+            </p>
+          </div>
         </aside>
 
         {/* Main */}
@@ -227,8 +237,8 @@ export default function TermsAndConditions() {
           <div className="rounded-2xl p-4 mb-8 flex gap-3" style={{ backgroundColor: "#fffbeb", border: "1px solid #fcd34d" }}>
             <span className="text-xl shrink-0 mt-0.5">⚠️</span>
             <p className="text-sm leading-relaxed" style={{ color: "#92400e" }}>
-              These Terms &amp; Conditions govern your use of The Orchard Engine's platform. By placing an order or creating an account, you legally agree to these terms. Questions? Email{" "}
-              <strong>theorchardengine@gmail.com</strong>
+              These Terms &amp; Conditions govern your use of The Orchard Engine's grocery platform. By placing an order or creating an account, you legally agree to these terms. Questions? Email{" "}
+              <strong>Theorchardengine@gmail.com</strong>
             </p>
           </div>
 
@@ -241,7 +251,6 @@ export default function TermsAndConditions() {
                 className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden scroll-mt-6"
                 style={{ transition: "box-shadow 0.2s" }}
               >
-                {/* Card header */}
                 <div className="flex items-center gap-3 px-5 py-4 border-b border-gray-100">
                   <span
                     className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shrink-0 text-white"
@@ -252,7 +261,6 @@ export default function TermsAndConditions() {
                   <h2 className="font-bold text-gray-900 text-base">{section.title}</h2>
                 </div>
 
-                {/* Card body */}
                 <div className="px-5 py-4">
                   {section.content.split("\n\n").map((para, i) => (
                     <p key={i} className="text-sm text-gray-600 leading-relaxed mb-3 last:mb-0 whitespace-pre-line">
@@ -269,13 +277,11 @@ export default function TermsAndConditions() {
             className="mt-10 rounded-2xl p-8 text-center hero-overlay"
             style={gradientStyle}
           >
-            {/* Watermark */}
-            <span className="watermark" style={{ right: "20px", bottom: "-10px", fontSize: "5rem" }}>GK</span>
+            <span className="watermark" style={{ right: "20px", bottom: "-10px", fontSize: "5rem" }}>🌾</span>
 
             <div className="relative z-10">
-              {/* Pill */}
               <div className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 mb-4 gk-pill">
-                <span className="text-sm">🌾</span>
+                <span className="text-sm">🥦</span>
                 <span className="text-xs font-semibold tracking-widest uppercase text-white">
                   The Orchard Engine Promise
                 </span>
@@ -290,25 +296,35 @@ export default function TermsAndConditions() {
               </p>
               <div className="flex flex-wrap justify-center gap-3">
                 <a
-                  href="mailto:theorchardengine@gmail.com"
+                  href="mailto:Theorchardengine@gmail.com"
                   className="bg-white font-semibold text-sm px-5 py-2.5 rounded-xl transition-colors hover:bg-yellow-50 gk-font"
                   style={{ color: "#15803d" }}
                 >
-                  📧 theorchardengine@gmail.com
+                  ✉️ Theorchardengine@gmail.com
                 </a>
                 <a
-                  href="tel:+911800000000"
+                  href="tel:+919463686829"
                   className="border text-white font-semibold text-sm px-5 py-2.5 rounded-xl gk-font"
                   style={{ borderColor: "rgba(255,255,255,0.3)", background: "rgba(255,255,255,0.15)", backdropFilter: "blur(4px)" }}
                 >
-                  📞 80830 42829
+                  📞 +91 94636 86829
+                </a>
+                <a
+                  href="https://instagram.com/theorchardengine"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="border text-white font-semibold text-sm px-5 py-2.5 rounded-xl gk-font"
+                  style={{ borderColor: "rgba(255,255,255,0.3)", background: "rgba(255,255,255,0.15)", backdropFilter: "blur(4px)" }}
+                >
+                  📸 @theorchardengine
                 </a>
               </div>
+              <p className="mt-5 text-xs" style={{ color: "rgba(255,255,255,0.6)" }}>
+                📍 2752-C-1, Street No 4, Nai Basti, Bathinda, Punjab — 151001
+              </p>
             </div>
           </div>
 
-          {/* Footer note */}
-          
         </main>
       </div>
     </div>
