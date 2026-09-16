@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import { Helmet } from "react-helmet-async"; // ✅ Yeh add karo
 const API_BASEA = import.meta.env.VITE_API_URL;
 
 const BLOG_API = `${API_BASEA}/api/blog`;
@@ -520,7 +521,13 @@ export default function BlogPage() {
   }
 
   return (
+<>
+      <Helmet>
+        <title>Blog - Orchard Engine | Fresh Grocery Tips & Farming Stories</title>
+        <meta name="description" content="Read the latest blogs from Orchard Engine — fresh grocery tips, farming stories, and healthy living guides from Punjab's grassroots grocery platform." />
+      </Helmet>
     <div style={S.page}>
+
       {/* Mobile top bar */}
       {isMobile && (
         <div style={S.mobileTopBar}>
@@ -574,6 +581,7 @@ export default function BlogPage() {
         <Sidebar {...sidebarProps} />
       </div>
     </div>
+    </>
   );
 }
 

@@ -1,4 +1,5 @@
 import { useState, useRef } from "react";
+import { Helmet } from "react-helmet-async"; // ✅ Yeh add karo
 
 // ─── EmailJS CDN is loaded via index.html or via the script tag below ───────
 // To use real email: replace these with your EmailJS credentials
@@ -154,6 +155,13 @@ export default function ContactPage() {
   };
 
   return (
+    <>
+<Helmet>
+      <title>Contact Us - Orchard Engine | Get in Touch</title>
+      <meta name="description" content="Have questions? Contact Orchard Engine — call, WhatsApp or email us. We're available 24 hours to help you with your fresh grocery orders across Punjab." />
+    </Helmet>
+
+
     <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4 py-12">
       <div className="w-full max-w-5xl bg-white rounded-2xl shadow-sm px-8 py-10">
         {/* ── Header ── */}
@@ -262,5 +270,6 @@ export default function ContactPage() {
         </div>
       </div>
     </div>
+    </>
   );
 }

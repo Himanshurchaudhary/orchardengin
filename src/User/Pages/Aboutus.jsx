@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Helmet } from "react-helmet-async"; // ✅ Yeh add karo
 
 const stats = [
   { value: "5K+", label: "Happy Customers" },
@@ -66,6 +67,12 @@ export default function AboutUs() {
   }, []);
 
   return (
+    <>
+     <Helmet>
+        <title>About Us - Orchard Engine | Farm Fresh Groceries India</title>
+        <meta name="description" content="Learn about Orchard Engine — India's grassroots grocery platform connecting local farmers from Punjab directly with families." />
+      </Helmet>
+    
     <div className="min-h-screen bg-[#fafaf7] font-sans text-gray-800">
 
       {/* Hero */}
@@ -257,5 +264,6 @@ export default function AboutUs() {
         </div>
       </section>
     </div>
+    </>
   );
 }

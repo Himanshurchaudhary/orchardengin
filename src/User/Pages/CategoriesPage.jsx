@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async"; // ✅ Yeh add karo
 
 const API_BASEA = import.meta.env.VITE_API_URL;
 
@@ -163,6 +164,13 @@ export default function CategoriesPage() {
   const cols = isMobile ? "repeat(2,1fr)" : isTablet ? "repeat(3,1fr)" : "repeat(4,1fr)";
 
   return (
+    <>
+    
+    <Helmet>
+      <title>Categories - Orchard Engine | Shop Fresh Groceries by Category</title>
+      <meta name="description" content="Browse all grocery categories at Orchard Engine — fresh fruits, vegetables, dairy, grains and daily essentials. Shop by category and get fast delivery across Punjab." />
+    </Helmet>
+    
     <div style={{
       maxWidth: 1280, margin: "0 auto",
       padding: isMobile ? "20px 14px 40px" : "32px 24px 60px",
@@ -320,5 +328,7 @@ export default function CategoriesPage() {
         </div>
       )}
     </div>
+        </>
+
   );
 }

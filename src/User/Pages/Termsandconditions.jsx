@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Helmet } from "react-helmet-async"; // ✅ Yeh add karo
 
 const sections = [
   {
@@ -108,6 +109,11 @@ export default function TermsAndConditions() {
   };
 
   return (
+    <><Helmet>
+      <title>Terms & Conditions - Orchard Engine | User Agreement</title>
+      <meta name="description" content="Read Orchard Engine's Terms & Conditions — our user agreement covering orders, payments, delivery, returns and more for our fresh grocery platform in Punjab, India." />
+    </Helmet>
+
     <div className="min-h-screen bg-gray-50">
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap');
@@ -328,5 +334,6 @@ export default function TermsAndConditions() {
         </main>
       </div>
     </div>
+    </>
   );
 }

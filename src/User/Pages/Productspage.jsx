@@ -3,6 +3,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { openLoginModal } from "../utils/authEvents";
 import { addToCart, toggleWishlist, fetchWishlist } from "../utils/cartWishlist";
+import { Helmet } from "react-helmet-async"; // ✅ Yeh add karo
 const API_BASEA = import.meta.env.VITE_API_URL;
 
 
@@ -1024,6 +1025,10 @@ const filtered = allProducts.filter(p => {
 
   return (
     <>
+     <Helmet>
+      <title>Products - Orchard Engine | Fresh Groceries Online</title>
+      <meta name="description" content="Shop fresh fruits, vegetables, dairy and daily essentials online at Orchard Engine. Fast delivery across Punjab. Filter by category, price and rating." />
+    </Helmet>
       <FontLink/>
       <style>{`
         * { box-sizing:border-box; }
