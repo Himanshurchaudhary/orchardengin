@@ -167,9 +167,10 @@ export default function CategoriesPage() {
     <>
     
     <Helmet>
-      <title>Categories - Orchard Engine | Shop Fresh Groceries by Category</title>
-      <meta name="description" content="Browse all grocery categories at Orchard Engine — fresh fruits, vegetables, dairy, grains and daily essentials. Shop by category and get fast delivery across Punjab." />
-    </Helmet>
+  <title>Categories - Orchard Engine | Shop Fresh Groceries by Category</title>
+  <meta name="description" content="Browse all grocery categories at Orchard Engine — fresh fruits, vegetables, dairy, grains and daily essentials." />
+  <link rel="canonical" href="https://theorchardengine.com/user/categories" />
+</Helmet>
     
     <div style={{
       maxWidth: 1280, margin: "0 auto",

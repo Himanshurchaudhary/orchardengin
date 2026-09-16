@@ -109,10 +109,12 @@ export default function TermsAndConditions() {
   };
 
   return (
-    <><Helmet>
-      <title>Terms & Conditions - Orchard Engine | User Agreement</title>
-      <meta name="description" content="Read Orchard Engine's Terms & Conditions — our user agreement covering orders, payments, delivery, returns and more for our fresh grocery platform in Punjab, India." />
-    </Helmet>
+    <>
+    <Helmet>
+  <title>Terms & Conditions - Orchard Engine | User Agreement</title>
+  <meta name="description" content="Read Orchard Engine's Terms & Conditions." />
+  <link rel="canonical" href="https://theorchardengine.com/user/termcondition" />
+</Helmet>
 
     <div className="min-h-screen bg-gray-50">
       <style>{`

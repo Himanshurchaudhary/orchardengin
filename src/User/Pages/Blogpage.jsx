@@ -521,66 +521,67 @@ export default function BlogPage() {
   }
 
   return (
-<>
+    <>
       <Helmet>
         <title>Blog - Orchard Engine | Fresh Grocery Tips & Farming Stories</title>
         <meta name="description" content="Read the latest blogs from Orchard Engine — fresh grocery tips, farming stories, and healthy living guides from Punjab's grassroots grocery platform." />
+        <link rel="canonical" href="https://theorchardengine.com/user/blog" />
       </Helmet>
-    <div style={S.page}>
+      <div style={S.page}>
 
-      {/* Mobile top bar */}
-      {isMobile && (
-        <div style={S.mobileTopBar}>
-          <span style={S.mobileTopBarTitle}>Blog</span>
-          <button
-            style={S.filterToggle}
-            onClick={() => setSidebarOpen(true)}
-            aria-label="Open filters"
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <line x1="3" y1="6" x2="21" y2="6" />
-              <line x1="3" y1="12" x2="21" y2="12" />
-              <line x1="3" y1="18" x2="21" y2="18" />
-            </svg>
-            Filters
-          </button>
+        {/* Mobile top bar */}
+        {isMobile && (
+          <div style={S.mobileTopBar}>
+            <span style={S.mobileTopBarTitle}>Blog</span>
+            <button
+              style={S.filterToggle}
+              onClick={() => setSidebarOpen(true)}
+              aria-label="Open filters"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <line x1="3" y1="6" x2="21" y2="6" />
+                <line x1="3" y1="12" x2="21" y2="12" />
+                <line x1="3" y1="18" x2="21" y2="18" />
+              </svg>
+              Filters
+            </button>
+          </div>
+        )}
+
+        {error && <div style={S.errorBanner}>⚠ {error}</div>}
+
+        <div
+          style={{
+            ...S.layout,
+            flexDirection: isMobile ? "column" : "row",
+            padding: isMobile ? "0 12px" : "0 24px",
+            gap: isMobile ? 0 : 28,
+          }}
+        >
+          <main style={S.main}>
+            {selectedBlog ? (
+              <BlogDetail
+                blog={selectedBlog}
+                blogs={blogs}
+                categories={categories}
+                onBack={handleBack}
+                onOpenBlog={handleOpenBlog}
+                isMobile={isMobile}
+              />
+            ) : (
+              <BlogList
+                blogs={filteredBlogs}
+                categories={categories}
+                onOpenBlog={handleOpenBlog}
+                isMobile={isMobile}
+              />
+            )}
+          </main>
+
+          {/* On desktop: static sidebar. On mobile: drawer via Sidebar component */}
+          <Sidebar {...sidebarProps} />
         </div>
-      )}
-
-      {error && <div style={S.errorBanner}>⚠ {error}</div>}
-
-      <div
-        style={{
-          ...S.layout,
-          flexDirection: isMobile ? "column" : "row",
-          padding: isMobile ? "0 12px" : "0 24px",
-          gap: isMobile ? 0 : 28,
-        }}
-      >
-        <main style={S.main}>
-          {selectedBlog ? (
-            <BlogDetail
-              blog={selectedBlog}
-              blogs={blogs}
-              categories={categories}
-              onBack={handleBack}
-              onOpenBlog={handleOpenBlog}
-              isMobile={isMobile}
-            />
-          ) : (
-            <BlogList
-              blogs={filteredBlogs}
-              categories={categories}
-              onOpenBlog={handleOpenBlog}
-              isMobile={isMobile}
-            />
-          )}
-        </main>
-
-        {/* On desktop: static sidebar. On mobile: drawer via Sidebar component */}
-        <Sidebar {...sidebarProps} />
       </div>
-    </div>
     </>
   );
 }

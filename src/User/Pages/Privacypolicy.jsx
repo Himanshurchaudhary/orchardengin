@@ -154,9 +154,10 @@ export default function PrivacyPolicy() {
   return (
     <>
     <Helmet>
-      <title>Privacy Policy - Orchard Engine | Your Data is Safe With Us</title>
-      <meta name="description" content="Read Orchard Engine's Privacy Policy — learn how we collect, use, and protect your personal data on our fresh grocery delivery platform in Punjab, India." />
-    </Helmet>
+  <title>Privacy Policy - Orchard Engine | Your Data is Safe With Us</title>
+  <meta name="description" content="Read Orchard Engine's Privacy Policy." />
+  <link rel="canonical" href="https://theorchardengine.com/user/privacy" />
+</Helmet>
     <div className="min-h-screen bg-[#FAFAF7] font-sans">
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap');

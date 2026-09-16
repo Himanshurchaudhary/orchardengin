@@ -157,9 +157,10 @@ export default function ContactPage() {
   return (
     <>
 <Helmet>
-      <title>Contact Us - Orchard Engine | Get in Touch</title>
-      <meta name="description" content="Have questions? Contact Orchard Engine — call, WhatsApp or email us. We're available 24 hours to help you with your fresh grocery orders across Punjab." />
-    </Helmet>
+  <title>Contact Us - Orchard Engine | Get in Touch</title>
+  <meta name="description" content="Have questions? Contact Orchard Engine — call, WhatsApp or email us." />
+  <link rel="canonical" href="https://theorchardengine.com/user/contect" />
+</Helmet>
 
 
     <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4 py-12">

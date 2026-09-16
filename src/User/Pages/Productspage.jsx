@@ -1026,9 +1026,10 @@ const filtered = allProducts.filter(p => {
   return (
     <>
      <Helmet>
-      <title>Products - Orchard Engine | Fresh Groceries Online</title>
-      <meta name="description" content="Shop fresh fruits, vegetables, dairy and daily essentials online at Orchard Engine. Fast delivery across Punjab. Filter by category, price and rating." />
-    </Helmet>
+  <title>Products - Orchard Engine | Fresh Groceries Online</title>
+  <meta name="description" content="Shop fresh fruits, vegetables, dairy and daily essentials online at Orchard Engine." />
+  <link rel="canonical" href="https://theorchardengine.com/user/product" />
+</Helmet>
       <FontLink/>
       <style>{`
         * { box-sizing:border-box; }

@@ -4,6 +4,7 @@ import { openLoginModal } from "../utils/authEvents";
 import { addToCart, toggleWishlist, fetchWishlist } from "../utils/cartWishlist";
 import { useNavigate } from "react-router-dom";
 const API_BASEA = import.meta.env.VITE_API_URL;
+import { Helmet } from "react-helmet-async"; // ✅ Yeh add karo
 
 
 
@@ -1468,7 +1469,15 @@ export default function HomePage() {
   };
 
   return (
+
+    
     <>
+    <Helmet>
+      <title>Orchard Engine — Fresh Groceries Delivered to Your Door</title>
+      <meta name="description" content="Order fresh fruits, vegetables, dairy, and daily essentials online at Orchard Engine. Fast delivery, best prices, and 100% freshness guaranteed. Shop now at theorchardengine.com." />
+      <link rel="canonical" href="https://theorchardengine.com" />
+    </Helmet>
+
       <style>{`
         * { box-sizing: border-box; }
         @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
