@@ -122,10 +122,10 @@ const insertVariants = async (productId, variants) => {
         productId,
         v.label,
         v.sku,
-        Number(v.buyingPrice)      || 0,
-        Number(v.sellingPrice)     || 0,
-        Number(v.discountPrice)    || 0,
-        Number(v.stockQuantity)    || 0,
+        Number(v.buyingPrice) || 0,
+        Number(v.sellingPrice) || 0,
+        Number(v.discountPrice) || 0,
+        Number(v.stockQuantity) || 0,
         Number(v.minOrderQuantity) || 1,
         i === 0 ? 1 : (v.isDefault ? 1 : 0),   // first variant = default unless overridden
     ]);
@@ -157,13 +157,13 @@ const attachVariants = async (product) => {
 // ─────────────────────────────────────────────────────────────────────────────
 
 const attachChildren = async (product) => {
-    const [images]     = await pool.query(`SELECT imageUrl FROM product_images     WHERE product_id = ?`, [product.id]);
-    const [keywords]   = await pool.query(`SELECT keyword  FROM product_keywords   WHERE product_id = ?`, [product.id]);
+    const [images] = await pool.query(`SELECT imageUrl FROM product_images     WHERE product_id = ?`, [product.id]);
+    const [keywords] = await pool.query(`SELECT keyword  FROM product_keywords   WHERE product_id = ?`, [product.id]);
     const [attributes] = await pool.query(`SELECT \`key\`, \`value\` FROM product_attributes WHERE product_id = ?`, [product.id]);
 
     product.additionalImages = images.map(r => r.imageUrl);
-    product.metaKeywords     = keywords.map(r => r.keyword);
-    product.attributes       = attributes;
+    product.metaKeywords = keywords.map(r => r.keyword);
+    product.attributes = attributes;
 
     // attach variants too
     await attachVariants(product);
@@ -185,10 +185,10 @@ const BASE_SELECT = `
 
 const shape = (row) => {
     if (!row) return null;
-    row.category  = { id: row.category_id, name: row.category_name, thumbnail: row.category_thumbnail };
-    row.brand     = { id: row.brand_id,    name: row.brand_name };
-    row.createdBy = { id: row.createdBy,   name: row.createdBy_name };
-    ['category_name','category_thumbnail','brand_name','createdBy_name'].forEach(k => delete row[k]);
+    row.category = { id: row.category_id, name: row.category_name, thumbnail: row.category_thumbnail };
+    row.brand = { id: row.brand_id, name: row.brand_name };
+    row.createdBy = { id: row.createdBy, name: row.createdBy_name };
+    ['category_name', 'category_thumbnail', 'brand_name', 'createdBy_name'].forEach(k => delete row[k]);
     return row;
 };
 
@@ -199,9 +199,9 @@ const Product = {
     create: async (data) => {
         const { additionalImages, metaKeywords, attributes, variants, ...flat } = data;
 
-        const fields       = Object.keys(flat);
+        const fields = Object.keys(flat);
         const placeholders = fields.map(() => '?').join(', ');
-        const values       = fields.map(f => flat[f]);
+        const values = fields.map(f => flat[f]);
 
         const [result] = await pool.query(
             `INSERT INTO products (${fields.join(', ')}) VALUES (${placeholders})`,
@@ -216,7 +216,7 @@ const Product = {
     },
 
     find: async (filters = {}, { limit, skip } = {}) => {
-        let where  = 'WHERE 1=1';
+        let where = 'WHERE 1=1';
         const vals = [];
 
         if (filters.search) {
@@ -224,20 +224,25 @@ const Product = {
             vals.push(`%${filters.search}%`, `%${filters.search}%`);
         }
         if (filters.category_id) {
-            where += ` AND p.category_id = ?`;
-            vals.push(filters.category_id);
+            const [subCats] = await pool.query(
+                `SELECT id FROM categories WHERE parent_id = ? OR id = ?`,
+                [filters.category_id, filters.category_id]
+            );
+            const catIds = subCats.map(c => c.id);
+            where += ` AND p.category_id IN (${catIds.map(() => '?').join(',')})`;
+            vals.push(...catIds);
         }
 
         let query = `${BASE_SELECT} ${where} ORDER BY p.createdAt DESC`;
-        if (limit) { query += ` LIMIT ?`;  vals.push(limit); }
-        if (skip)  { query += ` OFFSET ?`; vals.push(skip);  }
+        if (limit) { query += ` LIMIT ?`; vals.push(limit); }
+        if (skip) { query += ` OFFSET ?`; vals.push(skip); }
 
         const [rows] = await pool.query(query, vals);
         return Promise.all(rows.map(r => attachChildren(shape(r))));
     },
 
     countDocuments: async (filters = {}) => {
-        let where  = 'WHERE 1=1';
+        let where = 'WHERE 1=1';
         const vals = [];
 
         if (filters.search) {
@@ -245,8 +250,13 @@ const Product = {
             vals.push(`%${filters.search}%`, `%${filters.search}%`);
         }
         if (filters.category_id) {
-            where += ` AND category_id = ?`;
-            vals.push(filters.category_id);
+            const [subCats] = await pool.query(
+                `SELECT id FROM categories WHERE parent_id = ? OR id = ?`,
+                [filters.category_id, filters.category_id]
+            );
+            const catIds = subCats.map(c => c.id);
+            where += ` AND category_id IN (${catIds.map(() => '?').join(',')})`;
+            vals.push(...catIds);
         }
 
         const [rows] = await pool.query(`SELECT COUNT(*) AS total FROM products ${where}`, vals);
@@ -263,9 +273,9 @@ const Product = {
         const { additionalImages, metaKeywords, attributes, variants, ...flat } = data;
 
         if (Object.keys(flat).length > 0) {
-            const fields    = Object.keys(flat);
+            const fields = Object.keys(flat);
             const setClause = fields.map(f => `${f} = ?`).join(', ');
-            const values    = fields.map(f => flat[f]);
+            const values = fields.map(f => flat[f]);
             await pool.query(`UPDATE products SET ${setClause} WHERE id = ?`, [...values, id]);
         }
 

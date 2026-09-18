@@ -250,15 +250,15 @@ function TagInput({ tags, onChange }) {
  * variants = [{ label, sku, buyingPrice, sellingPrice, discountPrice, stockQuantity, minOrderQuantity, isDefault }]
  */
 const EMPTY_VARIANT = () => ({
-    _id:             Math.random().toString(36).slice(2),   // local key only
-    label:           "",
-    sku:             String(Math.floor(100000 + Math.random() * 900000)),
-    buyingPrice:     "",
-    sellingPrice:    "",
-    discountPrice:   "",
-    stockQuantity:   "",
-    minOrderQuantity:"1",
-    isDefault:       false,
+    _id: Math.random().toString(36).slice(2),   // local key only
+    label: "",
+    sku: String(Math.floor(100000 + Math.random() * 900000)),
+    buyingPrice: "",
+    sellingPrice: "",
+    discountPrice: "",
+    stockQuantity: "",
+    minOrderQuantity: "1",
+    isDefault: false,
 });
 
 function VariantsSection({ variants, onChange }) {
@@ -296,7 +296,7 @@ function VariantsSection({ variants, onChange }) {
         const next = variants.map((v, i) => {
             if (i !== idx) return v;
             const updated = { ...v, [field]: value };
-            const buying  = parseFloat(field === "buyingPrice"  ? value : v.buyingPrice);
+            const buying = parseFloat(field === "buyingPrice" ? value : v.buyingPrice);
             const selling = parseFloat(field === "sellingPrice" ? value : v.sellingPrice);
             if (!isNaN(buying) && !isNaN(selling) && buying > selling) {
                 updated.discountPrice = (buying - selling).toFixed(2);
@@ -508,42 +508,42 @@ export default function AddProductPage({ existingProduct = null, onSaved, onCanc
     const isEditMode = Boolean(existingProduct);
 
     // ── Form state ─────────────────────────────────────────────
-    const [name, setName]               = useState("");
-    const [slug, setSlug]               = useState("");
-    const [shortDesc, setShortDesc]     = useState("");
+    const [name, setName] = useState("");
+    const [slug, setSlug] = useState("");
+    const [shortDesc, setShortDesc] = useState("");
     const [description, setDescription] = useState("");
 
-    const [brand, setBrand]             = useState("");
-    const [unit, setUnit]               = useState("");
-    const [sku, setSku]                 = useState(String(Math.floor(100000 + Math.random() * 900000)));
+    const [brand, setBrand] = useState("");
+    const [unit, setUnit] = useState("");
+    const [sku, setSku] = useState(String(Math.floor(100000 + Math.random() * 900000)));
     const [selectedCategories, setSelectedCategories] = useState([]);
 
-    const [buyingPrice, setBuyingPrice]     = useState("");
-    const [sellingPrice, setSellingPrice]   = useState("");
+    const [buyingPrice, setBuyingPrice] = useState("");
+    const [sellingPrice, setSellingPrice] = useState("");
     const [discountPrice, setDiscountPrice] = useState("0");
-    const [stockQty, setStockQty]           = useState("");
-    const [minOrderQty, setMinOrderQty]     = useState("1");
+    const [stockQty, setStockQty] = useState("");
+    const [minOrderQty, setMinOrderQty] = useState("1");
 
-    const [thumbnail, setThumbnail]               = useState(null);
+    const [thumbnail, setThumbnail] = useState(null);
     const [existingThumbnail, setExistingThumbnail] = useState("");
     const [additionalImages, setAdditionalImages] = useState([]);
     const [existingAdditional, setExistingAdditional] = useState([]);
     const [videoType, setVideoType] = useState("Upload Video File");
     const [videoFile, setVideoFile] = useState(null);
 
-    const [metaTitle, setMetaTitle]       = useState("");
-    const [metaDesc, setMetaDesc]         = useState("");
+    const [metaTitle, setMetaTitle] = useState("");
+    const [metaDesc, setMetaDesc] = useState("");
     const [metaKeywords, setMetaKeywords] = useState([]);
 
     // ── NEW: variants ──────────────────────────────────────────
     const [variants, setVariants] = useState([]);
 
-    const [brands, setBrands]                     = useState([]);
-    const [categories, setCategories]             = useState([]);
+    const [brands, setBrands] = useState([]);
+    const [categories, setCategories] = useState([]);
     const [categoriesLoading, setCategoriesLoading] = useState(true);
-    const [submitting, setSubmitting]             = useState(false);
-    const [toast, setToast]                       = useState(null);
-    const [attributes, setAttributes]             = useState([]);
+    const [submitting, setSubmitting] = useState(false);
+    const [toast, setToast] = useState(null);
+    const [attributes, setAttributes] = useState([]);
 
     function showToast(msg, type = "success") {
         setToast({ msg, type });
@@ -601,7 +601,7 @@ export default function AddProductPage({ existingProduct = null, onSaved, onCanc
 
     // Auto-discount on base prices
     useEffect(() => {
-        const buying  = parseFloat(buyingPrice);
+        const buying = parseFloat(buyingPrice);
         const selling = parseFloat(sellingPrice);
         if (!isNaN(buying) && !isNaN(selling) && buying > selling) {
             setDiscountPrice((buying - selling).toFixed(2));
@@ -615,7 +615,7 @@ export default function AddProductPage({ existingProduct = null, onSaved, onCanc
     }, []);
 
     useEffect(() => {
-        fetch(`${API_BASEA}/api/Category/all`, {
+        fetch(`${API_BASEA}/api/Category/flat`, {  // ← sirf /all ko /flat karo
             headers: { Authorization: `Bearer ${getToken()}` },
         })
             .then((r) => r.json())
@@ -644,12 +644,12 @@ export default function AddProductPage({ existingProduct = null, onSaved, onCanc
     function validateVariants() {
         for (let i = 0; i < variants.length; i++) {
             const v = variants[i];
-            if (!v.label.trim())         return `Variant ${i + 1}: Label is required`;
-            if (!v.sku.trim())           return `Variant ${i + 1}: SKU is required`;
-            if (!v.buyingPrice)          return `Variant ${i + 1}: Old Price is required`;
-            if (!v.sellingPrice)         return `Variant ${i + 1}: New Price is required`;
+            if (!v.label.trim()) return `Variant ${i + 1}: Label is required`;
+            if (!v.sku.trim()) return `Variant ${i + 1}: SKU is required`;
+            if (!v.buyingPrice) return `Variant ${i + 1}: Old Price is required`;
+            if (!v.sellingPrice) return `Variant ${i + 1}: New Price is required`;
             if (!v.stockQuantity && v.stockQuantity !== 0)
-                                         return `Variant ${i + 1}: Stock Qty is required`;
+                return `Variant ${i + 1}: Stock Qty is required`;
         }
         // Check duplicate SKUs among variants
         const skus = variants.map(v => v.sku.trim());
@@ -670,23 +670,23 @@ export default function AddProductPage({ existingProduct = null, onSaved, onCanc
         setSubmitting(true);
         try {
             const fd = new FormData();
-            fd.append("name",             name);
-            fd.append("slug",             slug);
+            fd.append("name", name);
+            fd.append("slug", slug);
             fd.append("shortDescription", shortDesc);
-            fd.append("description",      description);
-            fd.append("brand",            brand);
-            fd.append("unit",             unit);
-            fd.append("sku",              sku);
-            fd.append("category",         selectedCategories[0]);
-            fd.append("buyingPrice",      buyingPrice);
-            fd.append("sellingPrice",     sellingPrice);
-            fd.append("discountPrice",    discountPrice || 0);
-            fd.append("stockQuantity",    stockQty);
+            fd.append("description", description);
+            fd.append("brand", brand);
+            fd.append("unit", unit);
+            fd.append("sku", sku);
+            fd.append("category", selectedCategories[0]);
+            fd.append("buyingPrice", buyingPrice);
+            fd.append("sellingPrice", sellingPrice);
+            fd.append("discountPrice", discountPrice || 0);
+            fd.append("stockQuantity", stockQty);
             fd.append("minOrderQuantity", minOrderQty);
-            fd.append("metaTitle",        metaTitle);
-            fd.append("metaDescription",  metaDesc);
-            fd.append("metaKeywords",     JSON.stringify(metaKeywords));
-            fd.append("attributes",       JSON.stringify(attributes));
+            fd.append("metaTitle", metaTitle);
+            fd.append("metaDescription", metaDesc);
+            fd.append("metaKeywords", JSON.stringify(metaKeywords));
+            fd.append("attributes", JSON.stringify(attributes));
 
             // ── NEW: send variants as JSON string ──────────────
             // Strip the local _id before sending
@@ -1042,17 +1042,69 @@ export default function AddProductPage({ existingProduct = null, onSaved, onCanc
                                 ) : categories.length === 0 ? (
                                     <p className="text-xs text-gray-400 italic py-3">No categories found.</p>
                                 ) : (
-                                    categories.map((cat) => (
-                                        <label key={cat.id} className="flex items-center gap-2.5 px-2 py-1.5 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors group">
-                                            <input
-                                                type="checkbox"
-                                                checked={selectedCategories.includes(cat.id)}
-                                                onChange={() => toggleCategory(cat.id)}
-                                                className="h-4 w-4 rounded border-gray-300 text-emerald-500 focus:ring-emerald-400 accent-emerald-500"
-                                            />
-                                            <span className="text-sm text-gray-700 group-hover:text-gray-900 transition-colors">{cat.name}</span>
-                                        </label>
-                                    ))
+                                    (() => {
+                                        const parents = categories.filter(c => c.parent_id === null);
+                                        const getSubCats = (parentId) =>
+                                            categories.filter(c => c.parent_id === parentId);
+
+                                        return parents.map((parent) => {
+                                            const subCats = getSubCats(parent.id);
+                                            const hasSubCats = subCats.length > 0;
+
+                                            return (
+                                                <div key={parent.id} className="mb-1">
+                                                    {/* Parent — sub nahi hai toh selectable */}
+                                                    {!hasSubCats ? (
+                                                        <label className="flex items-center gap-2.5 px-2 py-1.5 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors group">
+                                                            <input
+                                                                type="checkbox"
+                                                                checked={selectedCategories.includes(parent.id)}
+                                                                onChange={() => toggleCategory(parent.id)}
+                                                                className="h-4 w-4 rounded border-gray-300 text-emerald-500 focus:ring-emerald-400 accent-emerald-500"
+                                                            />
+                                                            <span className="text-sm font-semibold text-gray-800">
+                                                                {parent.name}
+                                                            </span>
+                                                        </label>
+                                                    ) : (
+                                                        /* Parent disabled — sirf label */
+                                                        <div className="flex items-center gap-2 px-2 py-1.5">
+                                                            <span className="text-xs font-bold text-gray-400 uppercase tracking-wide">
+                                                                📁 {parent.name}
+                                                            </span>
+                                                        </div>
+                                                    )}
+
+                                                    {/* Sub Categories */}
+                                                    {hasSubCats && (
+                                                        <div className="ml-4 pl-3 border-l-2 border-emerald-100 space-y-0.5 mt-0.5">
+                                                            {subCats.map((sub) => (
+                                                                <label
+                                                                    key={sub.id}
+                                                                    className="flex items-center gap-2.5 px-2 py-1.5 rounded-lg cursor-pointer hover:bg-emerald-50 transition-colors group"
+                                                                >
+                                                                    <input
+                                                                        type="checkbox"
+                                                                        checked={selectedCategories.includes(sub.id)}
+                                                                        onChange={() => toggleCategory(sub.id)}
+                                                                        className="h-4 w-4 rounded border-gray-300 text-emerald-500 focus:ring-emerald-400 accent-emerald-500"
+                                                                    />
+                                                                    <span className="text-sm text-gray-700 group-hover:text-gray-900">
+                                                                        {sub.name}
+                                                                    </span>
+                                                                    {!sub.isActive && (
+                                                                        <span className="text-[10px] text-gray-400 bg-gray-100 px-1.5 py-0.5 rounded-full ml-auto">
+                                                                            Inactive
+                                                                        </span>
+                                                                    )}
+                                                                </label>
+                                                            ))}
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            );
+                                        });
+                                    })()
                                 )}
                             </div>
                             {selectedCategories.length > 0 && (

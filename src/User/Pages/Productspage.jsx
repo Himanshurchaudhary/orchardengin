@@ -3,9 +3,8 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { openLoginModal } from "../utils/authEvents";
 import { addToCart, toggleWishlist, fetchWishlist } from "../utils/cartWishlist";
-import { Helmet } from "react-helmet-async"; // ✅ Yeh add karo
+import { Helmet } from "react-helmet-async";
 const API_BASEA = import.meta.env.VITE_API_URL;
-
 
 // ─── Google Font ──────────────────────────────────────────────────────────────
 const FontLink = () => (
@@ -19,20 +18,20 @@ const Icon = ({ d, size = 16, stroke = "currentColor", fill = "none", strokeWidt
   </svg>
 );
 
-const SearchIcon    = (p) => <Icon size={p.size||16} d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" {...p}/>;
-const FilterIcon    = (p) => <Icon size={p.size||16} d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z" {...p}/>;
-const GridIcon      = (p) => <Icon size={p.size||16} d={["M3 3h7v7H3z","M14 3h7v7h-7z","M14 14h7v7h-7z","M3 14h7v7H3z"]} {...p}/>;
-const ListIcon      = (p) => <Icon size={p.size||16} d={["M8 6h13","M8 12h13","M8 18h13","M3 6h.01","M3 12h.01","M3 18h.01"]} {...p}/>;
-const HeartIcon     = ({ filled, ...p }) => <Icon size={p.size||16} fill={filled?"#e74c3c":"none"} stroke={filled?"#e74c3c":"currentColor"} d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" {...p}/>;
-const CartIcon      = (p) => <Icon size={p.size||16} d={["M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z","M3 6h18","M16 10a4 4 0 01-8 0"]} {...p}/>;
-const ChevronDown   = (p) => <Icon size={p.size||14} d="M6 9l6 6 6-6" {...p}/>;
-const ChevronUp     = (p) => <Icon size={p.size||14} d="M18 15l-6-6-6 6" {...p}/>;
-const XIcon         = (p) => <Icon size={p.size||14} d="M18 6L6 18M6 6l12 12" {...p}/>;
-const StarFilled    = (p) => <Icon size={p.size||12} fill="#f39c12" stroke="#f39c12" strokeWidth={1} d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" {...p}/>;
-const SortIcon      = (p) => <Icon size={p.size||16} d={["M3 6h18","M7 12h10","M10 18h4"]} {...p}/>;
-const TagIcon       = (p) => <Icon size={p.size||14} d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" {...p}/>;
-const PackageIcon   = (p) => <Icon size={p.size||14} d={["M16.5 9.4l-9-5.19","M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z","M3.27 6.96L12 12.01l8.73-5.05","M12 22.08V12"]} {...p}/>;
-const CloseIcon     = (p) => <Icon size={p.size||20} d="M18 6L6 18M6 6l12 12" {...p}/>;
+const SearchIcon  = (p) => <Icon size={p.size||16} d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" {...p}/>;
+const FilterIcon  = (p) => <Icon size={p.size||16} d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z" {...p}/>;
+const GridIcon    = (p) => <Icon size={p.size||16} d={["M3 3h7v7H3z","M14 3h7v7h-7z","M14 14h7v7h-7z","M3 14h7v7H3z"]} {...p}/>;
+const ListIcon    = (p) => <Icon size={p.size||16} d={["M8 6h13","M8 12h13","M8 18h13","M3 6h.01","M3 12h.01","M3 18h.01"]} {...p}/>;
+const HeartIcon   = ({ filled, ...p }) => <Icon size={p.size||16} fill={filled?"#e74c3c":"none"} stroke={filled?"#e74c3c":"currentColor"} d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" {...p}/>;
+const CartIcon    = (p) => <Icon size={p.size||16} d={["M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z","M3 6h18","M16 10a4 4 0 01-8 0"]} {...p}/>;
+const ChevronDown = (p) => <Icon size={p.size||14} d="M6 9l6 6 6-6" {...p}/>;
+const ChevronUp   = (p) => <Icon size={p.size||14} d="M18 15l-6-6-6 6" {...p}/>;
+const XIcon       = (p) => <Icon size={p.size||14} d="M18 6L6 18M6 6l12 12" {...p}/>;
+const StarFilled  = (p) => <Icon size={p.size||12} fill="#f39c12" stroke="#f39c12" strokeWidth={1} d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" {...p}/>;
+const SortIcon    = (p) => <Icon size={p.size||16} d={["M3 6h18","M7 12h10","M10 18h4"]} {...p}/>;
+const TagIcon     = (p) => <Icon size={p.size||14} d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" {...p}/>;
+const PackageIcon = (p) => <Icon size={p.size||14} d={["M16.5 9.4l-9-5.19","M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z","M3.27 6.96L12 12.01l8.73-5.05","M12 22.08V12"]} {...p}/>;
+const CloseIcon   = (p) => <Icon size={p.size||20} d="M18 6L6 18M6 6l12 12" {...p}/>;
 
 // ─── Star Rating ──────────────────────────────────────────────────────────────
 const StarRating = ({ rating = 4, size = 12 }) => (
@@ -64,17 +63,31 @@ const FilterSection = ({ title, icon, children, defaultOpen = true }) => {
 };
 
 // ─── Checkbox Filter Row ──────────────────────────────────────────────────────
-const CheckRow = ({ label, count, checked, onChange }) => (
-  <label style={{ display:"flex", alignItems:"center", gap:8, cursor:"pointer", padding:"5px 0", userSelect:"none" }}>
+const CheckRow = ({ label, count, checked, onChange, indent = false }) => (
+  <label style={{
+    display:"flex", alignItems:"center", gap:8, cursor:"pointer",
+    padding:"5px 0", userSelect:"none",
+    paddingLeft: indent ? 16 : 0,
+  }}>
     <span style={{
-      width:18, height:18, borderRadius:4, border:`2px solid ${checked?"#2d9e2d":"#ddd"}`,
-      background: checked?"#2d9e2d":"#fff", display:"flex", alignItems:"center", justifyContent:"center",
+      width:18, height:18, borderRadius:4,
+      border:`2px solid ${checked?"#2d9e2d":"#ddd"}`,
+      background: checked?"#2d9e2d":"#fff",
+      display:"flex", alignItems:"center", justifyContent:"center",
       transition:"all 0.15s", flexShrink:0,
     }} onClick={onChange}>
-      {checked && <svg width="10" height="10" viewBox="0 0 9 9"><polyline points="1.5 4.5 3.5 6.5 7.5 2.5" fill="none" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>}
+      {checked && (
+        <svg width="10" height="10" viewBox="0 0 9 9">
+          <polyline points="1.5 4.5 3.5 6.5 7.5 2.5" fill="none" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      )}
     </span>
-    <span style={{ fontSize:14, color:"#444", flex:1 }}>{label}</span>
-    {count!=null && <span style={{ fontSize:11, color:"#bbb", background:"#f5f5f5", borderRadius:10, padding:"1px 7px" }}>{count}</span>}
+    <span style={{ fontSize: indent?13:14, color: indent?"#666":"#444", flex:1 }}>{label}</span>
+    {count != null && (
+      <span style={{ fontSize:11, color:"#bbb", background:"#f5f5f5", borderRadius:10, padding:"1px 7px" }}>
+        {count}
+      </span>
+    )}
   </label>
 );
 
@@ -108,33 +121,32 @@ const PriceSlider = ({ min, max, value, onChange }) => {
 };
 
 // ─── Product Card ─────────────────────────────────────────────────────────────
-const ProductCard = ({ product, view = "grid", isMobile = false ,onUnwish }) => {
-  const [wished, setWished] = useState(false);
-  const [added, setAdded] = useState(false);
+const ProductCard = ({ product, view = "grid", isMobile = false, onUnwish }) => {
+  const [wished, setWished]   = useState(false);
+  const [added, setAdded]     = useState(false);
   const [loading, setLoading] = useState(false);
-    const navigate = useNavigate();   // ← ADD THIS LINE
+  const navigate = useNavigate();
 
-
-  const oldPrice = Number(product.price || product.buyingPrice || 0);  //price
-  const price = Number(product.oldPrice || product.sellingPrice);
-  const name     = product.name || product.title || "Product";
-  const unit     = product.unit || product.weight || "";
-  const image    = product.image || product.thumbnail || product.images?.[0];
-  const catName  = typeof product.category==="object" ? product.category?.name : product.category || "";
-  const rating   = product.rating || 4;
-  const reviews  = product.reviews || Math.floor(Math.random()*120+5);
-  const discount = oldPrice ? Math.round((1-price/oldPrice)*100) : null;
-  const stock    = product.stockQuantity ?? 0;
-  const inStock  = stock > 0;
+  const oldPrice   = Number(product.price || product.buyingPrice || 0);
+  const price      = Number(product.oldPrice || product.sellingPrice);
+  const name       = product.name || product.title || "Product";
+  const unit       = product.unit || product.weight || "";
+  const image      = product.image || product.thumbnail || product.images?.[0];
+  const catName    = typeof product.category === "object" ? product.category?.name : product.category || "";
+  const rating     = product.rating || 4;
+  const reviews    = product.reviews || Math.floor(Math.random() * 120 + 5);
+  const discount   = oldPrice ? Math.round((1 - price / oldPrice) * 100) : null;
+  const stock      = product.stockQuantity ?? 0;
+  const inStock    = stock > 0;
   const isLowStock = stock > 0 && stock <= 10;
   const isLoggedIn = () => !!localStorage.getItem("userToken");
 
   useEffect(() => {
     if (!isLoggedIn()) return;
     fetchWishlist().then(data => {
-      const ids = (data.products||[]).map(p=>p.id||p);
+      const ids = (data.products || []).map(p => p.id || p);
       setWished(ids.includes(product.id));
-    }).catch(()=>{});
+    }).catch(() => {});
   }, [product.id]);
 
   const handleAddToCart = async (e) => {
@@ -146,50 +158,52 @@ const ProductCard = ({ product, view = "grid", isMobile = false ,onUnwish }) => 
       await addToCart(product.id);
       setAdded(true);
       setTimeout(() => setAdded(false), 1800);
-window.dispatchEvent(new CustomEvent("cart:added", {
-      detail: {
-        name: product.name || product.title || "Product",
-        image: product.image || product.thumbnail || product.images?.[0] || null,
-      }
-    }));
-
+      window.dispatchEvent(new CustomEvent("cart:added", {
+        detail: {
+          name: product.name || product.title || "Product",
+          image: product.image || product.thumbnail || product.images?.[0] || null,
+        }
+      }));
     } catch { alert("Failed to add to cart."); }
     finally { setLoading(false); }
   };
 
   const handleWishlist = async (e) => {
-  e.stopPropagation();
-  if (!isLoggedIn()) { openLoginModal(); return; }
-  try {
-    await toggleWishlist(product.id, wished);
-    const nowWished = !wished;
-    setWished(nowWished);
-    if (!nowWished && onUnwish) onUnwish(product.id); // ← add this line
-  } catch { alert("Failed to update wishlist."); }
-};
+    e.stopPropagation();
+    if (!isLoggedIn()) { openLoginModal(); return; }
+    try {
+      await toggleWishlist(product.id, wished);
+      const nowWished = !wished;
+      setWished(nowWished);
+      if (!nowWished && onUnwish) onUnwish(product.id);
+    } catch { alert("Failed to update wishlist."); }
+  };
+
   // ── List view ──
   if (view === "list") {
     return (
-      <div style={{
+      <div onClick={() => product.slug && navigate(`/products/${product.slug}`)} style={{
         display:"flex", gap:isMobile?10:16, background:"#fff", borderRadius:12,
         border:"1px solid #f0f0f0", boxShadow:"0 1px 6px rgba(0,0,0,0.05)",
         padding: isMobile ? "10px" : "14px",
         transition:"box-shadow 0.2s,transform 0.2s", cursor:"pointer", animation:"fadeIn 0.3s ease",
       }}>
-        <div style={{ position:"relative", width: isMobile?90:120, height: isMobile?90:120, flexShrink:0, borderRadius:8, overflow:"hidden", background:"#f8f8f8" }}>
-          {image ? <img src={image} alt={name} style={{ width:"100%", height:"100%", objectFit:"cover" }}/> : <span style={{ fontSize:30, display:"flex", alignItems:"center", justifyContent:"center", height:"100%" }}>🛒</span>}
+        <div style={{ position:"relative", width:isMobile?90:120, height:isMobile?90:120, flexShrink:0, borderRadius:8, overflow:"hidden", background:"#f8f8f8" }}>
+          {image
+            ? <img src={image} alt={name} style={{ width:"100%", height:"100%", objectFit:"cover" }}/>
+            : <span style={{ fontSize:30, display:"flex", alignItems:"center", justifyContent:"center", height:"100%" }}>🛒</span>}
           {discount && <span style={{ position:"absolute", top:4, left:4, background:"#ff6b35", color:"#fff", fontSize:8, fontWeight:800, padding:"2px 5px", borderRadius:3 }}>{discount}%</span>}
         </div>
         <div style={{ flex:1, display:"flex", flexDirection:"column", gap:3, minWidth:0 }}>
           <div style={{ fontSize:10, color:"#2d9e2d", fontWeight:600 }}>{catName}</div>
-          <div style={{ fontSize: isMobile?12:14, fontWeight:700, color:"#1a1a1a", lineHeight:1.35, overflow:"hidden", display:"-webkit-box", WebkitLineClamp:2, WebkitBoxOrient:"vertical" }}>{name}</div>
+          <div style={{ fontSize:isMobile?12:14, fontWeight:700, color:"#1a1a1a", lineHeight:1.35, overflow:"hidden", display:"-webkit-box", WebkitLineClamp:2, WebkitBoxOrient:"vertical" }}>{name}</div>
           <div style={{ display:"flex", alignItems:"center", gap:4 }}>
             <StarRating rating={rating} size={isMobile?10:12}/>
             <span style={{ fontSize:10, color:"#999" }}>({reviews})</span>
           </div>
           <div style={{ display:"flex", alignItems:"center", gap:6, marginTop:"auto", paddingTop:4 }}>
-            <span style={{ fontSize: isMobile?15:18, fontWeight:800, color:"#2d9e2d" }}>₹{price.toFixed(2)}</span>
-            {oldPrice && <span style={{ fontSize:10, color:"#ccc", textDecoration:"line-through" }}>₹{oldPrice.toFixed(2)}</span>}
+            <span style={{ fontSize:isMobile?15:18, fontWeight:800, color:"#2d9e2d" }}>₹{price.toFixed(2)}</span>
+            {oldPrice > 0 && oldPrice !== price && <span style={{ fontSize:10, color:"#ccc", textDecoration:"line-through" }}>₹{oldPrice.toFixed(2)}</span>}
           </div>
         </div>
         <div style={{ display:"flex", flexDirection:"column", alignItems:"flex-end", justifyContent:"space-between", flexShrink:0, gap:6 }}>
@@ -197,10 +211,10 @@ window.dispatchEvent(new CustomEvent("cart:added", {
             <HeartIcon filled={wished} size={isMobile?16:18} stroke={wished?"#e74c3c":"#ccc"}/>
           </button>
           <button onClick={handleAddToCart} disabled={!inStock} style={{
-            padding: isMobile?"7px 10px":"8px 14px",
-            background: added?"#218c21": inStock?"#2d9e2d":"#e0e0e0",
-            color: inStock?"#fff":"#aaa", border:"none", borderRadius:8,
-            fontSize: isMobile?11:12, fontWeight:700, cursor: inStock?"pointer":"not-allowed",
+            padding:isMobile?"7px 10px":"8px 14px",
+            background:added?"#218c21":inStock?"#2d9e2d":"#e0e0e0",
+            color:inStock?"#fff":"#aaa", border:"none", borderRadius:8,
+            fontSize:isMobile?11:12, fontWeight:700, cursor:inStock?"pointer":"not-allowed",
             display:"flex", alignItems:"center", gap:4, whiteSpace:"nowrap",
           }}>
             <CartIcon size={12} stroke={inStock?"#fff":"#aaa"}/>
@@ -214,23 +228,24 @@ window.dispatchEvent(new CustomEvent("cart:added", {
   // ── Grid view ──
   return (
     <div
-      onClick={() => product.slug && navigate(`/products/${product.slug}`)}  // ← ADD THIS
-     style={{
-      
-      background:"#fff", borderRadius:12, border:"1px solid #f0f0f0",
-      boxShadow:"0 1px 6px rgba(0,0,0,0.05)", cursor:"pointer",
-      transition:"box-shadow 0.2s,transform 0.2s", display:"flex", flexDirection:"column",
-      overflow:"hidden", animation:"fadeIn 0.3s ease",
-    }}
+      onClick={() => product.slug && navigate(`/products/${product.slug}`)}
+      style={{
+        background:"#fff", borderRadius:12, border:"1px solid #f0f0f0",
+        boxShadow:"0 1px 6px rgba(0,0,0,0.05)", cursor:"pointer",
+        transition:"box-shadow 0.2s,transform 0.2s", display:"flex", flexDirection:"column",
+        overflow:"hidden", animation:"fadeIn 0.3s ease",
+      }}
       onMouseEnter={e=>{e.currentTarget.style.boxShadow="0 6px 22px rgba(0,0,0,0.11)";e.currentTarget.style.transform="translateY(-3px)";}}
       onMouseLeave={e=>{e.currentTarget.style.boxShadow="0 1px 6px rgba(0,0,0,0.05)";e.currentTarget.style.transform="translateY(0)";}}
     >
       <div style={{ position:"relative" }}>
-        <div style={{ width:"100%", height: isMobile?150:190, background:"#f8f8f8", display:"flex", alignItems:"center", justifyContent:"center", overflow:"hidden" }}>
-          {image ? <img src={image} alt={name} style={{ width:"100%", height:"100%", objectFit:"cover", transition:"transform 0.4s" }}
-            onMouseEnter={e=>e.target.style.transform="scale(1.06)"}
-            onMouseLeave={e=>e.target.style.transform="scale(1)"}
-          /> : <span style={{ fontSize:isMobile?32:44 }}>🛒</span>}
+        <div style={{ width:"100%", height:isMobile?150:190, background:"#f8f8f8", display:"flex", alignItems:"center", justifyContent:"center", overflow:"hidden" }}>
+          {image
+            ? <img src={image} alt={name} style={{ width:"100%", height:"100%", objectFit:"cover", transition:"transform 0.4s" }}
+                onMouseEnter={e=>e.target.style.transform="scale(1.06)"}
+                onMouseLeave={e=>e.target.style.transform="scale(1)"}
+              />
+            : <span style={{ fontSize:isMobile?32:44 }}>🛒</span>}
         </div>
         {discount && (
           <span style={{ position:"absolute", top:6, left:6, background:"#ff6b35", color:"#fff", fontSize:9, fontWeight:800, padding:"2px 7px", borderRadius:4 }}>
@@ -252,26 +267,26 @@ window.dispatchEvent(new CustomEvent("cart:added", {
         </button>
       </div>
 
-      <div style={{ padding: isMobile?"10px 10px 12px":"12px 12px 14px", display:"flex", flexDirection:"column", gap: isMobile?3:5, flex:1 }}>
+      <div style={{ padding:isMobile?"10px 10px 12px":"12px 12px 14px", display:"flex", flexDirection:"column", gap:isMobile?3:5, flex:1 }}>
         <div style={{ fontSize:9, color:"#2d9e2d", fontWeight:700, textTransform:"uppercase", letterSpacing:0.5 }}>{catName}</div>
-        <div style={{ fontSize: isMobile?12:13, fontWeight:700, color:"#1a1a1a", lineHeight:1.35, minHeight: isMobile?30:36, overflow:"hidden", display:"-webkit-box", WebkitLineClamp:2, WebkitBoxOrient:"vertical" }}>{name}</div>
+        <div style={{ fontSize:isMobile?12:13, fontWeight:700, color:"#1a1a1a", lineHeight:1.35, minHeight:isMobile?30:36, overflow:"hidden", display:"-webkit-box", WebkitLineClamp:2, WebkitBoxOrient:"vertical" }}>{name}</div>
         <div style={{ display:"flex", alignItems:"center", gap:4 }}>
           <StarRating rating={rating} size={isMobile?10:12}/>
           <span style={{ fontSize:9, color:"#bbb" }}>({reviews})</span>
         </div>
         {!isMobile && unit && <div style={{ fontSize:11, color:"#bbb" }}>{unit}</div>}
-        <div style={{ fontSize:9, fontWeight:700, color: !inStock?"#e74c3c": isLowStock?"#e67e22":"#27ae60" }}>
-          {!inStock ? "❌ Out of Stock" : isLowStock ? `⚠️ Only ${stock} left` : `✅ In Stock`}
+        <div style={{ fontSize:9, fontWeight:700, color:!inStock?"#e74c3c":isLowStock?"#e67e22":"#27ae60" }}>
+          {!inStock ? "❌ Out of Stock" : isLowStock ? `⚠️ Only ${stock} left` : "✅ In Stock"}
         </div>
         <div style={{ display:"flex", alignItems:"center", gap:5, marginTop:"auto", paddingTop:4 }}>
-          <span style={{ fontSize: isMobile?14:16, fontWeight:800, color:"#2d9e2d" }}>₹{price.toFixed(2)}</span>
-          {oldPrice && <span style={{ fontSize:10, color:"#ccc", textDecoration:"line-through" }}>₹{oldPrice.toFixed(2)}</span>}
+          <span style={{ fontSize:isMobile?14:16, fontWeight:800, color:"#2d9e2d" }}>₹{price.toFixed(2)}</span>
+          {oldPrice > 0 && oldPrice !== price && <span style={{ fontSize:10, color:"#ccc", textDecoration:"line-through" }}>₹{oldPrice.toFixed(2)}</span>}
         </div>
         <button onClick={handleAddToCart} disabled={!inStock} style={{
-          width:"100%", padding: isMobile?"8px 0":"9px 0",
-          background: added?"#218c21": inStock?"#2d9e2d":"#e8e8e8",
-          color: inStock?"#fff":"#aaa", border:"none", borderRadius:8,
-          fontSize:12, fontWeight:700, cursor: inStock?"pointer":"not-allowed",
+          width:"100%", padding:isMobile?"8px 0":"9px 0",
+          background:added?"#218c21":inStock?"#2d9e2d":"#e8e8e8",
+          color:inStock?"#fff":"#aaa", border:"none", borderRadius:8,
+          fontSize:12, fontWeight:700, cursor:inStock?"pointer":"not-allowed",
           display:"flex", alignItems:"center", justifyContent:"center", gap:5,
           transition:"background 0.2s", marginTop:4,
         }}>
@@ -282,310 +297,6 @@ window.dispatchEvent(new CustomEvent("cart:added", {
     </div>
   );
 };
-
-
-//////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-const ProductCard1 = ({ product, view = "grid", isMobile = false, onUnwish }) => {
-  const [wished,  setWished]  = useState(false);
-  const [added,   setAdded]   = useState(false);
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
- 
-  const p = normaliseProduct(product);
- 
-  const isLoggedIn = () => !!localStorage.getItem("userToken");
- 
-  // Sync wishlist state on mount
-  useEffect(() => {
-    if (!isLoggedIn()) return;
-    fetchWishlist()
-      .then((data) => {
-        const ids = (data.products || []).map((x) => x.id ?? x);
-        setWished(ids.includes(p.id));
-      })
-      .catch(() => {});
-  }, [p.id]);
- 
-  const handleAddToCart = async (e) => {
-    e.stopPropagation();
-    if (!isLoggedIn()) { openLoginModal(); return; }
-    if (loading || !p.inStock) return;
-    setLoading(true);
-    try {
-      await addToCart(p.id);
-      setAdded(true);
-      setTimeout(() => setAdded(false), 1800);
-
-      window.dispatchEvent(new CustomEvent("cart:added", {
-      detail: {
-        name: product.name || product.title || "Product",
-        image: product.image || product.thumbnail || product.images?.[0] || null,
-      }
-    }));
-    } catch {
-      alert("Failed to add to cart.");
-    } finally {
-      setLoading(false);
-    }
-  };
- 
-  const handleWishlist = async (e) => {
-    e.stopPropagation();
-    if (!isLoggedIn()) { openLoginModal(); return; }
-    try {
-      await toggleWishlist(p.id, wished);
-      const nowWished = !wished;
-      setWished(nowWished);
-      if (!nowWished && onUnwish) onUnwish(p.id);
-    } catch {
-      alert("Failed to update wishlist.");
-    }
-  };
- 
-  const goToProduct = () => {
-    if (p.slug) navigate(`/products/${p.slug}`);
-  };
- 
-  // ── LIST VIEW ──────────────────────────────────────────────────────────────
-  if (view === "list") {
-    return (
-      <div
-        onClick={goToProduct}
-        style={{
-          display: "flex", gap: isMobile ? 10 : 16,
-          background: "#fff", borderRadius: 12,
-          border: "1px solid #f0f0f0",
-          boxShadow: "0 1px 6px rgba(0,0,0,0.05)",
-          padding: isMobile ? "10px" : "14px",
-          cursor: "pointer", transition: "box-shadow 0.2s,transform 0.2s",
-          animation: "fadeIn 0.3s ease",
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.boxShadow = "0 6px 22px rgba(0,0,0,0.11)";
-          e.currentTarget.style.transform = "translateY(-2px)";
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.boxShadow = "0 1px 6px rgba(0,0,0,0.05)";
-          e.currentTarget.style.transform = "translateY(0)";
-        }}
-      >
-        {/* Thumbnail */}
-        <div style={{
-          position: "relative", flexShrink: 0,
-          width: isMobile ? 90 : 120, height: isMobile ? 90 : 120,
-          borderRadius: 8, overflow: "hidden", background: "#f8f8f8",
-        }}>
-          {p.image
-            ? <img src={p.image} alt={p.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-            : <span style={{ fontSize: 30, display: "flex", alignItems: "center", justifyContent: "center", height: "100%" }}>🛒</span>
-          }
-          {p.discount && (
-            <span style={{
-              position: "absolute", top: 4, left: 4,
-              background: "#ff6b35", color: "#fff",
-              fontSize: 8, fontWeight: 800, padding: "2px 5px", borderRadius: 3,
-            }}>{p.discount}%</span>
-          )}
-        </div>
- 
-        {/* Info */}
-        <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 3, minWidth: 0 }}>
-          <div style={{ fontSize: 10, color: "#2d9e2d", fontWeight: 600 }}>{p.catName}</div>
-          <div style={{
-            fontSize: isMobile ? 12 : 14, fontWeight: 700, color: "#1a1a1a", lineHeight: 1.35,
-            overflow: "hidden", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical",
-          }}>{p.name}</div>
-          <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
-            <StarRating rating={p.rating} size={isMobile ? 10 : 12} />
-            <span style={{ fontSize: 10, color: "#999" }}>({p.reviews})</span>
-          </div>
-          <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: "auto", paddingTop: 4 }}>
-            <span style={{ fontSize: isMobile ? 15 : 18, fontWeight: 800, color: "#2d9e2d" }}>
-              ₹{p.displayPrice.toFixed(2)}
-            </span>
-            {p.strikePrice > 0 && p.strikePrice !== p.displayPrice && (
-              <span style={{ fontSize: 10, color: "#ccc", textDecoration: "line-through" }}>
-                ₹{p.strikePrice.toFixed(2)}
-              </span>
-            )}
-          </div>
-        </div>
- 
-        {/* Actions */}
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", justifyContent: "space-between", flexShrink: 0, gap: 6 }}>
-          <button
-            onClick={handleWishlist}
-            style={{ background: "none", border: "none", cursor: "pointer", padding: 4 }}
-          >
-            <HeartIcon filled={wished} size={isMobile ? 16 : 18} />
-          </button>
-          <button
-            onClick={handleAddToCart}
-            disabled={!p.inStock}
-            style={{
-              padding: isMobile ? "7px 10px" : "8px 14px",
-              background: added ? "#218c21" : p.inStock ? "#2d9e2d" : "#e0e0e0",
-              color: p.inStock ? "#fff" : "#aaa",
-              border: "none", borderRadius: 8,
-              fontSize: isMobile ? 11 : 12, fontWeight: 700,
-              cursor: p.inStock ? "pointer" : "not-allowed",
-              display: "flex", alignItems: "center", gap: 4, whiteSpace: "nowrap",
-            }}
-          >
-            <CartIcon size={12} stroke={p.inStock ? "#fff" : "#aaa"} />
-            {isMobile ? (added ? "✓" : "Add") : (added ? "Added!" : "Add to Cart")}
-          </button>
-        </div>
-      </div>
-    );
-  }
- 
-  // ── GRID VIEW (default) ────────────────────────────────────────────────────
-  return (
-    <div
-      onClick={goToProduct}
-      style={{
-        background: "#fff", borderRadius: 12, border: "1px solid #f0f0f0",
-        boxShadow: "0 1px 6px rgba(0,0,0,0.05)", cursor: "pointer",
-        transition: "box-shadow 0.2s,transform 0.2s",
-        display: "flex", flexDirection: "column",
-        overflow: "hidden", animation: "fadeIn 0.3s ease",
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.boxShadow = "0 6px 22px rgba(0,0,0,0.11)";
-        e.currentTarget.style.transform = "translateY(-3px)";
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.boxShadow = "0 1px 6px rgba(0,0,0,0.05)";
-        e.currentTarget.style.transform = "translateY(0)";
-      }}
-    >
-      {/* Image area */}
-      <div style={{ position: "relative" }}>
-        <div style={{
-          width: "100%", height: isMobile ? 150 : 190,
-          background: "#f8f8f8", display: "flex",
-          alignItems: "center", justifyContent: "center", overflow: "hidden",
-        }}>
-          {p.image
-            ? (
-              <img
-                src={p.image} alt={p.name}
-                style={{ width: "100%", height: "100%", objectFit: "cover", transition: "transform 0.4s" }}
-                onMouseEnter={(e) => e.target.style.transform = "scale(1.06)"}
-                onMouseLeave={(e) => e.target.style.transform = "scale(1)"}
-              />
-            )
-            : <span style={{ fontSize: isMobile ? 32 : 44 }}>🛒</span>
-          }
-        </div>
- 
-        {/* Discount badge */}
-        {p.discount && (
-          <span style={{
-            position: "absolute", top: 6, left: 6,
-            background: "#ff6b35", color: "#fff",
-            fontSize: 9, fontWeight: 800, padding: "2px 7px", borderRadius: 4,
-          }}>
-            {p.discount}% OFF
-          </span>
-        )}
- 
-        {/* Out of stock overlay */}
-        {!p.inStock && (
-          <div style={{
-            position: "absolute", inset: 0,
-            background: "rgba(255,255,255,0.7)",
-            display: "flex", alignItems: "center", justifyContent: "center",
-          }}>
-            <span style={{
-              fontSize: 11, fontWeight: 700, color: "#e74c3c",
-              background: "#fff", padding: "3px 10px", borderRadius: 20, border: "1px solid #fdd",
-            }}>Out of Stock</span>
-          </div>
-        )}
- 
-        {/* Wishlist heart */}
-        <button
-          onClick={handleWishlist}
-          style={{
-            position: "absolute", top: 6, right: 6,
-            background: "#fff", border: "none", borderRadius: "50%",
-            width: 28, height: 28, cursor: "pointer",
-            display: "flex", alignItems: "center", justifyContent: "center",
-            boxShadow: "0 1px 6px rgba(0,0,0,0.15)", transition: "transform 0.2s",
-          }}
-          onMouseEnter={(e) => e.currentTarget.style.transform = "scale(1.15)"}
-          onMouseLeave={(e) => e.currentTarget.style.transform = "scale(1)"}
-        >
-          <HeartIcon filled={wished} size={14} />
-        </button>
-      </div>
- 
-      {/* Card body */}
-      <div style={{
-        padding: isMobile ? "10px 10px 12px" : "12px 12px 14px",
-        display: "flex", flexDirection: "column", gap: isMobile ? 3 : 5, flex: 1,
-      }}>
-        <div style={{ fontSize: 9, color: "#2d9e2d", fontWeight: 700, textTransform: "uppercase", letterSpacing: 0.5 }}>
-          {p.catName}
-        </div>
-        <div style={{
-          fontSize: isMobile ? 12 : 13, fontWeight: 700, color: "#1a1a1a",
-          lineHeight: 1.35, minHeight: isMobile ? 30 : 36,
-          overflow: "hidden", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical",
-        }}>
-          {p.name}
-        </div>
-        <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
-          <StarRating rating={p.rating} size={isMobile ? 10 : 12} />
-          <span style={{ fontSize: 9, color: "#bbb" }}>({p.reviews})</span>
-        </div>
-        {!isMobile && p.unit && (
-          <div style={{ fontSize: 11, color: "#bbb" }}>{p.unit}</div>
-        )}
-        <div style={{
-          fontSize: 9, fontWeight: 700,
-          color: !p.inStock ? "#e74c3c" : p.isLow ? "#e67e22" : "#27ae60",
-        }}>
-          {!p.inStock ? "❌ Out of Stock" : p.isLow ? `⚠️ Only ${p.stock} left` : "✅ In Stock"}
-        </div>
-        <div style={{ display: "flex", alignItems: "center", gap: 5, marginTop: "auto", paddingTop: 4 }}>
-          <span style={{ fontSize: isMobile ? 14 : 16, fontWeight: 800, color: "#2d9e2d" }}>
-            ₹{p.displayPrice.toFixed(2)}
-          </span>
-          {p.strikePrice > 0 && p.strikePrice !== p.displayPrice && (
-            <span style={{ fontSize: 10, color: "#ccc", textDecoration: "line-through" }}>
-              ₹{p.strikePrice.toFixed(2)}
-            </span>
-          )}
-        </div>
-        <button
-          onClick={handleAddToCart}
-          disabled={!p.inStock}
-          style={{
-            width: "100%", padding: isMobile ? "8px 0" : "9px 0",
-            background: added ? "#218c21" : p.inStock ? "#2d9e2d" : "#e8e8e8",
-            color: p.inStock ? "#fff" : "#aaa",
-            border: "none", borderRadius: 8, fontSize: 12, fontWeight: 700,
-            cursor: p.inStock ? "pointer" : "not-allowed",
-            display: "flex", alignItems: "center", justifyContent: "center", gap: 5,
-            transition: "background 0.2s", marginTop: 4,
-          }}
-        >
-          <CartIcon size={13} stroke={p.inStock ? "#fff" : "#aaa"} />
-          {added ? "Added ✓" : "Add to Cart"}
-        </button>
-      </div>
-    </div>
-  );
-};
-
-///////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////
-
 
 // ─── Active Filter Chip ───────────────────────────────────────────────────────
 const FilterChip = ({ label, onRemove }) => (
@@ -604,10 +315,10 @@ const FilterChip = ({ label, onRemove }) => (
 // ─── Skeleton Card ────────────────────────────────────────────────────────────
 const SkeletonCard = ({ isMobile }) => (
   <div style={{ borderRadius:12, overflow:"hidden", background:"#fff", border:"1px solid #f0f0f0" }}>
-    <div style={{ height: isMobile?150:190, background:"#f0f0f0", animation:"shimmer 1.4s ease-in-out infinite" }}/>
+    <div style={{ height:isMobile?150:190, background:"#f0f0f0", animation:"shimmer 1.4s ease-in-out infinite" }}/>
     <div style={{ padding:"12px 12px 14px", display:"flex", flexDirection:"column", gap:8 }}>
       {[40,85,60,100].map((w,i) => (
-        <div key={i} style={{ height: i===3?34:i===1?14:10, width:w+"%", background:"#f0f0f0", borderRadius: i===3?8:4, animation:"shimmer 1.4s ease-in-out infinite" }}/>
+        <div key={i} style={{ height:i===3?34:i===1?14:10, width:w+"%", background:"#f0f0f0", borderRadius:i===3?8:4, animation:"shimmer 1.4s ease-in-out infinite" }}/>
       ))}
     </div>
   </div>
@@ -657,7 +368,7 @@ const CategoryRowHeader = ({ name, totalCount, onViewAll }) => (
   </div>
 );
 
-// ─── Filter Drawer (mobile) / Sidebar (desktop) ───────────────────────────────
+// ─── UPDATED: Filter Panel — now supports nested categories ──────────────────
 const FilterPanel = ({
   isMobile, open, onClose,
   categories, catLoading, catCounts, selectedCats, toggleCat,
@@ -668,10 +379,25 @@ const FilterPanel = ({
   onSaleOnly, setOnSaleOnly,
   activeFilters, clearAllFilters, resetPage,
 }) => {
+
+  // ── Build nested structure from flat categories list ──────────────────────
+  // categories from API is already nested (parents with subCategories array)
+  // But we handle both nested and flat just to be safe
+  const buildNested = (cats) => {
+    const parents = cats.filter(c => !c.parent_id);
+    return parents.map(parent => ({
+      ...parent,
+      subCategories: parent.subCategories || cats.filter(c => String(c.parent_id) === String(parent.id)),
+    }));
+  };
+
+  const nestedCats = buildNested(categories);
+
   const inner = (
-    <div style={{ padding: isMobile?"0 16px 24px":"18px 16px", fontFamily:"'Nunito',sans-serif" }}>
+    <div style={{ padding:isMobile?"0 16px 24px":"18px 16px", fontFamily:"'Nunito',sans-serif" }}>
+
       {/* Header */}
-      <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:20, paddingTop: isMobile?0:0 }}>
+      <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:20 }}>
         <span style={{ fontSize:15, fontWeight:800, color:"#1a1a1a", display:"flex", alignItems:"center", gap:7 }}>
           <FilterIcon size={15} stroke="#2d9e2d"/> Filters
         </span>
@@ -689,27 +415,76 @@ const FilterPanel = ({
         </div>
       </div>
 
-      {/* Categories */}
+      {/* ── UPDATED: Categories — nested display ── */}
       <FilterSection title="Categories" icon={<PackageIcon size={13} stroke="#2d9e2d"/>}>
         {catLoading ? (
-          [...Array(5)].map((_,i) => <div key={i} style={{ height:24, background:"#f0f0f0", borderRadius:4, marginBottom:6, animation:"shimmer 1.4s ease-in-out infinite" }}/>)
-        ) : categories.length === 0 ? (
+          [...Array(5)].map((_,i) => (
+            <div key={i} style={{ height:24, background:"#f0f0f0", borderRadius:4, marginBottom:6, animation:"shimmer 1.4s ease-in-out infinite" }}/>
+          ))
+        ) : nestedCats.length === 0 ? (
           <p style={{ fontSize:12, color:"#bbb", margin:0 }}>No categories found.</p>
         ) : (
-          <div style={{ display:"flex", flexDirection:"column", gap:2, maxHeight:220, overflowY:"auto", paddingRight:4 }}>
-            {categories.map(cat => (
-              <CheckRow key={cat.id} label={cat.name} count={catCounts[cat.id]||0}
-                checked={selectedCats.includes(String(cat.id))} onChange={()=>toggleCat(cat.id)}/>
-            ))}
+          <div style={{ display:"flex", flexDirection:"column", gap:0, maxHeight:260, overflowY:"auto", paddingRight:4 }}>
+            {nestedCats.map(parent => {
+              const subCats = parent.subCategories || [];
+              const hasSubCats = subCats.length > 0;
+              const parentCount = catCounts[parent.id] || 0;
+
+              return (
+                <div key={parent.id}>
+                  {/* Parent Category */}
+                  {!hasSubCats ? (
+                    // No sub-cats → parent is selectable
+                    <CheckRow
+                      label={parent.name}
+                      count={parentCount}
+                      checked={selectedCats.includes(String(parent.id))}
+                      onChange={() => toggleCat(parent.id)}
+                    />
+                  ) : (
+                    // Has sub-cats → show as header, clicking selects all its sub-cats
+                    <div style={{ display:"flex", alignItems:"center", gap:6, padding:"6px 0 2px" }}>
+                      <span style={{ fontSize:11, fontWeight:800, color:"#888", textTransform:"uppercase", letterSpacing:0.4 }}>
+                        📁 {parent.name}
+                      </span>
+                      <span style={{ fontSize:10, color:"#bbb", background:"#f5f5f5", borderRadius:10, padding:"1px 6px" }}>
+                        {parentCount}
+                      </span>
+                    </div>
+                  )}
+
+                  {/* Sub Categories — indented */}
+                  {hasSubCats && (
+                    <div style={{ marginLeft:8, paddingLeft:10, borderLeft:"2px solid #e8f5e9", marginBottom:4 }}>
+                      {subCats
+                        .filter(sub => sub.isActive !== false)
+                        .map(sub => (
+                          <CheckRow
+                            key={sub.id}
+                            label={sub.name}
+                            count={catCounts[sub.id] || 0}
+                            checked={selectedCats.includes(String(sub.id))}
+                            onChange={() => toggleCat(sub.id)}
+                            indent={true}
+                          />
+                        ))}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
         )}
       </FilterSection>
 
       {/* Price */}
       <FilterSection title="Price Range" icon={<TagIcon size={13} stroke="#2d9e2d"/>}>
-        <PriceSlider min={0} max={priceMax||MAX_PRICE}
-          value={maxPrice>(priceMax||MAX_PRICE)?(priceMax||MAX_PRICE):maxPrice}
-          onChange={v=>{setMaxPrice(v);resetPage();}}/>
+        <PriceSlider
+          min={0}
+          max={priceMax || MAX_PRICE}
+          value={maxPrice > (priceMax || MAX_PRICE) ? (priceMax || MAX_PRICE) : maxPrice}
+          onChange={v => { setMaxPrice(v); resetPage(); }}
+        />
       </FilterSection>
 
       {/* Rating */}
@@ -718,10 +493,11 @@ const FilterPanel = ({
           {RATING_OPTIONS.map(opt => (
             <label key={opt.value} style={{ display:"flex", alignItems:"center", gap:8, cursor:"pointer", padding:"5px 0" }}>
               <span style={{
-                width:18, height:18, borderRadius:"50%", border:`2px solid ${minRating===opt.value?"#2d9e2d":"#ddd"}`,
-                background: minRating===opt.value?"#2d9e2d":"#fff",
+                width:18, height:18, borderRadius:"50%",
+                border:`2px solid ${minRating===opt.value?"#2d9e2d":"#ddd"}`,
+                background:minRating===opt.value?"#2d9e2d":"#fff",
                 display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0, transition:"all 0.15s",
-              }} onClick={()=>{setMinRating(minRating===opt.value?null:opt.value);resetPage();}}>
+              }} onClick={() => { setMinRating(minRating===opt.value?null:opt.value); resetPage(); }}>
                 {minRating===opt.value && <span style={{ width:6, height:6, borderRadius:"50%", background:"#fff" }}/>}
               </span>
               <StarRating rating={opt.value} size={13}/>
@@ -737,10 +513,11 @@ const FilterPanel = ({
           {DISCOUNT_OPTIONS.map(opt => (
             <label key={opt.value} style={{ display:"flex", alignItems:"center", gap:8, cursor:"pointer", padding:"5px 0" }}>
               <span style={{
-                width:18, height:18, borderRadius:"50%", border:`2px solid ${minDiscount===opt.value?"#ff6b35":"#ddd"}`,
-                background: minDiscount===opt.value?"#ff6b35":"#fff",
+                width:18, height:18, borderRadius:"50%",
+                border:`2px solid ${minDiscount===opt.value?"#ff6b35":"#ddd"}`,
+                background:minDiscount===opt.value?"#ff6b35":"#fff",
                 display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0, transition:"all 0.15s",
-              }} onClick={()=>{setMinDiscount(minDiscount===opt.value?null:opt.value);resetPage();}}>
+              }} onClick={() => { setMinDiscount(minDiscount===opt.value?null:opt.value); resetPage(); }}>
                 {minDiscount===opt.value && <span style={{ width:6, height:6, borderRadius:"50%", background:"#fff" }}/>}
               </span>
               <span style={{ fontSize:13, color:"#555" }}>{opt.label}</span>
@@ -752,8 +529,8 @@ const FilterPanel = ({
       {/* Availability */}
       <FilterSection title="Availability" icon={<PackageIcon size={13} stroke="#2d9e2d"/>}>
         <div style={{ display:"flex", flexDirection:"column", gap:4 }}>
-          <CheckRow label="In Stock Only" checked={inStockOnly} onChange={()=>{setInStockOnly(v=>!v);resetPage();}}/>
-          <CheckRow label="On Sale" checked={onSaleOnly} onChange={()=>{setOnSaleOnly(v=>!v);resetPage();}}/>
+          <CheckRow label="In Stock Only" checked={inStockOnly} onChange={() => { setInStockOnly(v=>!v); resetPage(); }}/>
+          <CheckRow label="On Sale" checked={onSaleOnly} onChange={() => { setOnSaleOnly(v=>!v); resetPage(); }}/>
         </div>
       </FilterSection>
 
@@ -772,22 +549,19 @@ const FilterPanel = ({
   if (isMobile) {
     return (
       <>
-        {/* Backdrop */}
         <div onClick={onClose} style={{
           position:"fixed", inset:0, background:"rgba(0,0,0,0.45)", zIndex:998,
-          opacity: open?1:0, pointerEvents: open?"auto":"none", transition:"opacity 0.3s",
+          opacity:open?1:0, pointerEvents:open?"auto":"none", transition:"opacity 0.3s",
         }}/>
-        {/* Drawer */}
         <div style={{
           position:"fixed", left:0, right:0, bottom:0, zIndex:999,
           background:"#fff", borderRadius:"20px 20px 0 0",
           boxShadow:"0 -8px 32px rgba(0,0,0,0.15)",
-          transform: open?"translateY(0)":"translateY(100%)",
+          transform:open?"translateY(0)":"translateY(100%)",
           transition:"transform 0.35s cubic-bezier(0.32,0.72,0,1)",
           maxHeight:"88vh", overflowY:"auto",
           paddingBottom:"env(safe-area-inset-bottom)",
         }}>
-          {/* Drag handle */}
           <div style={{ display:"flex", justifyContent:"center", padding:"12px 0 4px" }}>
             <div style={{ width:40, height:4, background:"#e0e0e0", borderRadius:2 }}/>
           </div>
@@ -797,12 +571,8 @@ const FilterPanel = ({
     );
   }
 
-  // Desktop sidebar
   return (
-    <aside style={{
-      width: open?256:0, minWidth: open?256:0,
-      overflow:"hidden", transition:"all 0.3s ease", flexShrink:0,
-    }}>
+    <aside style={{ width:open?256:0, minWidth:open?256:0, overflow:"hidden", transition:"all 0.3s ease", flexShrink:0 }}>
       <div style={{
         background:"#fff", borderRadius:14, border:"1px solid #f0f0f0",
         boxShadow:"0 2px 12px rgba(0,0,0,0.05)",
@@ -820,7 +590,6 @@ export default function ProductsPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
 
-  // Responsive state
   const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768);
@@ -829,16 +598,13 @@ export default function ProductsPage() {
     return () => window.removeEventListener("resize", check);
   }, []);
 
-  // Data
   const [allProducts, setAllProducts] = useState([]);
-  const [categories, setCategories]   = useState([]);
+  const [categories, setCategories]   = useState([]);   // nested from API
   const [loading, setLoading]         = useState(true);
   const [catLoading, setCatLoading]   = useState(true);
 
-  // Search
   const [searchInput, setSearchInput] = useState(searchParams.get("search") || "");
 
-  // Filters
   const [selectedCats, setSelectedCats] = useState(
     searchParams.get("categories") ? searchParams.get("categories").split(",") : []
   );
@@ -849,17 +615,15 @@ export default function ProductsPage() {
   const [onSaleOnly, setOnSaleOnly]   = useState(false);
   const [sortBy, setSortBy]           = useState("default");
 
-  // UI
-  const [view, setView]               = useState("grid");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [drawerOpen, setDrawerOpen]   = useState(false);
+  const [view, setView]                 = useState("grid");
+  const [currentPage, setCurrentPage]   = useState(1);
+  const [sidebarOpen, setSidebarOpen]   = useState(true);
+  const [drawerOpen, setDrawerOpen]     = useState(false);
   const [sortDropOpen, setSortDropOpen] = useState(false);
 
-  const PER_PAGE = view === "grid" ? 20 : 15;
+  const PER_PAGE    = view === "grid" ? 20 : 15;
   const searchQuery = searchParams.get("search") || "";
 
-  // Sync URL → state
   useEffect(() => {
     const q = searchParams.get("search") || "";
     setSearchInput(q); setCurrentPage(1);
@@ -875,105 +639,150 @@ export default function ProductsPage() {
     const fetchAll = async () => {
       setLoading(true);
       try {
-        let all=[],page=1,totalPages=1;
+        let all = [], page = 1, totalPages = 1;
         do {
           const res  = await fetch(`${API_BASEA}/api/Products/allFree?page=${page}&limit=100`);
           const data = await res.json();
-          const batch = Array.isArray(data)?data:data.products||data.data||[];
-          all=[...all,...batch];
-          totalPages = data.totalPages||1; page++;
-        } while(page<=totalPages);
+          const batch = Array.isArray(data) ? data : data.products || data.data || [];
+          all = [...all, ...batch];
+          totalPages = data.totalPages || 1; page++;
+        } while (page <= totalPages);
         setAllProducts(all);
-      } catch(e){ console.error(e); }
+      } catch(e) { console.error(e); }
       finally { setLoading(false); }
     };
     fetchAll();
   }, []);
 
-  // Fetch categories
+  // ── UPDATED: Fetch categories — nested structure from /api/Category/all ──
   useEffect(() => {
     fetch(`${API_BASEA}/api/Category/all`)
-      .then(r=>r.json())
-      .then(data=>{
-        const cats=Array.isArray(data)?data:data.categories||data.data||[];
-        setCategories(cats.filter(c=>c.isActive!==false));
-      }).catch(()=>{}).finally(()=>setCatLoading(false));
+      .then(r => r.json())
+      .then(data => {
+        const cats = Array.isArray(data) ? data : data.categories || data.data || [];
+        // Filter only active parents (sub-cats handled inside)
+        setCategories(cats.filter(c => c.isActive !== false));
+      })
+      .catch(() => {})
+      .finally(() => setCatLoading(false));
   }, []);
 
+  // ── UPDATED: Flat list of ALL category ids (parents + sub-cats) ───────────
+  const allCatIds = categories.flatMap(parent => [
+    parent,
+    ...(parent.subCategories || [])
+  ]);
+
   const priceMax = allProducts.length
-    ? Math.min(MAX_PRICE, Math.ceil(Math.max(...allProducts.map(p=>p.price||p.buyingPrice||0))))
+    ? Math.min(MAX_PRICE, Math.ceil(Math.max(...allProducts.map(p => p.price || p.buyingPrice || 0))))
     : MAX_PRICE;
 
-  const catCounts = categories.reduce((acc,cat) => {
-    const id=cat.id;
-    acc[id] = allProducts.filter(p => 
-  String(p.category_id || p.category?.id || '') === String(id)
-).length;
+  // ── UPDATED: catCounts — count products for each category id ─────────────
+  const catCounts = allCatIds.reduce((acc, cat) => {
+    acc[cat.id] = allProducts.filter(p =>
+      String(p.category_id || p.category?.id || '') === String(cat.id)
+    ).length;
     return acc;
   }, {});
 
-  const isDefaultView = !searchQuery && selectedCats.length===0 && maxPrice>=priceMax
-    && minRating===null && minDiscount===null && !inStockOnly && !onSaleOnly && sortBy==="default";
+  // ── UPDATED: Default view — show parent categories with their products ────
+  // Products shown under parent = products of parent + all its sub-cats
+  const isDefaultView = !searchQuery && selectedCats.length === 0 && maxPrice >= priceMax
+    && minRating === null && minDiscount === null && !inStockOnly && !onSaleOnly && sortBy === "default";
 
   const defaultViewGroups = !loading && isDefaultView
-    ? categories.filter(cat=>(catCounts[cat.id]||0)>0).map(cat => {
-        const catId=cat.id;
-        const products = allProducts.filter(p =>
-  String(p.category_id || p.category?.id || '') === String(catId)
-).slice(0, 4);
-        return { cat, products, totalCount:catCounts[catId]||0 };
-      })
+    ? categories
+        .filter(cat => !cat.parent_id) // only parent categories
+        .map(cat => {
+          // Get all sub-category ids of this parent
+          const subIds = (cat.subCategories || []).map(s => String(s.id));
+          const allIds = [String(cat.id), ...subIds];
+
+          // Products belonging to this parent OR any of its sub-cats
+          const products = allProducts
+            .filter(p => allIds.includes(String(p.category_id || p.category?.id || '')))
+            .slice(0, 4);
+
+          const totalCount = allProducts.filter(p =>
+            allIds.includes(String(p.category_id || p.category?.id || ''))
+          ).length;
+
+          return { cat, products, totalCount };
+        })
+        .filter(g => g.totalCount > 0)
     : [];
 
-const filtered = allProducts.filter(p => {
-  const price    = Number(p.sellingPrice || 0);
-  const oldPrice = Number(p.buyingPrice || 0);
-  const rating   = Number(p.rating || 4);
-  const name     = (p.name || p.title || "").toLowerCase();
-  const catId    = String(p.category_id || p.category?.id || "");
-  const inStock  = (p.stockQuantity ?? 0) > 0;
-  const discount = oldPrice && oldPrice > price ? Math.round((1 - price / oldPrice) * 100) : 0;
+  // ── UPDATED: Filter logic — handle sub-category selection ────────────────
+  const filtered = allProducts.filter(p => {
+    const price    = Number(p.sellingPrice || 0);
+    const oldPrice = Number(p.buyingPrice || 0);
+    const rating   = Number(p.rating || 4);
+    const name     = (p.name || p.title || "").toLowerCase();
+    const catId    = String(p.category_id || p.category?.id || "");
+    const inStock  = (p.stockQuantity ?? 0) > 0;
+    const discount = oldPrice && oldPrice > price ? Math.round((1 - price / oldPrice) * 100) : 0;
 
-  if (searchQuery && !name.includes(searchQuery.toLowerCase())) return false;
-  if (selectedCats.length && !selectedCats.includes(catId)) return false;
-  if (price > maxPrice) return false;
-  if (minRating && rating < minRating) return false;
-  if (minDiscount && discount < minDiscount) return false;
-  if (inStockOnly && !inStock) return false;
-  if (onSaleOnly && !oldPrice) return false;
-  return true;
-});
+    if (searchQuery && !name.includes(searchQuery.toLowerCase())) return false;
+
+    // ── UPDATED: Category filter — check if product's catId matches
+    // any selected cat OR if selected cat is a parent whose sub-cat matches
+    if (selectedCats.length) {
+      const directMatch = selectedCats.includes(catId);
+
+      // Check if product's category is a sub-cat of any selected parent
+      const parentMatch = selectedCats.some(selectedId => {
+        const parentCat = categories.find(c => String(c.id) === selectedId);
+        if (!parentCat) return false;
+        const subIds = (parentCat.subCategories || []).map(s => String(s.id));
+        return subIds.includes(catId);
+      });
+
+      if (!directMatch && !parentMatch) return false;
+    }
+
+    if (price > maxPrice) return false;
+    if (minRating && rating < minRating) return false;
+    if (minDiscount && discount < minDiscount) return false;
+    if (inStockOnly && !inStock) return false;
+    if (onSaleOnly && !oldPrice) return false;
+    return true;
+  });
+
   const sorted = [...filtered].sort((a, b) => {
-  const pa = Number(a.sellingPrice || 0);
-  const pb = Number(b.sellingPrice || 0);
-  const oa = Number(a.buyingPrice || 0);
-  const ob = Number(b.buyingPrice || 0);
-  const da = oa && oa > pa ? Math.round((1 - pa / oa) * 100) : 0;
-  const db = ob && ob > pb ? Math.round((1 - pb / ob) * 100) : 0;
-  switch (sortBy) {
-    case "price-asc":  return pa - pb;
-    case "price-desc": return pb - pa;
-    case "rating":     return (b.rating || 4) - (a.rating || 4);
-    case "discount":   return db - da;
-    case "name-asc":   return (a.name || "").localeCompare(b.name || "");
-    case "name-desc":  return (b.name || "").localeCompare(a.name || "");
-    default: return 0;
-  }
-});
-  const totalPages = Math.ceil(sorted.length/PER_PAGE);
-  const paginated  = sorted.slice((currentPage-1)*PER_PAGE, currentPage*PER_PAGE);
+    const pa = Number(a.sellingPrice || 0);
+    const pb = Number(b.sellingPrice || 0);
+    const oa = Number(a.buyingPrice || 0);
+    const ob = Number(b.buyingPrice || 0);
+    const da = oa && oa > pa ? Math.round((1 - pa / oa) * 100) : 0;
+    const db = ob && ob > pb ? Math.round((1 - pb / ob) * 100) : 0;
+    switch (sortBy) {
+      case "price-asc":  return pa - pb;
+      case "price-desc": return pb - pa;
+      case "rating":     return (b.rating || 4) - (a.rating || 4);
+      case "discount":   return db - da;
+      case "name-asc":   return (a.name || "").localeCompare(b.name || "");
+      case "name-desc":  return (b.name || "").localeCompare(a.name || "");
+      default: return 0;
+    }
+  });
+
+  const totalPages = Math.ceil(sorted.length / PER_PAGE);
+  const paginated  = sorted.slice((currentPage - 1) * PER_PAGE, currentPage * PER_PAGE);
   const resetPage  = () => setCurrentPage(1);
 
+  // ── UPDATED: Active filters — resolve name from nested cats ──────────────
   const activeFilters = [
-    ...selectedCats.map(id=>{
-      const cat = categories.find(c => String(c.id) === String(id));
-      return cat ? { key:`cat-${id}`, label:cat.name, remove:()=>{setSelectedCats(s=>s.filter(x=>x!==id));resetPage();} } : null;
+    ...selectedCats.map(id => {
+      const cat = allCatIds.find(c => String(c.id) === String(id));
+      return cat
+        ? { key:`cat-${id}`, label:cat.name, remove:() => { setSelectedCats(s => s.filter(x => x !== id)); resetPage(); } }
+        : null;
     }).filter(Boolean),
-    maxPrice<priceMax ? { key:"price", label:`Under ₹${maxPrice}`, remove:()=>{setMaxPrice(priceMax);resetPage();} } : null,
-    minRating ? { key:"rating", label:`${minRating}★+`, remove:()=>{setMinRating(null);resetPage();} } : null,
-    minDiscount ? { key:"discount", label:`${minDiscount}%+ off`, remove:()=>{setMinDiscount(null);resetPage();} } : null,
-    inStockOnly ? { key:"stock", label:"In Stock", remove:()=>{setInStockOnly(false);resetPage();} } : null,
-    onSaleOnly ? { key:"sale", label:"On Sale", remove:()=>{setOnSaleOnly(false);resetPage();} } : null,
+    maxPrice < priceMax ? { key:"price", label:`Under ₹${maxPrice}`, remove:() => { setMaxPrice(priceMax); resetPage(); } } : null,
+    minRating   ? { key:"rating",   label:`${minRating}★+`,   remove:() => { setMinRating(null);   resetPage(); } } : null,
+    minDiscount ? { key:"discount", label:`${minDiscount}%+ off`, remove:() => { setMinDiscount(null); resetPage(); } } : null,
+    inStockOnly ? { key:"stock",    label:"In Stock",          remove:() => { setInStockOnly(false); resetPage(); } } : null,
+    onSaleOnly  ? { key:"sale",     label:"On Sale",           remove:() => { setOnSaleOnly(false);  resetPage(); } } : null,
   ].filter(Boolean);
 
   const clearAllFilters = () => {
@@ -984,29 +793,30 @@ const filtered = allProducts.filter(p => {
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    const q=searchInput.trim();
-    if(q) setSearchParams({search:q}); else setSearchParams({});
+    const q = searchInput.trim();
+    if (q) setSearchParams({ search:q }); else setSearchParams({});
     resetPage();
   };
 
   const toggleCat = (id) => {
-  const sid = String(id);
-  setSelectedCats(s => s.includes(sid) ? s.filter(x => x !== sid) : [...s, sid]);
-  resetPage();
-};
+    const sid = String(id);
+    setSelectedCats(s => s.includes(sid) ? s.filter(x => x !== sid) : [...s, sid]);
+    resetPage();
+  };
 
+  // ── UPDATED: View all category — include parent id so sub-cats show too ──
   const handleViewAllCategory = (catId) => {
-    setSelectedCats([catId]); resetPage();
+    setSelectedCats([String(catId)]); resetPage();
   };
 
   const pageRange = () => {
-    const pages=[]; const delta=isMobile?1:2;
-    for(let i=Math.max(1,currentPage-delta); i<=Math.min(totalPages,currentPage+delta); i++) pages.push(i);
+    const pages = []; const delta = isMobile ? 1 : 2;
+    for (let i = Math.max(1, currentPage - delta); i <= Math.min(totalPages, currentPage + delta); i++) pages.push(i);
     return pages;
   };
 
   const filterPanelProps = {
-    isMobile, open: isMobile?drawerOpen:sidebarOpen, onClose:()=>setDrawerOpen(false),
+    isMobile, open:isMobile ? drawerOpen : sidebarOpen, onClose:() => setDrawerOpen(false),
     categories, catLoading, catCounts, selectedCats, toggleCat,
     maxPrice, priceMax, setMaxPrice,
     minRating, setMinRating,
@@ -1016,7 +826,6 @@ const filtered = allProducts.filter(p => {
     activeFilters, clearAllFilters, resetPage,
   };
 
-  // Grid columns based on screen and sidebar
   const gridCols = isMobile
     ? "repeat(2, 1fr)"
     : sidebarOpen
@@ -1025,11 +834,11 @@ const filtered = allProducts.filter(p => {
 
   return (
     <>
-     <Helmet>
-  <title>Products - Orchard Engine | Fresh Groceries Online</title>
-  <meta name="description" content="Shop fresh fruits, vegetables, dairy and daily essentials online at Orchard Engine." />
-  <link rel="canonical" href="https://theorchardengine.com/user/product" />
-</Helmet>
+      <Helmet>
+        <title>Products - Orchard Engine | Fresh Groceries Online</title>
+        <meta name="description" content="Shop fresh fruits, vegetables, dairy and daily essentials online at Orchard Engine." />
+        <link rel="canonical" href="https://theorchardengine.com/user/product" />
+      </Helmet>
       <FontLink/>
       <style>{`
         * { box-sizing:border-box; }
@@ -1040,27 +849,23 @@ const filtered = allProducts.filter(p => {
         ::-webkit-scrollbar{width:5px}
         ::-webkit-scrollbar-track{background:#f1f1f1}
         ::-webkit-scrollbar-thumb{background:#ccc;border-radius:10px}
-        
-.mobile-search-bar {
-  position: sticky; top: 0;
-  background: #fff;
-  padding: 10px 14px 8px;
-  border-bottom: 1px solid #f0f0f0;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-}
-        .filter-chips-scroll {
-          display: flex; gap: 8px; overflow-x: auto; padding-bottom: 2px;
-          -webkit-overflow-scrolling: touch; scrollbar-width: none;
+        .mobile-search-bar {
+          position:sticky; top:0; background:#fff;
+          padding:10px 14px 8px; border-bottom:1px solid #f0f0f0;
+          box-shadow:0 2px 8px rgba(0,0,0,0.06);
         }
-        .filter-chips-scroll::-webkit-scrollbar { display: none; }
+        .filter-chips-scroll {
+          display:flex; gap:8px; overflow-x:auto; padding-bottom:2px;
+          -webkit-overflow-scrolling:touch; scrollbar-width:none;
+        }
+        .filter-chips-scroll::-webkit-scrollbar { display:none; }
       `}</style>
 
-      <div style={{ maxWidth:1440, margin:"0 auto", padding: isMobile?"0 0 80px":"24px 20px 40px" }}>
+      <div style={{ maxWidth:1440, margin:"0 auto", padding:isMobile?"0 0 80px":"24px 20px 40px" }}>
 
         {/* ── Mobile sticky top bar ── */}
         {isMobile ? (
-          <div className="mobile-search-bar" style={{ zIndex: drawerOpen ? 10 : 90 }}>
-            {/* Search row */}
+          <div className="mobile-search-bar" style={{ zIndex:drawerOpen?10:90 }}>
             <form onSubmit={handleSearchSubmit} style={{ display:"flex", gap:0, marginBottom:8 }}>
               <input value={searchInput} onChange={e=>setSearchInput(e.target.value)}
                 placeholder="Search products…"
@@ -1077,21 +882,17 @@ const filtered = allProducts.filter(p => {
               </button>
             </form>
 
-            {/* Toolbar row */}
             <div style={{ display:"flex", alignItems:"center", gap:8 }}>
-              {/* Filter button */}
               <button onClick={()=>setDrawerOpen(true)} style={{
                 display:"flex", alignItems:"center", gap:5, padding:"7px 12px",
-                background: activeFilters.length?"#2d9e2d":"#f5f5f5",
-                color: activeFilters.length?"#fff":"#555",
-                border:"none", borderRadius:8, cursor:"pointer", fontSize:13, fontWeight:700, fontFamily:"inherit",
-                flexShrink:0,
+                background:activeFilters.length?"#2d9e2d":"#f5f5f5",
+                color:activeFilters.length?"#fff":"#555",
+                border:"none", borderRadius:8, cursor:"pointer", fontSize:13, fontWeight:700, fontFamily:"inherit", flexShrink:0,
               }}>
                 <FilterIcon size={14} stroke={activeFilters.length?"#fff":"#555"}/>
-                Filters {activeFilters.length>0 && `(${activeFilters.length})`}
+                Filters {activeFilters.length > 0 && `(${activeFilters.length})`}
               </button>
 
-              {/* Sort dropdown */}
               <div style={{ position:"relative", flex:1 }}>
                 <button onClick={()=>setSortDropOpen(o=>!o)} style={{
                   width:"100%", display:"flex", alignItems:"center", justifyContent:"space-between", gap:4,
@@ -1101,7 +902,7 @@ const filtered = allProducts.filter(p => {
                   <div style={{ display:"flex", alignItems:"center", gap:5 }}>
                     <SortIcon size={13}/>
                     <span style={{ overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap", maxWidth:100 }}>
-                      {SORT_OPTIONS.find(o=>o.value===sortBy)?.label||"Sort"}
+                      {SORT_OPTIONS.find(o=>o.value===sortBy)?.label || "Sort"}
                     </span>
                   </div>
                   <ChevronDown size={11}/>
@@ -1114,12 +915,12 @@ const filtered = allProducts.filter(p => {
                       background:"#fff", border:"1px solid #f0f0f0", borderRadius:10,
                       boxShadow:"0 8px 30px rgba(0,0,0,0.15)", overflow:"hidden",
                     }}>
-                      {SORT_OPTIONS.map(opt=>(
+                      {SORT_OPTIONS.map(opt => (
                         <button key={opt.value} onClick={()=>{setSortBy(opt.value);setSortDropOpen(false);resetPage();}} style={{
                           display:"block", width:"100%", textAlign:"left", padding:"11px 14px",
-                          fontSize:14, background: sortBy===opt.value?"#f0faf0":"#fff",
-                          color: sortBy===opt.value?"#2d9e2d":"#333",
-                          fontWeight: sortBy===opt.value?700:400,
+                          fontSize:14, background:sortBy===opt.value?"#f0faf0":"#fff",
+                          color:sortBy===opt.value?"#2d9e2d":"#333",
+                          fontWeight:sortBy===opt.value?700:400,
                           border:"none", cursor:"pointer", fontFamily:"inherit",
                         }}>
                           {opt.label}
@@ -1130,23 +931,21 @@ const filtered = allProducts.filter(p => {
                 )}
               </div>
 
-              {/* View toggle */}
               <div style={{ display:"flex", border:"1.5px solid #e8e8e8", borderRadius:8, overflow:"hidden", flexShrink:0 }}>
                 {[["grid",<GridIcon size={14}/>],["list",<ListIcon size={14}/>]].map(([v,icon])=>(
                   <button key={v} onClick={()=>setView(v)} style={{
                     padding:"7px 9px", border:"none",
-                    background: view===v?"#2d9e2d":"#fff",
-                    color: view===v?"#fff":"#999", cursor:"pointer", display:"flex", alignItems:"center",
+                    background:view===v?"#2d9e2d":"#fff",
+                    color:view===v?"#fff":"#999", cursor:"pointer", display:"flex", alignItems:"center",
                   }}>{icon}</button>
                 ))}
               </div>
             </div>
 
-            {/* Active filter chips (scrollable) */}
-            {(activeFilters.length>0 || searchQuery) && (
+            {(activeFilters.length > 0 || searchQuery) && (
               <div className="filter-chips-scroll" style={{ marginTop:8 }}>
                 {searchQuery && <FilterChip label={`"${searchQuery}"`} onRemove={()=>{setSearchParams({});setSearchInput("");resetPage();}}/>}
-                {activeFilters.map(f=><FilterChip key={f.key} label={f.label} onRemove={f.remove}/>)}
+                {activeFilters.map(f => <FilterChip key={f.key} label={f.label} onRemove={f.remove}/>)}
                 <button onClick={clearAllFilters} style={{ fontSize:12, color:"#e74c3c", background:"none", border:"1px solid #fdd", borderRadius:20, padding:"4px 10px", cursor:"pointer", fontWeight:600, whiteSpace:"nowrap", fontFamily:"inherit" }}>
                   Clear all
                 </button>
@@ -1154,7 +953,6 @@ const filtered = allProducts.filter(p => {
             )}
           </div>
         ) : (
-          /* ── Desktop page header ── */
           <>
             <div style={{ marginBottom:20, display:"flex", alignItems:"flex-end", justifyContent:"space-between", flexWrap:"wrap", gap:12 }}>
               <div>
@@ -1180,12 +978,11 @@ const filtered = allProducts.filter(p => {
               </form>
             </div>
 
-            {/* Desktop active filter chips */}
-            {(activeFilters.length>0 || searchQuery) && (
+            {(activeFilters.length > 0 || searchQuery) && (
               <div style={{ display:"flex", flexWrap:"wrap", gap:8, marginBottom:16, alignItems:"center" }}>
                 <span style={{ fontSize:12, color:"#888", fontWeight:600 }}>Active filters:</span>
                 {searchQuery && <FilterChip label={`"${searchQuery}"`} onRemove={()=>{setSearchParams({});setSearchInput("");resetPage();}}/>}
-                {activeFilters.map(f=><FilterChip key={f.key} label={f.label} onRemove={f.remove}/>)}
+                {activeFilters.map(f => <FilterChip key={f.key} label={f.label} onRemove={f.remove}/>)}
                 <button onClick={clearAllFilters} style={{ fontSize:12, color:"#e74c3c", background:"none", border:"none", cursor:"pointer", fontWeight:600, textDecoration:"underline", fontFamily:"inherit" }}>
                   Clear all
                 </button>
@@ -1195,15 +992,10 @@ const filtered = allProducts.filter(p => {
         )}
 
         {/* ── Main layout ── */}
-        <div style={{
-          display:"flex", gap: isMobile?0:20, alignItems:"flex-start",
-          padding: isMobile?"12px 12px 0":0,
-        }}>
+        <div style={{ display:"flex", gap:isMobile?0:20, alignItems:"flex-start", padding:isMobile?"12px 12px 0":0 }}>
 
-          {/* Filter Panel (sidebar on desktop, drawer on mobile) */}
           <FilterPanel {...filterPanelProps}/>
 
-          {/* ── Content ── */}
           <div style={{ flex:1, minWidth:0 }}>
 
             {/* Desktop toolbar */}
@@ -1233,7 +1025,7 @@ const filtered = allProducts.filter(p => {
                       background:"#fff", border:"1.5px solid #e8e8e8", borderRadius:8,
                       cursor:"pointer", fontSize:12, fontWeight:600, color:"#444", fontFamily:"inherit", whiteSpace:"nowrap",
                     }}>
-                      <SortIcon size={13}/> {SORT_OPTIONS.find(o=>o.value===sortBy)?.label||"Sort"} <ChevronDown size={11}/>
+                      <SortIcon size={13}/> {SORT_OPTIONS.find(o=>o.value===sortBy)?.label || "Sort"} <ChevronDown size={11}/>
                     </button>
                     {sortDropOpen && (
                       <>
@@ -1243,12 +1035,12 @@ const filtered = allProducts.filter(p => {
                           background:"#fff", border:"1px solid #f0f0f0", borderRadius:10,
                           boxShadow:"0 8px 30px rgba(0,0,0,0.12)", minWidth:200, overflow:"hidden",
                         }}>
-                          {SORT_OPTIONS.map(opt=>(
+                          {SORT_OPTIONS.map(opt => (
                             <button key={opt.value} onClick={()=>{setSortBy(opt.value);setSortDropOpen(false);resetPage();}} style={{
                               display:"block", width:"100%", textAlign:"left", padding:"9px 14px",
-                              fontSize:13, background: sortBy===opt.value?"#f0faf0":"#fff",
-                              color: sortBy===opt.value?"#2d9e2d":"#333",
-                              fontWeight: sortBy===opt.value?700:400,
+                              fontSize:13, background:sortBy===opt.value?"#f0faf0":"#fff",
+                              color:sortBy===opt.value?"#2d9e2d":"#333",
+                              fontWeight:sortBy===opt.value?700:400,
                               border:"none", cursor:"pointer", fontFamily:"inherit",
                             }}
                               onMouseEnter={e=>{if(sortBy!==opt.value)e.target.style.background="#f8f8f8";}}
@@ -1263,15 +1055,15 @@ const filtered = allProducts.filter(p => {
                 <div style={{ display:"flex", border:"1.5px solid #e8e8e8", borderRadius:8, overflow:"hidden" }}>
                   {[["grid",<GridIcon size={14}/>],["list",<ListIcon size={14}/>]].map(([v,icon])=>(
                     <button key={v} onClick={()=>setView(v)} style={{
-                      padding:"6px 10px", border:"none", background: view===v?"#2d9e2d":"#fff",
-                      color: view===v?"#fff":"#999", cursor:"pointer", display:"flex", alignItems:"center", transition:"all 0.15s",
+                      padding:"6px 10px", border:"none", background:view===v?"#2d9e2d":"#fff",
+                      color:view===v?"#fff":"#999", cursor:"pointer", display:"flex", alignItems:"center", transition:"all 0.15s",
                     }}>{icon}</button>
                   ))}
                 </div>
               </div>
             )}
 
-            {/* Mobile page title (below sticky bar) */}
+            {/* Mobile page title */}
             {isMobile && (
               <div style={{ marginBottom:12 }}>
                 <h1 style={{ fontSize:20, fontWeight:900, color:"#1a1a1a", margin:"0 0 2px", letterSpacing:-0.3 }}>
@@ -1288,12 +1080,14 @@ const filtered = allProducts.filter(p => {
 
             {/* ── Product Display ── */}
             {loading ? (
-              <div style={{ display:"grid", gridTemplateColumns: view==="list"?"1fr":gridCols, gap: isMobile?10:14 }}>
-                {[...Array(isMobile?6:12)].map((_,i)=><SkeletonCard key={i} isMobile={isMobile}/>)}
+              <div style={{ display:"grid", gridTemplateColumns:view==="list"?"1fr":gridCols, gap:isMobile?10:14 }}>
+                {[...Array(isMobile?6:12)].map((_,i) => <SkeletonCard key={i} isMobile={isMobile}/>)}
               </div>
+
             ) : isDefaultView ? (
-              <div style={{ display:"flex", flexDirection:"column", gap: isMobile?24:32 }}>
-                {defaultViewGroups.length===0 ? (
+              // ── UPDATED: Default view — parent categories with sub-cat products ──
+              <div style={{ display:"flex", flexDirection:"column", gap:isMobile?24:32 }}>
+                {defaultViewGroups.length === 0 ? (
                   <div style={{ textAlign:"center", padding:"60px 20px", background:"#fff", borderRadius:14, border:"1px solid #f0f0f0" }}>
                     <div style={{ fontSize:48, marginBottom:12 }}>📦</div>
                     <h3 style={{ fontSize:18, fontWeight:800, color:"#1a1a1a", margin:"0 0 6px" }}>No products yet</h3>
@@ -1301,14 +1095,33 @@ const filtered = allProducts.filter(p => {
                   </div>
                 ) : defaultViewGroups.map(({ cat, products, totalCount }) => (
                   <div key={cat.id} style={{ animation:"fadeIn 0.3s ease" }}>
-                    <CategoryRowHeader name={cat.name} totalCount={totalCount} onViewAll={()=>handleViewAllCategory(cat.id)}/>
-                    <div style={{ display:"grid", gridTemplateColumns: view==="list"?"1fr":gridCols, gap: isMobile?10:14 }}>
-                      {products.map((p,i)=><ProductCard key={p.id||i} product={p} view={view} isMobile={isMobile}/>)}
+                    <CategoryRowHeader
+                      name={cat.name}
+                      totalCount={totalCount}
+                      onViewAll={() => handleViewAllCategory(cat.id)}
+                    />
+                    {/* Show sub-category chips if this parent has sub-cats */}
+                    {(cat.subCategories || []).length > 0 && (
+                      <div style={{ display:"flex", flexWrap:"wrap", gap:6, marginBottom:12 }}>
+                        {(cat.subCategories || []).filter(s => s.isActive !== false).map(sub => (
+                          <button key={sub.id} onClick={() => { setSelectedCats([String(sub.id)]); resetPage(); }} style={{
+                            fontSize:11, fontWeight:600, color:"#2d9e2d",
+                            background:"#f0faf0", border:"1px solid #c8e6c9",
+                            borderRadius:20, padding:"3px 10px", cursor:"pointer", fontFamily:"inherit",
+                          }}>
+                            {sub.name} ({catCounts[sub.id] || 0})
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                    <div style={{ display:"grid", gridTemplateColumns:view==="list"?"1fr":gridCols, gap:isMobile?10:14 }}>
+                      {products.map((p,i) => <ProductCard key={p.id||i} product={p} view={view} isMobile={isMobile}/>)}
                     </div>
                   </div>
                 ))}
               </div>
-            ) : paginated.length===0 ? (
+
+            ) : paginated.length === 0 ? (
               <div style={{ textAlign:"center", padding:"60px 20px", background:"#fff", borderRadius:14, border:"1px solid #f0f0f0" }}>
                 <div style={{ fontSize:48, marginBottom:12 }}>🔍</div>
                 <h3 style={{ fontSize:18, fontWeight:800, color:"#1a1a1a", margin:"0 0 6px" }}>No products found</h3>
@@ -1318,53 +1131,51 @@ const filtered = allProducts.filter(p => {
                 </button>
               </div>
             ) : (
-              <div style={{ display:"grid", gridTemplateColumns: view==="list"?"1fr":gridCols, gap: isMobile?10:14 }}>
-                {paginated.map((p,i)=><ProductCard key={p.id||i} product={p} view={view} isMobile={isMobile}/>)}
+              <div style={{ display:"grid", gridTemplateColumns:view==="list"?"1fr":gridCols, gap:isMobile?10:14 }}>
+                {paginated.map((p,i) => <ProductCard key={p.id||i} product={p} view={view} isMobile={isMobile}/>)}
               </div>
             )}
 
             {/* ── Pagination ── */}
-            {!loading && !isDefaultView && totalPages>1 && (
-              <div style={{ display:"flex", alignItems:"center", justifyContent:"center", gap: isMobile?4:6, marginTop:24, flexWrap:"wrap" }}>
+            {!loading && !isDefaultView && totalPages > 1 && (
+              <div style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:isMobile?4:6, marginTop:24, flexWrap:"wrap" }}>
                 <button onClick={()=>setCurrentPage(p=>Math.max(1,p-1))} disabled={currentPage===1}
-                  style={{ padding: isMobile?"7px 11px":"7px 14px", border:"1.5px solid #e0e0e0", borderRadius:8, background:"#fff", cursor: currentPage===1?"not-allowed":"pointer", fontSize:12, fontWeight:600, color: currentPage===1?"#ccc":"#444", fontFamily:"inherit" }}>
+                  style={{ padding:isMobile?"7px 11px":"7px 14px", border:"1.5px solid #e0e0e0", borderRadius:8, background:"#fff", cursor:currentPage===1?"not-allowed":"pointer", fontSize:12, fontWeight:600, color:currentPage===1?"#ccc":"#444", fontFamily:"inherit" }}>
                   ← {!isMobile && "Prev"}
                 </button>
 
-                {currentPage>3 && <>
+                {currentPage > 3 && <>
                   <button onClick={()=>setCurrentPage(1)} style={paginBtnStyle(false,isMobile)}>1</button>
-                  {currentPage>4 && <span style={{ color:"#bbb" }}>…</span>}
+                  {currentPage > 4 && <span style={{ color:"#bbb" }}>…</span>}
                 </>}
 
-                {pageRange().map(n=>(
+                {pageRange().map(n => (
                   <button key={n} onClick={()=>setCurrentPage(n)} style={paginBtnStyle(n===currentPage,isMobile)}>{n}</button>
                 ))}
 
-                {currentPage<totalPages-2 && <>
-                  {currentPage<totalPages-3 && <span style={{ color:"#bbb" }}>…</span>}
+                {currentPage < totalPages - 2 && <>
+                  {currentPage < totalPages - 3 && <span style={{ color:"#bbb" }}>…</span>}
                   <button onClick={()=>setCurrentPage(totalPages)} style={paginBtnStyle(totalPages===currentPage,isMobile)}>{totalPages}</button>
                 </>}
 
                 <button onClick={()=>setCurrentPage(p=>Math.min(totalPages,p+1))} disabled={currentPage===totalPages}
-                  style={{ padding: isMobile?"7px 11px":"7px 14px", border:"1.5px solid #e0e0e0", borderRadius:8, background:"#fff", cursor: currentPage===totalPages?"not-allowed":"pointer", fontSize:12, fontWeight:600, color: currentPage===totalPages?"#ccc":"#444", fontFamily:"inherit" }}>
+                  style={{ padding:isMobile?"7px 11px":"7px 14px", border:"1.5px solid #e0e0e0", borderRadius:8, background:"#fff", cursor:currentPage===totalPages?"not-allowed":"pointer", fontSize:12, fontWeight:600, color:currentPage===totalPages?"#ccc":"#444", fontFamily:"inherit" }}>
                   {!isMobile && "Next"} →
                 </button>
               </div>
             )}
 
-          </div>{/* /content */}
-        </div>{/* /flex row */}
+          </div>
+        </div>
       </div>
     </>
   );
 }
 
 const paginBtnStyle = (active, isMobile) => ({
-  width: isMobile?34:36, height: isMobile?34:36,
+  width:isMobile?34:36, height:isMobile?34:36,
   border:`1.5px solid ${active?"#2d9e2d":"#e0e0e0"}`,
-  borderRadius:8, background: active?"#2d9e2d":"#fff",
-  color: active?"#fff":"#555", cursor:"pointer", fontSize:13,
-  fontWeight: active?700:500, fontFamily:"inherit", transition:"all 0.15s",
+  borderRadius:8, background:active?"#2d9e2d":"#fff",
+  color:active?"#fff":"#555", cursor:"pointer", fontSize:13,
+  fontWeight:active?700:500, fontFamily:"inherit", transition:"all 0.15s",
 });
-
-export { ProductCard1 };

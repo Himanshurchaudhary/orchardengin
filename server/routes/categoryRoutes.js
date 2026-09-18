@@ -1,15 +1,28 @@
 const express = require('express');
 const router = express.Router();
-const { compressAndUpload } = require('../config/cloudinary');  // ← CHANGE
-const { addCategory, getCategories, updateCategory, deleteCategory } = require('../controllers/categoryController/categoryController');
+const { compressAndUpload } = require('../config/cloudinary');
+const { 
+    addCategory, 
+    getCategories,
+    getCategoriesFlat,
+    getParentCategories,
+    updateCategory, 
+    deleteCategory 
+} = require('../controllers/categoryController/categoryController');
 const { protect, isAdmin } = require('../middleware/authMiddleware');
 
-router.post('/add', ...compressAndUpload('thumbnail', 'ReadyGrocery/Categories'), protect, addCategory);  // ← CHANGE
+// ── Get Routes ────────────────────────────────────────────────────────────────
+router.get('/all',     getCategories);        // nested (frontend filter ke liye)
+router.get('/flat',    getCategoriesFlat);    // flat list (product form ke liye)
+router.get('/parents', getParentCategories);  // sirf parents (sub-cat form ke liye)
 
-router.get('/all', getCategories);
+// ── Post Routes ───────────────────────────────────────────────────────────────
+router.post('/add', ...compressAndUpload('thumbnail', 'ReadyGrocery/Categories'), protect, addCategory);
 
-router.put('/:id', protect, ...compressAndUpload('thumbnail', 'ReadyGrocery/Categories'), updateCategory);  // ← CHANGE
+// ── Put Routes ────────────────────────────────────────────────────────────────
+router.put('/:id', protect, ...compressAndUpload('thumbnail', 'ReadyGrocery/Categories'), updateCategory);
 
+// ── Delete Routes ─────────────────────────────────────────────────────────────
 router.delete('/:id', protect, deleteCategory);
 
 module.exports = router;

@@ -7,6 +7,8 @@ import ScrollToTop from './Components/ScrollToTop';  // adjust path as needed
 import LoginPage from './Admin/Pages/Login';
 import AdminLayout from './Components/AdminLayout';
 import CategoriesPage from './User/Pages/CategoriesPage';
+import SubCategoriesPage from "./User/Pages/SubCategoriesPage";
+
 
 
 // User Pages & Components
@@ -308,7 +310,8 @@ function App() {
         <Route path="/user/deleteaccount" element={<DeleteAccount />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/user/categories" element={<CategoriesPage />} />
+        <Route path="/user/categories/:categoryId" element={<SubCategoriesPage />} />
+<Route path="/user/categories" element={<CategoriesPage />} />
 
 
 

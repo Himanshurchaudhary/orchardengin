@@ -20,7 +20,7 @@ const CatDropList = ({ onClose }) => {
         const all = Array.isArray(data) ? data : data.categories || data.data || [];
         setCats(all.filter(c => c.isActive !== false));
       })
-      .catch(() => {})
+      .catch(() => { })
       .finally(() => setLoading(false));
   }, []);
 
@@ -73,7 +73,7 @@ const CatDropList = ({ onClose }) => {
   );
 };
 
-  // ...
+// ...
 
 const NAV_LINKS = [
   { label: 'Home', to: '/' },
@@ -151,7 +151,14 @@ const SearchBar = ({ isMobile = false, onClose }) => {
         const catData = await catRes.json();
         const products = (prodData.products || prodData.data || []).slice(0, 5);
         const allCats = Array.isArray(catData) ? catData : catData.categories || catData.data || [];
-        const categories = allCats
+
+        // Flatten: parent + unke sub-categories dono ek array mein
+        const flatCats = allCats.flatMap(parent => [
+          parent,
+          ...(parent.subCategories || []),
+        ]);
+
+        const categories = flatCats
           .filter(c => c.isActive !== false && c.name.toLowerCase().includes(q.toLowerCase()))
           .slice(0, 3);
         if (!cancelled) {

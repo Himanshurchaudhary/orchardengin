@@ -13,6 +13,7 @@ function authHeaders() {
 export default function CategoryPage() {
   const [activeTab, setActiveTab] = useState("view");
   const [categories, setCategories] = useState([]);
+  const [parentCategories, setParentCategories] = useState([]); // ← NAYA
   const [loading, setLoading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [search, setSearch] = useState("");
@@ -27,10 +28,12 @@ export default function CategoryPage() {
     name: "",
     description: "",
     isActive: "true",
+    parent_id: "",  // ← NAYA
   });
 
   useEffect(() => {
     fetchCategories();
+    fetchParentCategories(); // ← NAYA
   }, []);
 
   async function fetchCategories() {
@@ -52,6 +55,21 @@ export default function CategoryPage() {
     }
   }
 
+  // ── NAYA: Sirf parent categories fetch karo (dropdown ke liye) ─────────────
+  async function fetchParentCategories() {
+    try {
+      const res = await fetch(`${API_BASE}/api/Category/parents`, {
+        headers: authHeaders(),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setParentCategories(data.categories);
+      }
+    } catch (err) {
+      console.error("Parent categories fetch failed", err);
+    }
+  }
+
   function showToast(msg, type = "success") {
     setToast({ show: true, msg, type });
     setTimeout(() => setToast((t) => ({ ...t, show: false })), 3500);
@@ -65,7 +83,7 @@ export default function CategoryPage() {
   }
 
   function resetForm() {
-    setForm({ name: "", description: "", isActive: "true" });
+    setForm({ name: "", description: "", isActive: "true", parent_id: "" }); // ← NAYA
     setUploadedFile(null);
     setUploadPreview(null);
     setEditId(null);
@@ -77,6 +95,7 @@ export default function CategoryPage() {
       name: cat.name,
       description: cat.description || "",
       isActive: cat.isActive ? "true" : "false",
+      parent_id: cat.parent_id ? String(cat.parent_id) : "", // ← NAYA
     });
     setUploadPreview(cat.thumbnail || null);
     setUploadedFile(null);
@@ -102,6 +121,11 @@ export default function CategoryPage() {
       formData.append("isActive", form.isActive);
       if (uploadedFile) formData.append("thumbnail", uploadedFile);
 
+      // ── NAYA: parent_id bhejo agar select kiya hai ──────────────────────
+      if (form.parent_id) {
+        formData.append("parent_id", form.parent_id);
+      }
+
       const url = editId
         ? `${API_BASE}/api/Category/${editId}`
         : `${API_BASE}/api/Category/add`;
@@ -122,6 +146,7 @@ export default function CategoryPage() {
         );
         resetForm();
         await fetchCategories();
+        await fetchParentCategories(); // ← NAYA
         setActiveTab("view");
       } else {
         showToast(data.message || "Something went wrong", "error");
@@ -143,7 +168,8 @@ export default function CategoryPage() {
       const data = await res.json();
       if (data.success) {
         showToast(`"${cat.name}" deleted`);
-        setCategories((prev) => prev.filter((c) => c.id !== cat.id));
+        await fetchCategories();      // ← NAYA: nested refresh
+        await fetchParentCategories(); // ← NAYA
       } else {
         showToast(data.message || "Delete failed", "error");
       }
@@ -166,11 +192,7 @@ export default function CategoryPage() {
       });
       const data = await res.json();
       if (data.success) {
-        setCategories((prev) =>
-          prev.map((c) =>
-            c.id === cat.id ? { ...c, isActive: !cat.isActive } : c
-          )
-        );
+        await fetchCategories(); // ← NAYA: nested refresh
         showToast(`"${cat.name}" marked as ${!cat.isActive ? "active" : "inactive"}`);
       } else {
         showToast(data.message || "Update failed", "error");
@@ -180,6 +202,7 @@ export default function CategoryPage() {
     }
   }
 
+  // ── Filter — nested structure handle karo ──────────────────────────────────
   const filtered = categories.filter((c) => {
     const matchSearch =
       c.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -193,8 +216,10 @@ export default function CategoryPage() {
     return matchSearch && matchStatus;
   });
 
-  const totalCount = categories.length;
-  const activeCount = categories.filter((c) => c.isActive).length;
+  // Stats — sub-categories bhi count karo
+  const allCats = categories.flatMap(c => [c, ...(c.subCategories || [])]);
+  const totalCount = allCats.length;
+  const activeCount = allCats.filter((c) => c.isActive).length;
   const inactiveCount = totalCount - activeCount;
 
   return (
@@ -290,15 +315,44 @@ export default function CategoryPage() {
               </button>
             </div>
           ) : (
-            <div style={styles.catGrid}>
+            // ── NAYA: Nested View ─────────────────────────────────────────
+            <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
               {filtered.map((cat) => (
-                <CategoryCard
-                  key={cat.id}
-                  cat={cat}
-                  onEdit={() => handleEdit(cat)}
-                  onDelete={() => handleDelete(cat)}
-                  onToggle={() => handleToggleStatus(cat)}
-                />
+                <div key={cat.id}>
+                  {/* Parent Category Card */}
+                  <div style={{ marginBottom: cat.subCategories?.length > 0 ? 10 : 0 }}>
+                    <CategoryCard
+                      cat={cat}
+                      isParent={true}
+                      onEdit={() => handleEdit(cat)}
+                      onDelete={() => handleDelete(cat)}
+                      onToggle={() => handleToggleStatus(cat)}
+                    />
+                  </div>
+
+                  {/* Sub Categories */}
+                  {cat.subCategories?.length > 0 && (
+                    <div style={{
+                      marginLeft: 32,
+                      paddingLeft: 16,
+                      borderLeft: "2px solid #e1f5ee",
+                      display: "grid",
+                      gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
+                      gap: 10,
+                    }}>
+                      {cat.subCategories.map((sub) => (
+                        <CategoryCard
+                          key={sub.id}
+                          cat={sub}
+                          isParent={false}
+                          onEdit={() => handleEdit(sub)}
+                          onDelete={() => handleDelete(sub)}
+                          onToggle={() => handleToggleStatus(sub)}
+                        />
+                      ))}
+                    </div>
+                  )}
+                </div>
               ))}
             </div>
           )}
@@ -335,6 +389,38 @@ export default function CategoryPage() {
                 <option value="false">Inactive</option>
               </select>
             </div>
+
+            {/* ── NAYA: Belongs To Dropdown ──────────────────────────────── */}
+            <div style={{ ...styles.formGroup, gridColumn: "1 / -1" }}>
+              <label style={styles.formLabel}>
+                Belongs To{" "}
+                <span style={{ color: "#888", fontWeight: 400 }}>
+                  (Select parent if this is a sub-category)
+                </span>
+              </label>
+              <select
+                style={styles.formSelect}
+                value={form.parent_id}
+                onChange={(e) => setForm((f) => ({ ...f, parent_id: e.target.value }))}
+              >
+                <option value="">— Main Category (no parent) —</option>
+                {parentCategories.map((p) => (
+                  <option
+                    key={p.id}
+                    value={p.id}
+                    disabled={editId && p.id === editId} // apne aap ko parent nahi bana sakta
+                  >
+                    {p.name}
+                  </option>
+                ))}
+              </select>
+              {form.parent_id && (
+                <span style={{ fontSize: 12, color: "#0f6e56", marginTop: 4 }}>
+                  ✓ Yeh sub-category banega "{parentCategories.find(p => String(p.id) === String(form.parent_id))?.name}" ke andar
+                </span>
+              )}
+            </div>
+
             <div style={{ ...styles.formGroup, gridColumn: "1 / -1" }}>
               <label style={styles.formLabel}>Description</label>
               <textarea
@@ -413,9 +499,32 @@ export default function CategoryPage() {
   );
 }
 
-function CategoryCard({ cat, onEdit, onDelete, onToggle }) {
+// ── NAYA: isParent prop add kiya ──────────────────────────────────────────────
+function CategoryCard({ cat, isParent, onEdit, onDelete, onToggle }) {
   return (
-    <div style={styles.catCard}>
+    <div style={{
+      ...styles.catCard,
+      border: isParent ? "1.5px solid #c8e6c9" : "1px solid #eee",
+    }}>
+      {/* Parent badge */}
+      {isParent && (
+        <div style={{
+          background: "#e1f5ee", padding: "3px 10px",
+          fontSize: 11, fontWeight: 600, color: "#0f6e56",
+          textAlign: "center",
+        }}>
+          MAIN CATEGORY
+        </div>
+      )}
+      {!isParent && (
+        <div style={{
+          background: "#f0f4ff", padding: "3px 10px",
+          fontSize: 11, fontWeight: 600, color: "#3b5bdb",
+          textAlign: "center",
+        }}>
+          SUB CATEGORY
+        </div>
+      )}
       <div style={styles.catThumb}>
         {cat.thumbnail ? (
           <img

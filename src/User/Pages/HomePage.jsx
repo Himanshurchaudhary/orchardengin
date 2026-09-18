@@ -516,11 +516,15 @@ const MobileFlashSaleBanner = ({ onFlashSaleClick }) => {
 // ─── Section Header ───────────────────────────────────────────────────────────
 const SectionHeader = ({ title, onPrev, onNext }) => {
   const { isMobile } = useResponsive();
+  const navigate = useNavigate();   // ← yeh add karo
   return (
     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14 }}>
       <h2 style={{ fontSize: isMobile ? 15 : 18, fontWeight: 700, color: "#1a1a1a", margin: 0 }}>{title}</h2>
       <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-        <span style={{ color: "#2d9e2d", fontSize: 13, fontWeight: 500, cursor: "pointer" }}>View All</span>
+        <span
+          style={{ color: "#2d9e2d", fontSize: 13, fontWeight: 500, cursor: "pointer" }}
+          onClick={() => navigate("/user/product")}   // ← yeh add karo
+        >View All</span>
         {onPrev && (
           <>
             <button onClick={onPrev} style={navBtnStyle}><ChevronLeft /></button>
@@ -550,8 +554,14 @@ const FeatureCategories = ({ categories, loading, products }) => {
   const total = categories.length;
   const totalSlides = Math.max(0, total - visibleCount + 1);
 
-  const handleCategoryClick = (catId) => navigate(`/user/product?categories=${catId}`);
-
+  const handleCategoryClick = (cat) => {
+    const hasSubCats = (cat.subCategories || []).filter(s => s.isActive !== false).length > 0;
+    if (hasSubCats) {
+      navigate(`/user/categories/${cat.id}`);
+    } else {
+      navigate(`/user/product?categories=${cat.id}`);
+    }
+  };
   const goPrev = () => setCurrentSlide(s => Math.max(0, s - 1));
   const goNext = () => setCurrentSlide(s => Math.min(totalSlides - 1, s + 1));
 
@@ -796,8 +806,7 @@ const FeatureCategories = ({ categories, loading, products }) => {
                     key={cat.id || i}
                     className="fc-card"
                     style={{ width: CARD_W }}
-                    onClick={() => handleCategoryClick(cat.id)}
-                  >
+                    onClick={() => handleCategoryClick(cat)}                  >
                     <div className="fc-img-wrap" style={{ width: CARD_W, height: CARD_H }}>
                       {img ? (
                         <img
@@ -1470,13 +1479,13 @@ export default function HomePage() {
 
   return (
 
-    
+
     <>
-    <Helmet>
-      <title>Orchard Engine — Fresh Groceries Delivered to Your Door</title>
-      <meta name="description" content="Order fresh fruits, vegetables, dairy, and daily essentials online at Orchard Engine. Fast delivery, best prices, and 100% freshness guaranteed. Shop now at theorchardengine.com." />
-      <link rel="canonical" href="https://theorchardengine.com" />
-    </Helmet>
+      <Helmet>
+        <title>Orchard Engine — Fresh Groceries Delivered to Your Door</title>
+        <meta name="description" content="Order fresh fruits, vegetables, dairy, and daily essentials online at Orchard Engine. Fast delivery, best prices, and 100% freshness guaranteed. Shop now at theorchardengine.com." />
+        <link rel="canonical" href="https://theorchardengine.com" />
+      </Helmet>
 
       <style>{`
         * { box-sizing: border-box; }
