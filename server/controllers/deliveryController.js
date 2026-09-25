@@ -3,19 +3,19 @@ const DeliveryCharge = require('../models/DeliveryCharge');
 // @desc Add New Delivery Charge
 exports.addDeliveryCharge = async (req, res) => {
     try {
-        const { minOrderQty, maxOrderQty, charge } = req.body;
+        const { minOrderPrice, maxOrderPrice, charge } = req.body;
 
-        if (Number(minOrderQty) >= Number(maxOrderQty)) {
+        if (Number(minOrderPrice) >= Number(maxOrderPrice)) {
             return res.status(400).json({
                 success: false,
-                message: 'Maximum order quantity must be greater than minimum order quantity'
+                message: 'Maximum order price must be greater than minimum order price'
             });
         }
 
         const newCharge = await DeliveryCharge.create({
-            minOrderQty: Number(minOrderQty),
-            maxOrderQty: Number(maxOrderQty),
-            charge:      Number(charge)
+            minOrderPrice: Number(minOrderPrice),
+            maxOrderPrice: Number(maxOrderPrice),
+            charge:        Number(charge)
         });
 
         res.status(201).json({
@@ -41,27 +41,27 @@ exports.getAllCharges = async (req, res) => {
 // @desc Update Delivery Charge
 exports.updateDeliveryCharge = async (req, res) => {
     try {
-        const { minOrderQty, maxOrderQty, charge } = req.body;
+        const { minOrderPrice, maxOrderPrice, charge } = req.body;
 
         const existing = await DeliveryCharge.findById(req.params.id);
         if (!existing) {
             return res.status(404).json({ success: false, message: 'Delivery charge not found' });
         }
 
-        const newMin = minOrderQty !== undefined ? Number(minOrderQty) : existing.minOrderQty;
-        const newMax = maxOrderQty !== undefined ? Number(maxOrderQty) : existing.maxOrderQty;
+        const newMin = minOrderPrice !== undefined ? Number(minOrderPrice) : existing.minOrderPrice;
+        const newMax = maxOrderPrice !== undefined ? Number(maxOrderPrice) : existing.maxOrderPrice;
 
         if (newMin >= newMax) {
             return res.status(400).json({
                 success: false,
-                message: 'Maximum order quantity must be greater than minimum order quantity'
+                message: 'Maximum order price must be greater than minimum order price'
             });
         }
 
         const updateData = {};
-        if (minOrderQty !== undefined) updateData.minOrderQty = Number(minOrderQty);
-        if (maxOrderQty !== undefined) updateData.maxOrderQty = Number(maxOrderQty);
-        if (charge      !== undefined) updateData.charge      = Number(charge);
+        if (minOrderPrice !== undefined) updateData.minOrderPrice = Number(minOrderPrice);
+        if (maxOrderPrice !== undefined) updateData.maxOrderPrice = Number(maxOrderPrice);
+        if (charge        !== undefined) updateData.charge        = Number(charge);
 
         const updated = await DeliveryCharge.findByIdAndUpdate(req.params.id, updateData);
 
@@ -88,11 +88,11 @@ exports.deleteDeliveryCharge = async (req, res) => {
     }
 };
 
-// @desc Get Charge For a Specific Quantity
-exports.getChargeForQty = async (req, res) => {
+// @desc Get Charge For a Specific Order Price
+exports.getChargeForPrice = async (req, res) => {
     try {
-        const qty    = Number(req.query.qty) || 1;
-        const result = await DeliveryCharge.findForQty(qty);
+        const price  = Number(req.query.price) || 0;
+        const result = await DeliveryCharge.findForPrice(price);
 
         res.json({ success: true, charge: result?.charge ?? 0 });
     } catch (err) {

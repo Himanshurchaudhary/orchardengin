@@ -26,7 +26,7 @@ const api = {
   razorpayInit: (body) => fetch(`${API_URL}/api/payment/process`, { method: "POST", headers: authHdr(), body: JSON.stringify(body) }).then(r => r.json()),
   razorpayVerify: (body) => fetch(`${API_URL}/api/payment/verify`, { method: "POST", headers: authHdr(), body: JSON.stringify(body) }).then(r => r.json()),
   taxRate: () => fetch(`${API_URL}/api/taxes/active-rate`).then(r => r.json()),
-  deliveryRate: (qty) => fetch(`${API_URL}/api/delivery/charge-for-qty?qty=${qty}`).then(r => r.json()),
+  deliveryRate: (price) => fetch(`${API_URL}/api/delivery/charge-for-price?price=${price}`).then(r => r.json()),
   productList: () => fetch(`${API_URL}/api/Products/allFree?limit=500`).then(r => r.json()),
 };
 
@@ -573,10 +573,7 @@ export default function Checkout() {
         setTaxList(taxRes.value.taxes || []);
       }
 
-      try {
-        const dRes = await api.deliveryRate(resolvedQty);
-        if (dRes?.success) setShippingCharge(Number(dRes.charge ?? 0));
-      } catch { }
+      
 
     } finally { setLoading(false); }
   }, [navigate, isBuyNow, buyNowProductId, buyNowQty, buyNowVariantId]);
@@ -585,14 +582,19 @@ export default function Checkout() {
 
   // ── Re-fetch delivery charge when cart qty changes ─────────────────────────
   useEffect(() => {
-    if (isBuyNow || cartItems.length === 0) return;
-    const qty = cartItems.reduce((s, i) => s + (i.quantity || 1), 0);
+    if (cartItems.length === 0) return;
+
+    const currentSubtotal = cartItems.reduce((s, i) => {
+        const p = i.product || i;
+        return s + Number(p.sellingPrice ?? p.price ?? 0) * (i.quantity || 1);
+    }, 0);
+
     setDeliveryLoading(true);
-    api.deliveryRate(qty)
-      .then(res => { if (res?.success) setShippingCharge(Number(res.charge ?? 0)); })
-      .catch(() => { })
-      .finally(() => setDeliveryLoading(false));
-  }, [cartItems, isBuyNow]);
+    api.deliveryRate(currentSubtotal)
+        .then(res => { if (res?.success) setShippingCharge(Number(res.charge ?? 0)); })
+        .catch(() => {})
+        .finally(() => setDeliveryLoading(false));
+}, [cartItems]);
 
   // ── Derived pricing ────────────────────────────────────────────────────────
   const subtotal = cartItems.reduce((s, i) => {

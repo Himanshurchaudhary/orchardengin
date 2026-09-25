@@ -5,15 +5,14 @@ const {
     getAllCharges,
     updateDeliveryCharge,
     deleteDeliveryCharge,
-    getChargeForQty
+    getChargeForPrice
 } = require('../controllers/deliveryController');
-const { protect} = require('../middleware/authMiddleware');
+const { protect } = require('../middleware/authMiddleware');
 
-router.post('/add',           protect,  addDeliveryCharge);
-router.get('/all',            getAllCharges);                         // public for checkout
-router.put('/update/:id',     protect, updateDeliveryCharge);
-router.delete('/delete/:id',  protect, deleteDeliveryCharge);
-// deliveryRoutes.js — add one line
-router.get('/charge-for-qty', getChargeForQty);   // ← new
+router.post('/add',             protect, addDeliveryCharge);
+router.get('/all',              getAllCharges);                // public for checkout
+router.put('/update/:id',       protect, updateDeliveryCharge);
+router.delete('/delete/:id',    protect, deleteDeliveryCharge);
+router.get('/charge-for-price', getChargeForPrice);           // price-based
 
 module.exports = router;

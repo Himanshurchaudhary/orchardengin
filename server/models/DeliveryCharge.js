@@ -3,13 +3,13 @@ const { pool } = require('../config/db');
 const createDeliveryChargeTable = async () => {
     await pool.query(`
         CREATE TABLE IF NOT EXISTS delivery_charges (
-            id          INT AUTO_INCREMENT PRIMARY KEY,
-            minOrderQty DECIMAL(10,2) NOT NULL CHECK (minOrderQty >= 0),
-            maxOrderQty DECIMAL(10,2) NOT NULL CHECK (maxOrderQty >= 0),
-            charge      DECIMAL(10,2) NOT NULL CHECK (charge >= 0),
-            isActive    BOOLEAN       DEFAULT true,
-            createdAt   TIMESTAMP     DEFAULT CURRENT_TIMESTAMP,
-            updatedAt   TIMESTAMP     DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+            id             INT AUTO_INCREMENT PRIMARY KEY,
+            minOrderPrice  DECIMAL(10,2) NOT NULL CHECK (minOrderPrice >= 0),
+            maxOrderPrice  DECIMAL(10,2) NOT NULL CHECK (maxOrderPrice >= 0),
+            charge         DECIMAL(10,2) NOT NULL CHECK (charge >= 0),
+            isActive       BOOLEAN       DEFAULT true,
+            createdAt      TIMESTAMP     DEFAULT CURRENT_TIMESTAMP,
+            updatedAt      TIMESTAMP     DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
         )
     `);
 };
@@ -18,10 +18,10 @@ createDeliveryChargeTable();
 
 const DeliveryCharge = {
 
-    create: async ({ minOrderQty, maxOrderQty, charge }) => {
+    create: async ({ minOrderPrice, maxOrderPrice, charge }) => {
         const [result] = await pool.query(
-            `INSERT INTO delivery_charges (minOrderQty, maxOrderQty, charge) VALUES (?, ?, ?)`,
-            [minOrderQty, maxOrderQty, charge]
+            `INSERT INTO delivery_charges (minOrderPrice, maxOrderPrice, charge) VALUES (?, ?, ?)`,
+            [minOrderPrice, maxOrderPrice, charge]
         );
         const [rows] = await pool.query(
             `SELECT * FROM delivery_charges WHERE id = ?`, [result.insertId]
@@ -44,10 +44,10 @@ const DeliveryCharge = {
     },
 
     findByIdAndUpdate: async (id, data) => {
-        const fields    = Object.keys(data);
+        const fields = Object.keys(data);
         if (fields.length === 0) return await DeliveryCharge.findById(id);
         const setClause = fields.map(f => `${f} = ?`).join(', ');
-        const values    = fields.map(f => data[f]);
+        const values = fields.map(f => data[f]);
 
         await pool.query(
             `UPDATE delivery_charges SET ${setClause} WHERE id = ?`,
@@ -66,15 +66,14 @@ const DeliveryCharge = {
         return existing;
     },
 
-    // Replaces: findOne({ isActive: true, minOrderQty: { $lte: qty }, maxOrderQty: { $gte: qty } })
-    findForQty: async (qty) => {
+    findForPrice: async (price) => {
         const [rows] = await pool.query(
             `SELECT * FROM delivery_charges
              WHERE isActive = true
-               AND minOrderQty <= ?
-               AND maxOrderQty >= ?
+               AND minOrderPrice <= ?
+               AND maxOrderPrice >= ?
              LIMIT 1`,
-            [qty, qty]
+            [price, price]
         );
         return rows[0] ?? null;
     }
