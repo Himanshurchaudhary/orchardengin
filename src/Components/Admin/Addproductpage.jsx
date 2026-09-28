@@ -109,23 +109,12 @@ const LIST_BUTTONS = [
 
 function RichEditor({ value, onChange }) {
     const editorRef = useRef(null);
-    const loadedRef = useRef(false);
 
-    // ✅ FIX: edit mode me description baad me aata hai, isliye [value] pe sync karte hain.
-    // - Pehli baar non-empty value aane par editor me load karo
-    // - Reset (value === "") par editor clear karo
-    // Typing ke time value == editor.innerHTML hota hai, isliye cursor jump nahi hota.
+    // Sirf mount par initial HTML daalo (edit mode me parent key badal kar remount karta hai)
     useEffect(() => {
-        const el = editorRef.current;
-        if (!el) return;
-        if (value === "" && el.innerHTML !== "") {
-            el.innerHTML = "";
-            loadedRef.current = false;
-        } else if (value && !loadedRef.current) {
-            el.innerHTML = value;
-            loadedRef.current = true;
-        }
-    }, [value]);
+        if (editorRef.current) editorRef.current.innerHTML = value || "";
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     function execCmd(cmd, val = null) {
         editorRef.current?.focus();
@@ -602,6 +591,7 @@ export default function AddProductPage({ existingProduct = null, onSaved, onCanc
     const [slug, setSlug] = useState("");
     const [shortDesc, setShortDesc] = useState("");
     const [description, setDescription] = useState("");
+    const [descKey, setDescKey] = useState(0); // editor remount ke liye
 
     const [brand, setBrand] = useState("");
     const [unit, setUnit] = useState("");
@@ -648,6 +638,7 @@ export default function AddProductPage({ existingProduct = null, onSaved, onCanc
         setSlug(p.slug || "");
         setShortDesc(p.shortDescription || "");
         setDescription(p.description || "");
+        setDescKey(k => k + 1);
         setBrand(resolveId(p.brand));
         setUnit(p.unit || "");
         setSku(p.sku || "");
@@ -681,6 +672,21 @@ export default function AddProductPage({ existingProduct = null, onSaved, onCanc
             );
         }
     }, [existingProduct]);
+
+    // ✅ Edit mode: poora product server se laakar description bharo
+    useEffect(() => {
+        if (!existingProduct?.id) return;
+        apiFetch(`/${existingProduct.id}`)
+            .then((d) => {
+                const desc = d.product?.description;
+                if (desc) {
+                    const isHtml = /<\/?[a-z][\s\S]*>/i.test(desc);
+                    setDescription(isHtml ? desc : desc.replace(/\n/g, "<br>"));
+                    setDescKey(k => k + 1);
+                }
+            })
+            .catch(() => {});
+    }, [existingProduct?.id]);
 
     // Auto-slug
     useEffect(() => {
@@ -807,7 +813,7 @@ export default function AddProductPage({ existingProduct = null, onSaved, onCanc
         if (isEditMode && existingProduct) {
             const p = existingProduct;
             setName(p.name || ""); setSlug(p.slug || ""); setShortDesc(p.shortDescription || "");
-            setDescription(p.description || ""); setBrand(resolveId(p.brand)); setUnit(p.unit || "");
+            setDescription(p.description || ""); setDescKey(k => k + 1); setBrand(resolveId(p.brand)); setUnit(p.unit || "");
             setSku(p.sku || ""); setBuyingPrice(p.buyingPrice ?? ""); setSellingPrice(p.sellingPrice ?? "");
             setDiscountPrice(p.discountPrice ?? "0"); setStockQty(p.stockQuantity ?? "");
             setMinOrderQty(p.minOrderQuantity ?? "1"); setMetaTitle(p.metaTitle || "");
@@ -815,7 +821,7 @@ export default function AddProductPage({ existingProduct = null, onSaved, onCanc
             setVariants(Array.isArray(p.variants) ? p.variants.map(v => ({ ...v, _id: v.id || Math.random().toString(36).slice(2) })) : []);
             return;
         }
-        setName(""); setSlug(""); setShortDesc(""); setDescription("");
+        setName(""); setSlug(""); setShortDesc(""); setDescription(""); setDescKey(k => k + 1);
         setBrand(""); setUnit(""); setSku(String(Math.floor(100000 + Math.random() * 900000)));
         setSelectedCategories([]); setBuyingPrice(""); setSellingPrice(""); setDiscountPrice("0");
         setStockQty(""); setMinOrderQty("1"); setThumbnail(null); setAdditionalImages([]);
@@ -950,7 +956,7 @@ export default function AddProductPage({ existingProduct = null, onSaved, onCanc
                                             Generate AI
                                         </button>
                                     </div>
-                                    <RichEditor value={description} onChange={setDescription} />
+                                    <RichEditor key={descKey} value={description} onChange={setDescription} />
                                 </div>
                             </div>
                         </SectionCard>
