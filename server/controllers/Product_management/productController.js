@@ -1,5 +1,6 @@
 const Product = require('../../models/product_Management/Product');
 const XLSX = require('xlsx');
+const sanitizeHtml = require('sanitize-html'); // ✅ NEW
 const { pool } = require('../../config/db');
 
 // ── Shared helper: safely parse variants from FormData ────────────────────
@@ -12,6 +13,18 @@ const parseVariants = (raw) => {
         return [];
     }
 };
+
+// ── ✅ NEW: Sanitize rich-text description (admin editor HTML) ────────────
+const cleanDescription = (html) =>
+    sanitizeHtml(html || '', {
+        allowedTags: sanitizeHtml.defaults.allowedTags.concat([
+            'h1', 'h2', 'h3', 'u', 's', 'strike', 'img', 'div', 'span',
+        ]),
+        allowedAttributes: {
+            a: ['href', 'target', 'rel'],
+            img: ['src', 'alt'],
+        },
+    });
 
 exports.addProduct = async (req, res) => {
     try {
@@ -31,6 +44,7 @@ exports.addProduct = async (req, res) => {
 
         const product = await Product.create({
             ...rest,
+            description: cleanDescription(rest.description),   // ✅ sanitized HTML
             name,
             sku,
             category_id: Number(category),
@@ -45,7 +59,7 @@ exports.addProduct = async (req, res) => {
                 try { return attributes ? JSON.parse(attributes) : []; }
                 catch { return []; }
             })(),
-            variants,                       // ← NEW
+            variants,
             createdBy: req.user.id,
         });
 
@@ -121,11 +135,16 @@ exports.updateProduct = async (req, res) => {
         if (name !== undefined) updateData.name = name;
         if (sku !== undefined) updateData.sku = sku;
         if (category !== undefined) updateData.category_id = Number(category);
-        if (brand !== undefined) updateData.brand_id = Number(brand);
+        if (brand !== undefined) updateData.brand_id = brand ? Number(brand) : null; // ✅ empty brand => null (pehle 0 ban jaata tha)
         if (buyingPrice !== undefined) updateData.buyingPrice = Number(buyingPrice);
         if (sellingPrice !== undefined) updateData.sellingPrice = Number(sellingPrice);
         if (stockQuantity !== undefined) updateData.stockQuantity = Number(stockQuantity);
         if (newThumbnail) updateData.thumbnail = newThumbnail;
+
+        // ✅ NEW: sanitized description
+        if (rest.description !== undefined) {
+            updateData.description = cleanDescription(rest.description);
+        }
 
         if (newAdditionalImages) updateData.additionalImages = newAdditionalImages;
         if (metaKeywords !== undefined) updateData.metaKeywords = metaKeywords ? JSON.parse(metaKeywords) : [];
@@ -134,7 +153,7 @@ exports.updateProduct = async (req, res) => {
             catch { return []; }
         })();
 
-        // ── NEW: include variants if sent ────────────────────────────────
+        // include variants if sent
         if (rawVariants !== undefined) {
             updateData.variants = parseVariants(rawVariants);
         }
@@ -255,12 +274,17 @@ exports.bulkImportProducts = async (req, res) => {
               : String(vr['v_isDefault']).toLowerCase() === 'yes',
           }));
 
+        // ✅ Excel description plain text hota hai -> newline ko <br> me badlo + sanitize
+        // Agar Excel me alag "Description" column ho to wo use hoga, warna "Short Description"
+        const rawDesc = String(row['Description'] || row['Short Description'] || '');
+        const descriptionHtml = cleanDescription(rawDesc.replace(/\n/g, '<br>'));
+
         await Product.create({
           name:             String(row['Product Name *']    || ''),
           sku:              String(row['SKU *']             || ''),
           slug:             String(row['Product Name *']    || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''),
           shortDescription: String(row['Short Description'] || ''),
-          description:      String(row['Short Description'] || ''),
+          description:      descriptionHtml,
           category_id:      categoryId,
           brand_id:         brandId,
           buyingPrice:      Number(row['Old Price (MRP)']   || 0),

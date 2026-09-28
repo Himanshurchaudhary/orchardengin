@@ -1,7 +1,8 @@
 // src/Pages/ProductDetails.jsx
 // Reusable Product Details Page — slug-based routing: /products/:slug
 // Works with existing Cart, Wishlist & Checkout pages.
-// ✅ UPDATED: Full variant support (size, color, price, stock, SKU)
+// ✅ Full variant support (size, color, price, stock, SKU)
+// ✅ UPDATED: Rich-text (HTML) description rendered exactly like admin editor (sanitized with DOMPurify)
 
 import { useState, useEffect, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
@@ -11,6 +12,7 @@ import {
   CheckCircle, Loader2, ChevronRight,
   ZoomIn, X
 } from "lucide-react";
+import DOMPurify from "dompurify"; // ✅ NEW
 import { addToCart, toggleWishlist, fetchWishlist } from "../utils/cartWishlist";
 
 const API_URL  = import.meta.env.VITE_API_URL;
@@ -154,7 +156,7 @@ export default function ProductDetails() {
   const [lightboxIdx, setLightboxIdx] = useState(null);
   const [qty,         setQty]         = useState(1);
 
-  // ── CHANGE 1: selectedVariant state ──────────────────────────────────────
+  // ── selectedVariant state ────────────────────────────────────────────────
   const [selectedVariant, setSelectedVariant] = useState(null);
 
   const [wished,      setWished]      = useState(false);
@@ -205,7 +207,7 @@ export default function ProductDetails() {
       } else {
         setProduct(found);
 
-        // ── CHANGE 2: Default variant set karo jab product load ho ────────
+        // Default variant set karo jab product load ho
         const variants = found.variants || [];
         if (variants.length > 0) {
           const defaultVariant = variants.find(v => v.isDefault) || variants[0];
@@ -261,7 +263,7 @@ export default function ProductDetails() {
   // ── Derived values ────────────────────────────────────────────────────────
   const allImages  = [product.thumbnail, ...(product.additionalImages || [])].filter(Boolean);
 
-  // ── CHANGE 3: Price, Stock, SKU ab selectedVariant se aayegi ─────────────
+  // Price, Stock, SKU selectedVariant se aayegi
   const price  = selectedVariant
     ? Number(selectedVariant.sellingPrice ?? product.sellingPrice ?? 0)
     : Number(product.sellingPrice ?? 0);
@@ -302,6 +304,15 @@ export default function ProductDetails() {
     ? variants.filter(v => v.color === selectedColor)
     : variants;
 
+  // ── Description (HTML) ────────────────────────────────────────────────────
+  // ✅ Admin editor HTML save karta hai. Purane plain-text products me newline ko <br> banao.
+  const rawDescription = product.description || "";
+  const looksLikeHtml  = /<\/?[a-z][\s\S]*>/i.test(rawDescription);
+  const descriptionHtml = DOMPurify.sanitize(
+    looksLikeHtml ? rawDescription : rawDescription.replace(/\n/g, "<br>"),
+    { ADD_ATTR: ["target"] }
+  );
+
   // ── Handlers ──────────────────────────────────────────────────────────────
   const showToast = (message, type = "success") => setToast({ message, type });
 
@@ -310,7 +321,7 @@ export default function ProductDetails() {
     if (isOOS || cartLoading) return;
     setCartLoading(true);
     try {
-      // ── variant_id bhi bhejo cart mein ───────────────────────────────────
+      // variant_id bhi bhejo cart mein
       await addToCart(product.id, qty, selectedVariant?.id ?? null);
       window.dispatchEvent(new CustomEvent("cart:added", {
         detail: {
@@ -423,6 +434,26 @@ export default function ProductDetails() {
           box-shadow: 0 0 0 2px #fff, 0 0 0 4px #16a34a;
         }
         .pd-color-btn:hover { transform: scale(1.1); }
+
+        /* ── Rich text description (admin editor HTML) ── */
+        .pd-description {
+          font-size: 13px; color: #374151; line-height: 1.75; word-break: break-word;
+        }
+        .pd-description p { margin: 0 0 10px; }
+        .pd-description div { margin: 0; }
+        .pd-description b, .pd-description strong { font-weight: 800; }
+        .pd-description i, .pd-description em { font-style: italic; }
+        .pd-description u { text-decoration: underline; }
+        .pd-description s, .pd-description strike { text-decoration: line-through; }
+        .pd-description ul { list-style: disc; padding-left: 22px; margin: 0 0 10px; }
+        .pd-description ol { list-style: decimal; padding-left: 22px; margin: 0 0 10px; }
+        .pd-description li { margin: 0 0 4px; }
+        .pd-description h1 { font-size: 20px; font-weight: 800; margin: 12px 0 8px; }
+        .pd-description h2 { font-size: 17px; font-weight: 800; margin: 12px 0 8px; }
+        .pd-description h3 { font-size: 15px; font-weight: 700; margin: 10px 0 6px; }
+        .pd-description a { color: #16a34a; text-decoration: underline; }
+        .pd-description img { max-width: 100%; height: auto; border-radius: 8px; }
+        .pd-description blockquote { border-left: 3px solid #e5e7eb; padding-left: 12px; color: #6b7280; margin: 0 0 10px; }
       `}</style>
 
       {/* ── Breadcrumb ── */}
@@ -661,7 +692,7 @@ export default function ProductDetails() {
                 )}
               </div>
 
-              {/* ── CHANGE 4: Variant Selector UI ──────────────────────────── */}
+              {/* ── Variant Selector UI ───────────────────────────────────── */}
               {hasVariants && (
                 <>
                   <div style={{ borderTop: "1px dashed #f0f0f0", margin: "14px 0" }} />
@@ -835,16 +866,16 @@ export default function ProductDetails() {
               )}
             </div>
 
-            {/* ── Description card ── */}
+            {/* ── Description card (✅ HTML rendered) ── */}
             {product.description && (
               <div style={card}>
                 <h2 style={{ margin: "0 0 12px", fontSize: 15, fontWeight: 800, color: "#1a2332" }}>
                   About This Product
                 </h2>
-                <p style={{ margin: 0, fontSize: 13, color: "#374151", lineHeight: 1.75,
-                  whiteSpace: "pre-line" }}>
-                  {product.description}
-                </p>
+                <div
+                  className="pd-description"
+                  dangerouslySetInnerHTML={{ __html: descriptionHtml }}
+                />
               </div>
             )}
 

@@ -102,26 +102,48 @@ const TOOLBAR_BUTTONS = [
     { label: "S", title: "Strikethrough", cmd: "strikeThrough" },
 ];
 
+const LIST_BUTTONS = [
+    { title: "Bullet list", icon: "≡", cmd: "insertUnorderedList" },
+    { title: "Numbered list", icon: "1≡", cmd: "insertOrderedList" },
+];
+
 function RichEditor({ value, onChange }) {
     const editorRef = useRef(null);
+    const loadedRef = useRef(false);
 
+    // ✅ FIX: edit mode me description baad me aata hai, isliye [value] pe sync karte hain.
+    // - Pehli baar non-empty value aane par editor me load karo
+    // - Reset (value === "") par editor clear karo
+    // Typing ke time value == editor.innerHTML hota hai, isliye cursor jump nahi hota.
     useEffect(() => {
-        if (editorRef.current && value && editorRef.current.innerHTML !== value) {
-            editorRef.current.innerHTML = value;
+        const el = editorRef.current;
+        if (!el) return;
+        if (value === "" && el.innerHTML !== "") {
+            el.innerHTML = "";
+            loadedRef.current = false;
+        } else if (value && !loadedRef.current) {
+            el.innerHTML = value;
+            loadedRef.current = true;
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [value]);
 
-    function execCmd(cmd) {
+    function execCmd(cmd, val = null) {
         editorRef.current?.focus();
-        document.execCommand(cmd, false, null);
+        document.execCommand(cmd, false, val);
         onChange(editorRef.current?.innerHTML || "");
     }
 
     return (
         <div className="border border-gray-200 rounded-xl overflow-hidden focus-within:ring-2 focus-within:ring-emerald-400 focus-within:border-transparent transition">
             <div className="flex items-center gap-1 px-3 py-2 bg-gray-50 border-b border-gray-100 flex-wrap">
-                <select className="text-xs border border-gray-200 rounded px-1.5 py-1 bg-white mr-1 focus:outline-none">
+                {/* ✅ Heading dropdown ab kaam karta hai */}
+                <select
+                    onChange={(e) => {
+                        const map = { Normal: "P", H1: "H1", H2: "H2", H3: "H3" };
+                        execCmd("formatBlock", map[e.target.value]);
+                    }}
+                    className="text-xs border border-gray-200 rounded px-1.5 py-1 bg-white mr-1 focus:outline-none"
+                >
                     <option>Normal</option><option>H1</option><option>H2</option><option>H3</option>
                 </select>
                 <select className="text-xs border border-gray-200 rounded px-1.5 py-1 bg-white mr-2 focus:outline-none">
@@ -132,6 +154,7 @@ function RichEditor({ value, onChange }) {
                         key={btn.cmd}
                         type="button"
                         title={btn.title}
+                        onMouseDown={(e) => e.preventDefault()}
                         onClick={() => execCmd(btn.cmd)}
                         className={`h-7 w-7 flex items-center justify-center rounded text-sm font-bold text-gray-600 hover:bg-gray-200 transition-colors ${btn.label === "B" ? "font-black" : btn.label === "I" ? "italic" : btn.label === "U" ? "underline" : "line-through"}`}
                     >
@@ -139,8 +162,18 @@ function RichEditor({ value, onChange }) {
                     </button>
                 ))}
                 <div className="w-px h-5 bg-gray-200 mx-1" />
-                {[{ title: "UL", icon: "≡" }, { title: "OL", icon: "1≡" }].map((b) => (
-                    <button key={b.title} type="button" title={b.title} className="h-7 w-7 flex items-center justify-center rounded text-xs text-gray-600 hover:bg-gray-200 transition-colors">{b.icon}</button>
+                {/* ✅ UL / OL ab kaam karte hain */}
+                {LIST_BUTTONS.map((b) => (
+                    <button
+                        key={b.cmd}
+                        type="button"
+                        title={b.title}
+                        onMouseDown={(e) => e.preventDefault()}
+                        onClick={() => execCmd(b.cmd)}
+                        className="h-7 w-7 flex items-center justify-center rounded text-xs text-gray-600 hover:bg-gray-200 transition-colors"
+                    >
+                        {b.icon}
+                    </button>
                 ))}
                 <div className="w-px h-5 bg-gray-200 mx-1" />
                 {["🔗", "🖼", "📋", "f(x)"].map((ic) => (
@@ -152,7 +185,7 @@ function RichEditor({ value, onChange }) {
                 contentEditable
                 suppressContentEditableWarning
                 onInput={(e) => onChange(e.currentTarget.innerHTML)}
-                className="min-h-[100px] px-4 py-3 text-sm text-gray-700 focus:outline-none"
+                className="pd-description min-h-[100px] px-4 py-3 text-sm text-gray-700 focus:outline-none"
                 data-placeholder="Enter product description…"
                 style={{ lineHeight: "1.6" }}
             />
@@ -160,7 +193,6 @@ function RichEditor({ value, onChange }) {
     );
 }
 
-// ─── Image Drop Zone ──────────────────────────────────────────
 // ─── Image Drop Zone ──────────────────────────────────────────
 function ImageDropzone({ label, hint, multiple = false, onChange, maxFiles = 1, existingUrls = [] }) {
     const [previews, setPreviews] = useState([]);
@@ -303,7 +335,7 @@ function TagInput({ tags, onChange }) {
     );
 }
 
-// ─── NEW: Product Variants Section ────────────────────────────
+// ─── Product Variants Section ─────────────────────────────────
 /**
  * variants = [{ label, sku, buyingPrice, sellingPrice, discountPrice, stockQuantity, minOrderQuantity, isDefault }]
  */
@@ -593,7 +625,7 @@ export default function AddProductPage({ existingProduct = null, onSaved, onCanc
     const [metaDesc, setMetaDesc] = useState("");
     const [metaKeywords, setMetaKeywords] = useState([]);
 
-    // ── NEW: variants ──────────────────────────────────────────
+    // ── variants ───────────────────────────────────────────────
     const [variants, setVariants] = useState([]);
 
     const [brands, setBrands] = useState([]);
@@ -639,7 +671,7 @@ export default function AddProductPage({ existingProduct = null, onSaved, onCanc
         );
         setAttributes(Array.isArray(p.attributes) ? p.attributes : []);
 
-        // ── NEW: load existing variants ─────────────────────────
+        // ── load existing variants ─────────────────────────
         if (Array.isArray(p.variants) && p.variants.length > 0) {
             setVariants(
                 p.variants.map(v => ({
@@ -673,7 +705,7 @@ export default function AddProductPage({ existingProduct = null, onSaved, onCanc
     }, []);
 
     useEffect(() => {
-        fetch(`${API_BASEA}/api/Category/flat`, {  // ← sirf /all ko /flat karo
+        fetch(`${API_BASEA}/api/Category/flat`, {
             headers: { Authorization: `Bearer ${getToken()}` },
         })
             .then((r) => r.json())
@@ -746,8 +778,7 @@ export default function AddProductPage({ existingProduct = null, onSaved, onCanc
             fd.append("metaKeywords", JSON.stringify(metaKeywords));
             fd.append("attributes", JSON.stringify(attributes));
 
-            // ── NEW: send variants as JSON string ──────────────
-            // Strip the local _id before sending
+            // send variants as JSON string (local _id hata do)
             const cleanVariants = variants.map(({ _id, ...v }) => v);
             fd.append("variants", JSON.stringify(cleanVariants));
 
@@ -789,7 +820,7 @@ export default function AddProductPage({ existingProduct = null, onSaved, onCanc
         setSelectedCategories([]); setBuyingPrice(""); setSellingPrice(""); setDiscountPrice("0");
         setStockQty(""); setMinOrderQty("1"); setThumbnail(null); setAdditionalImages([]);
         setVideoFile(null); setMetaTitle(""); setMetaDesc(""); setMetaKeywords([]);
-        setAttributes([]); setVariants([]);   // ← reset variants
+        setAttributes([]); setVariants([]);
     }
 
     // ── Render ────────────────────────────────────────────────
@@ -799,6 +830,22 @@ export default function AddProductPage({ existingProduct = null, onSaved, onCanc
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
         @keyframes toastIn { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
         [contenteditable]:empty:before { content: attr(data-placeholder); color: #9ca3af; }
+
+        /* ── Rich text styles (editor + storefront me same look) ── */
+        .pd-description { word-break: break-word; }
+        .pd-description p { margin: 0 0 10px; }
+        .pd-description b, .pd-description strong { font-weight: 800; }
+        .pd-description i, .pd-description em { font-style: italic; }
+        .pd-description u { text-decoration: underline; }
+        .pd-description s, .pd-description strike { text-decoration: line-through; }
+        .pd-description ul { list-style: disc; padding-left: 22px; margin: 0 0 10px; }
+        .pd-description ol { list-style: decimal; padding-left: 22px; margin: 0 0 10px; }
+        .pd-description li { margin: 0 0 4px; }
+        .pd-description h1 { font-size: 20px; font-weight: 800; margin: 12px 0 8px; }
+        .pd-description h2 { font-size: 17px; font-weight: 800; margin: 12px 0 8px; }
+        .pd-description h3 { font-size: 15px; font-weight: 700; margin: 10px 0 6px; }
+        .pd-description a { color: #16a34a; text-decoration: underline; }
+        .pd-description img { max-width: 100%; height: auto; border-radius: 8px; }
       `}</style>
 
             {/* Header */}
@@ -979,7 +1026,7 @@ export default function AddProductPage({ existingProduct = null, onSaved, onCanc
                             </div>
                         </SectionCard>
 
-                        {/* ── NEW: Variants Section ── */}
+                        {/* ── Variants Section ── */}
                         <VariantsSection variants={variants} onChange={setVariants} />
 
                         {/* Images */}
@@ -1223,7 +1270,6 @@ export default function AddProductPage({ existingProduct = null, onSaved, onCanc
                                     <span className="opacity-75">Stock</span>
                                     <span className="font-semibold">{stockQty || "—"}</span>
                                 </div>
-                                {/* ── NEW: variant count in summary ── */}
                                 {variants.length > 0 && (
                                     <div className="pt-2 border-t border-white/20 flex justify-between">
                                         <span className="opacity-75">Variants</span>
