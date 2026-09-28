@@ -161,43 +161,19 @@ function RichEditor({ value, onChange }) {
 }
 
 // ─── Image Drop Zone ──────────────────────────────────────────
-// ─── Image Drop Zone ──────────────────────────────────────────
 function ImageDropzone({ label, hint, multiple = false, onChange, maxFiles = 1, existingUrls = [] }) {
-    const [previews, setPreviews] = useState([]);
-    const filesRef = useRef([]);
+    const [previews, setPreviews] = useState(existingUrls);
     const inputRef = useRef();
-    const [existingPreviewUrls, setExistingPreviewUrls] = useState(existingUrls);
 
     useEffect(() => {
-        setExistingPreviewUrls(existingUrls);
+        if (existingUrls.length > 0) setPreviews(existingUrls);
     }, [existingUrls.join(',')]);
 
-    function handleFiles(newFiles) {
-        const incoming = Array.from(newFiles);
-        const slotsLeft = maxFiles - existingPreviewUrls.length - filesRef.current.length;
-        if (slotsLeft <= 0) return;
-
-        const toAdd = incoming.slice(0, slotsLeft);
-        const newUrls = toAdd.map(f => URL.createObjectURL(f));
-
-        filesRef.current = [...filesRef.current, ...toAdd];
-        const nextPreviews = [...previews, ...newUrls];
-        setPreviews(nextPreviews);
-
-        onChange(multiple ? filesRef.current : filesRef.current[0]);
-    }
-
-    function removeExisting(i) {
-        setExistingPreviewUrls(prev => prev.filter((_, j) => j !== i));
-        if (!multiple) onChange(null);
-    }
-
-    function removeBlob(i) {
-        URL.revokeObjectURL(previews[i]);
-        const nextPreviews = previews.filter((_, j) => j !== i);
-        filesRef.current = filesRef.current.filter((_, j) => j !== i);
-        setPreviews(nextPreviews);
-        onChange(multiple ? filesRef.current : filesRef.current[0] || null);
+    function handleFiles(files) {
+        const arr = Array.from(files).slice(0, maxFiles);
+        const urls = arr.map((f) => URL.createObjectURL(f));
+        setPreviews(urls);
+        onChange(multiple ? arr : arr[0]);
     }
 
     function handleDrop(e) {
@@ -205,67 +181,33 @@ function ImageDropzone({ label, hint, multiple = false, onChange, maxFiles = 1, 
         handleFiles(e.dataTransfer.files);
     }
 
-    const allPreviews = [
-        ...existingPreviewUrls.map(url => ({ url, type: 'existing' })),
-        ...previews.map(url => ({ url, type: 'blob' })),
-    ];
-    const canAddMore = allPreviews.length < maxFiles;
-
     return (
         <div>
-            <Label>
-                {label}{' '}
-                {hint && <span className="text-blue-500 font-normal ml-1">({hint})</span>}{' '}
-                <span className="text-red-500">*</span>
-            </Label>
-            <div className="flex flex-wrap gap-3">
-                {allPreviews.map((item, i) => (
-                    <div key={i} className="relative h-24 w-24 rounded-xl overflow-hidden border border-gray-200 shadow-sm">
-                        <img src={item.url} alt="" className="h-full w-full object-cover" />
-                        <button
-                            type="button"
-                            onClick={() =>
-                                item.type === 'existing'
-                                    ? removeExisting(i)
-                                    : removeBlob(i - existingPreviewUrls.length)
-                            }
-                            className="absolute top-1 right-1 h-5 w-5 rounded-full bg-red-500 text-white flex items-center justify-center text-xs shadow"
-                        >×</button>
+            <Label>{label} {hint && <span className="text-blue-500 font-normal ml-1">({hint})</span>} <span className="text-red-500">*</span></Label>
+            <div onDrop={handleDrop} onDragOver={(e) => e.preventDefault()} onClick={() => inputRef.current.click()} className="relative group flex flex-wrap gap-3 cursor-pointer">
+                {previews.length === 0 ? (
+                    <div className="h-24 w-24 border-2 border-dashed border-gray-200 rounded-xl flex flex-col items-center justify-center text-gray-300 hover:border-emerald-400 hover:text-emerald-400 transition-colors bg-gray-50">
+                        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01" />
+                        </svg>
                     </div>
-                ))}
-
-                {canAddMore && (
-                    <div
-                        onDrop={handleDrop}
-                        onDragOver={e => e.preventDefault()}
-                        onClick={() => inputRef.current.click()}
-                        className="h-24 w-24 border-2 border-dashed border-gray-200 rounded-xl flex flex-col items-center justify-center text-gray-300 hover:border-emerald-400 hover:text-emerald-400 transition-colors bg-gray-50 cursor-pointer"
-                    >
-                        {allPreviews.length === 0 ? (
-                            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
-                                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01" />
-                            </svg>
-                        ) : (
-                            <span className="text-2xl font-light">+</span>
-                        )}
-                    </div>
+                ) : (
+                    previews.map((url, i) => (
+                        <div key={i} className="relative h-24 w-24 rounded-xl overflow-hidden border border-gray-200 shadow-sm">
+                            <img src={url} alt="" className="h-full w-full object-cover" />
+                            <button
+                                type="button"
+                                onClick={(e) => { e.stopPropagation(); const next = previews.filter((_, j) => j !== i); setPreviews(next); if (!multiple) onChange(null); }}
+                                className="absolute top-1 right-1 h-5 w-5 rounded-full bg-red-500 text-white flex items-center justify-center text-xs shadow"
+                            >×</button>
+                        </div>
+                    ))
                 )}
-
-                <input
-                    ref={inputRef}
-                    type="file"
-                    accept="image/*"
-                    multiple={multiple}
-                    className="hidden"
-                    onChange={e => handleFiles(e.target.files)}
-                />
+                {multiple && previews.length < maxFiles && previews.length > 0 && (
+                    <div className="h-24 w-24 border-2 border-dashed border-emerald-300 rounded-xl flex items-center justify-center text-emerald-400 text-2xl hover:bg-emerald-50 transition-colors">+</div>
+                )}
+                <input ref={inputRef} type="file" accept="image/*" multiple={multiple} className="hidden" onChange={(e) => handleFiles(e.target.files)} />
             </div>
-            {multiple && (
-                <p className="text-xs text-gray-400 mt-1.5">
-                    {allPreviews.length}/{maxFiles} images added
-                </p>
-            )}
         </div>
     );
 }
