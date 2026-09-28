@@ -1,3 +1,7 @@
+
+console.log('🚀 Booting server...');
+process.on('uncaughtException', (e) => console.error('UNCAUGHT:', e));
+process.on('unhandledRejection', (e) => console.error('UNHANDLED:', e));
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
