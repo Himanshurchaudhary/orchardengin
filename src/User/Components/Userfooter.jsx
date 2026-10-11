@@ -223,6 +223,16 @@ const UserFooter = () => {
           align-items: center;
           gap: 10px;
         }
+          .uf-credit-link {
+  color: #22c55e;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.uf-credit-link:hover {
+  color: #4ade80;
+  text-decoration: underline;
+}
       `}</style>
 
       {/* ══════════════════════════════════════
@@ -321,7 +331,7 @@ const UserFooter = () => {
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
               {/* Google Play */}
-              <a href="https://play.google.com/store/apps/details?id=com.kokok1.OrchardKartMobile" className="uf-store-btn" target="_blank" rel="noopener noreferrer">
+              <a href="https://play.google.com/store/apps/details?id=com.cloud.orchard" className="uf-store-btn" target="_blank" rel="noopener noreferrer">
                 <svg viewBox="0 0 24 24" style={{ width: 22, height: 22, flexShrink: 0 }}>
                   <path d="M3.18 23.76a2 2 0 001.94-.21l11.81-6.82-3.36-3.36L3.18 23.76z" fill="#EA4335" />
                   <path d="M20.82 10.27L17.57 8.4l-3.73 3.73 3.73 3.73 3.27-1.89a2 2 0 000-3.7z" fill="#FBBC04" />
@@ -335,7 +345,7 @@ const UserFooter = () => {
               </a>
 
               {/* App Store */}
-              <a href="https://play.google.com/store/apps/details?id=com.kokok1.OrchardKartMobile" className="uf-store-btn" target="_blank" rel="noopener noreferrer">
+              {/* <a href="https://play.google.com/store/apps/details?id=com.kokok1.OrchardKartMobile" className="uf-store-btn" target="_blank" rel="noopener noreferrer">
                 <svg viewBox="0 0 24 24" fill="white" style={{ width: 22, height: 22, flexShrink: 0 }}>
                   <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98l-.09.06c-.22.15-2.18 1.27-2.16 3.8.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.37 2.78M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
                 </svg>
@@ -343,7 +353,7 @@ const UserFooter = () => {
                   <span style={{ display: 'block', color: '#9ca3af', fontSize: 9, textTransform: 'uppercase', letterSpacing: 0.5 }}>Download on the</span>
                   <span style={{ display: 'block', color: '#fff', fontSize: 13, fontWeight: 700 }}>App Store</span>
                 </div>
-              </a>
+              </a> */}
             </div>
 
             {/* Payment Methods */}
@@ -365,7 +375,17 @@ const UserFooter = () => {
             <span style={{ width: 3, height: 3, borderRadius: '50%', background: '#4b5563', display: 'inline-block' }} />
             <span style={{ fontSize: 12, fontWeight: 700, color: '#d1d5db' }}>OrchardEngine</span>
             <span style={{ width: 3, height: 3, borderRadius: '50%', background: '#4b5563', display: 'inline-block' }} />
-            {/* <span style={{ fontSize: 12, color: '#6b7280' }}>Design & Development by Hexile Services</span> */}
+            <span style={{ fontSize: 12, color: '#6b7280' }}>
+  Design & Development by{' '}
+  <a
+    href="https://andscloud.com/"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="uf-credit-link"
+  >
+    Ands Cloud
+  </a>
+</span>
           </div>
 
           {/* Phone Numbers */}
